@@ -4,9 +4,10 @@ import MyCraft.gfx.*;
 import MyCraft.world.*;
 
 import org.lwjgl.*;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
+
+import org.joml.*;
 
 public class MyCraft {
 
@@ -24,7 +25,7 @@ public class MyCraft {
 
     /* Initialize necessary components */
     public void init() {
-        window = new Window("MyCraft", 1280, 720);
+        window = new Window("MyCraft", new Vector2i(1280, 720));
         window.init();
 
         world = new World();

@@ -7,4 +7,8 @@ public class Block {
     public Block() {
     }
 
+    public static void init() {
+        BlockData.init();
+    }
+
 }

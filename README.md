@@ -7,6 +7,6 @@
 - [ ] Render a cube
 
 - [ ] List for
-- [ ] Set for 
+- [ ] Set for `BlockData` blocks
 - [ ] Map for blocks mined
 - [ ] Sort for highscores (comparable and comparator interface)

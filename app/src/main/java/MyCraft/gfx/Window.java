@@ -16,13 +16,12 @@ public class Window {
 
     private long handle;
     private String title;
-    private int width, height;
+    private Vector2i size;
 
     /* Constructor to initialize title and dimensions */
-    public Window(String title, int width, int height) {
+    public Window(String title, Vector2i size) {
         this.title = title;
-        this.width = width;
-        this.height = height;
+        this.size = size;
     }
 
     /* Initialize the window */
@@ -43,37 +42,37 @@ public class Window {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        this.handle = glfwCreateWindow(
-                this.width, this.height,
-                this.title,
+        handle = glfwCreateWindow(
+                size.x, size.y,
+                title,
                 NULL, NULL
         );
 
-        if (this.handle == NULL) throw new RuntimeException("Failed to create the GLFW this.handle");
+        if (handle == NULL) throw new RuntimeException("Failed to create the GLFW handle");
 
         // Get the thread stack and push a new frame
         try (MemoryStack stack = stackPush()) {
-            IntBuffer p_width = stack.mallocInt(1); // int*
-            IntBuffer p_height = stack.mallocInt(1); // int*
+            IntBuffer width = stack.mallocInt(1); // int*
+            IntBuffer height = stack.mallocInt(1); // int*
 
-            // Get the this.handle size passed to glfwCreateWindow
-            glfwGetWindowSize(this.handle, p_width, p_height);
+            // Get the handle size passed to glfwCreateWindow
+            glfwGetWindowSize(handle, width, height);
 
             GLFWVidMode vid_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
             glfwSetWindowPos(
-                    this.handle,
-                    (vid_mode.width() - p_width.get(0)) / 2,
-                    (vid_mode.height() - p_height.get(0)) / 2
+                    handle,
+                    (vid_mode.width() - width.get(0)) / 2,
+                    (vid_mode.height() - height.get(0)) / 2
             );
         } // The stack frame is popped automatically
 
-        glfwMakeContextCurrent(this.handle);
+        glfwMakeContextCurrent(handle);
 
         // v-sync
         glfwSwapInterval(1);
 
-        glfwShowWindow(this.handle);
+        glfwShowWindow(handle);
 
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -85,7 +84,7 @@ public class Window {
 
     /* Destroy the window */
     public void destroy() {
-        glfwDestroyWindow(this.handle);
+        glfwDestroyWindow(handle);
 
         glfwTerminate();
         glfwSetErrorCallback(null).free();

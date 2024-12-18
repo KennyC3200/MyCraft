@@ -10,6 +10,7 @@ public class World {
 
     /* Initialize the world */
     public void init() {
+        initBlocks();
         initChunks();
     }
 
@@ -25,6 +26,11 @@ public class World {
         for (Chunk chunk : chunks) {
             chunk.render();
         }
+    }
+
+    /* Initialize the blocks */
+    private void initBlocks() {
+        Block.init();
     }
 
     /* Initialize the chunks */

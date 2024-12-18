@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL33.*;
 public class Texture {
 
     private int handle;
-    private int width, height;
+    private Vector2i size;
     private String fragmentShaderName;
 
     public Texture() {
@@ -44,12 +44,11 @@ public class Texture {
         IntBuffer channels = BufferUtils.createIntBuffer(1);
         ByteBuffer data = stbi_load(path, width, height, channels, 0);
 
-        this.width = width.get(0);
-        this.height = height.get(0);
+        this.size = new Vector2i(width.get(0), height.get(0));
 
         // Handle errors
         if (data != null) {
-            glTexImage2D(GL_TEXTURE_2D, 0, texFormat, this.width, this.height, 0, srcFormat, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, 0, texFormat, size.x, size.y, 0, srcFormat, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
         } else {
             System.out.printf("Error creating texture %s: %s", fragmentShaderName, path);
@@ -70,6 +69,10 @@ public class Texture {
 
     public String getFragmentShaderName() {
         return fragmentShaderName;
+    }
+
+    public Vector2i getSize() {
+        return size;
     }
 
 }

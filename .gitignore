@@ -8,6 +8,7 @@ app/bin/main
 
 *.log
 *.prefs
+*.DS_STORE
 
 .project
 app/.project
