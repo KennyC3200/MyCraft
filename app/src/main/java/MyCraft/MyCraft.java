@@ -49,8 +49,9 @@ public class MyCraft {
         }
     }
 
-    /* Clean up objects */
+    /* Destroy objects */
     public void destroy() {
+        world.destroy();
         window.destroy();
     }
 

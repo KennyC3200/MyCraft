@@ -31,10 +31,10 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(16, 3, 16);
+        /* TODO: Testing 1 chunk for now */
+        chunksSize = new Vector3i(1, 1, 1);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
-        /* TODO: Testing */
         chunks = new Chunk[chunksCount];
         for (int i = 0; i < chunksCount; i++) {
             chunks[i] = new Chunk(new Vector3i(0, 0, 0));
