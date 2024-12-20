@@ -62,6 +62,11 @@ public class ChunkMesh {
 
     /* Mesh the chunk */
     public void mesh() {
+        // ArrayList<Float> vertices;
+        // ArrayList<Integer> indices;
+
+        // Test mesh a block
+
         float[] verticesArr = {
             -0.5f,  0.5f, 0.0f,  // top left
              0.5f,  0.5f, 0.0f,  // top right
