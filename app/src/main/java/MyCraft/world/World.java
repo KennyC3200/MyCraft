@@ -21,8 +21,9 @@ public class World {
 
     /* Render the world */
     public void render() {
-        /* Render the chunks */
+        // Render the chunks
         ChunkMesh.getShader().bind();
+        ChunkMesh.getShader().uniformTexture2D(BlockMesh.getAtlas().getTexture(), 0);
         for (Chunk chunk : chunks) {
             chunk.render();
         }
@@ -37,7 +38,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        /* TODO: Testing 1 chunk for now */
+        // TODO: Testing 1 chunk for now
         chunksSize = new Vector3i(1, 1, 1);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 

@@ -22,7 +22,7 @@ public class Texture {
      * @param texFormat The texture format
      * @param srcFormat The source format
      * */
-    public void init(String path, String fragmentShaderName, int texFormat, int srcFormat) {
+    public Texture(String path, String fragmentShaderName, int texFormat, int srcFormat) {
         this.fragmentShaderName = fragmentShaderName;
         this.handle = glGenTextures();
         bind();

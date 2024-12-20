@@ -66,10 +66,9 @@ public class ChunkMesh {
         // Mesh a block
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
-        BlockData
-            .get(BlockData.BLOCK_GRASS)
-            .getMesh()
-            .meshFace(Direction.NORTH, new Vector3f(0, 0, 0), verticesList, indicesList);
+        BlockMesh
+            .get(Block.GRASS)
+            .meshFace(Direction.NORTH, new Vector3f(-0.5f, -0.5f, 0), verticesList, indicesList);
 
         // Copy the vertices from the verticesList to the vertices buffer
         float[] verticesArray = new float[verticesList.size()];
@@ -81,7 +80,7 @@ public class ChunkMesh {
         vertices.put(verticesArray);
         vertices.flip();
 
-        // Copy the idnices from the indicesList to the indicesBuffer
+        // Copy the indices from the indicesList to the indicesBuffer
         int[] indicesArray = new int[indicesList.size()];
         for (int i = 0; i < indicesList.size(); i++) {
             indicesArray[i] = indicesList.get(i);
@@ -90,35 +89,15 @@ public class ChunkMesh {
         indices = BufferUtils.createIntBuffer(indicesList.size());
         indices.put(indicesArray);
         indices.flip();
-
-        // float[] verticesArr = {
-        //     -0.5f,  0.5f, 0.0f,  // top left
-        //      0.5f,  0.5f, 0.0f,  // top right
-        //      0.5f, -0.5f, 0.0f,  // bottom right
-        //     -0.5f, -0.5f, 0.0f,  // bottom left
-        // };
-        //
-        // vertices = BufferUtils.createFloatBuffer(12);
-        // vertices.put(verticesArr);
-        // vertices.flip();
-        //
-        // int[] indicesArr = {
-        //     0, 1, 2,  // first triangle
-        //     2, 3, 0,  // second triangle
-        // };
-        //
-        // indices = BufferUtils.createIntBuffer(6);
-        // indices.put(indicesArr);
-        // indices.flip();
     }
 
     public void render() {
         ibo.buffer(indices);
         vbo.buffer(vertices);
         
-        // TODO: Remember to have a attribPointer for the uv coordinates
-        vao.attribPointer(vbo, 0, 3, GL_FLOAT, 5 * Float.BYTES, 0);
-        vao.attribPointer(vbo, 1, 2, GL_FLOAT, 5 * Float.BYTES, 3);
+        // Have attribPointer for the coordinates and uv coordinates
+        vao.attribPointer(vbo, 0, 3, GL_FLOAT, 5 * Float.BYTES, 0 * Float.BYTES);
+        vao.attribPointer(vbo, 1, 2, GL_FLOAT, 5 * Float.BYTES, 3 * Float.BYTES);
        
         vao.bind();
         ibo.bind();

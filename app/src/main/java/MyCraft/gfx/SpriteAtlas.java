@@ -8,21 +8,20 @@ public class SpriteAtlas {
 
     private Texture texture;
     private Vector2i size;
-    private Vector2i spriteSize;
+    private Vector2f spriteSize;
     private Vector2f spriteUnit, pixelUnit;
 
     /* Init the sprite atlas 
      * @param path The path of the atlas
-     * @param fragmentShaderName The uniform sampler2D name 
+     * @param fragmentShaderName The uniform sampler2D name
      * @param spriteSize The size of each sprite
      * */
-    public SpriteAtlas(String path, String fragmentShaderName, Vector2i spriteSize) {
+    public SpriteAtlas(String path, String fragmentShaderName, Vector2f spriteSize) {
         this.spriteSize = spriteSize;
 
-        texture = new Texture();
-        texture.init(path, fragmentShaderName, GL_RGBA, GL_RGBA);
-
+        texture = new Texture(path, fragmentShaderName, GL_RGBA, GL_RGBA);
         size = texture.getSize();
+
         spriteUnit = new Vector2f(spriteSize.x / size.x, spriteSize.y / size.y);
         pixelUnit = new Vector2f(1.0f / size.x, 1.0f / size.y);
     }
@@ -35,7 +34,11 @@ public class SpriteAtlas {
         );
     }
 
-    public Vector2i getSpriteSize() {
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public Vector2f getSpriteSize() {
         return spriteSize;
     }
 
