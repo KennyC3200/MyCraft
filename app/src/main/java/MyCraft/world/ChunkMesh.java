@@ -113,16 +113,17 @@ public class ChunkMesh {
     }
 
     public void render() {
-        // ibo.buffer(indices);
-        // vbo.buffer(vertices);
+        ibo.buffer(indices);
+        vbo.buffer(vertices);
         
         // TODO: Remember to have a attribPointer for the uv coordinates
-        // vao.attribPointer(vbo, 0, 3, GL_FLOAT, 3 * Float.BYTES, 0);
+        vao.attribPointer(vbo, 0, 3, GL_FLOAT, 5 * Float.BYTES, 0);
+        vao.attribPointer(vbo, 1, 2, GL_FLOAT, 5 * Float.BYTES, 3);
        
-        // vao.bind();
-        // ibo.bind();
+        vao.bind();
+        ibo.bind();
       
-        // glDrawElements(GL_TRIANGLES, indices.remaining(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indices.remaining(), GL_UNSIGNED_INT, 0);
     }
 
     public static Vector3i getSize() {
