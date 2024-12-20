@@ -2,6 +2,7 @@ package MyCraft;
 
 import MyCraft.gfx.*;
 import MyCraft.world.*;
+import MyCraft.input.*;
 
 import org.lwjgl.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -13,6 +14,8 @@ public class MyCraft {
 
     private Window window;
     private Renderer renderer;
+
+    private Keyboard keyboard;
 
     private World world;
 
@@ -33,6 +36,8 @@ public class MyCraft {
 
         renderer = new Renderer();
         renderer.init(world);
+
+        keyboard = new Keyboard(window);
     }
 
     /* Main game loop */
@@ -58,6 +63,16 @@ public class MyCraft {
 
     /* Handle updates */
     public void update() {
+        keyboard.update();
+
+        if (keyboard.getButton(GLFW_KEY_W).down) {
+        }
+        if (keyboard.getButton(GLFW_KEY_S).down) {
+        }
+        if (keyboard.getButton(GLFW_KEY_A).down) {
+        }
+        if (keyboard.getButton(GLFW_KEY_D).down) {
+        }
     }
 
     /* Render */
