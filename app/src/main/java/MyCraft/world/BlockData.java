@@ -13,7 +13,7 @@ public class BlockData {
     public static final Integer BLOCK_DIRT = 1;
     public static final Integer BLOCK_STONE = 2;
 
-    private static Map<Integer, BlockData> intToBlockData;
+    private static HashMap<Integer, BlockData> intToBlockData;
     private static SpriteAtlas atlas;
 
     private long id;
@@ -40,8 +40,14 @@ public class BlockData {
         intToBlockData.put(BLOCK_GRASS, new BlockData(BLOCK_GRASS, mesh));
     }
 
-    public long getID() {
-        return this.id;
+    /* Get the block data given a block */
+    public static BlockData get(Integer block) {
+        return intToBlockData.get(block);
+    }
+
+    /* Get the block mesh */
+    public BlockMesh getMesh() {
+        return mesh;
     }
 
 }

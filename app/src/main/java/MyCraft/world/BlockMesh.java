@@ -73,7 +73,7 @@ public class BlockMesh {
         }
     }
 
-    /* Add a face to the mesh 
+    /* Add a face to the mesh (only call from BlockData)
      * @param direction The direction (see Direction.java)
      * @param uvMin the uv min coordinate
      * @param uvMax the uv max coordinate

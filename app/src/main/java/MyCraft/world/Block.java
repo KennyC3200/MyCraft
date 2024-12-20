@@ -1,5 +1,8 @@
 package MyCraft.world;
 
+/* Use the BlockData class to get the BlockMesh with the id
+ * Add the mesh from the BlockMesh into the vertex buffer array for instance rendering
+ * */
 public class Block {
 
     /* Bit fields (64-bits)
