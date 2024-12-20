@@ -23,7 +23,6 @@ public class Block {
     }
 
     public static void init() {
-        BlockData.init();
         BlockMesh.init();
     }
 
