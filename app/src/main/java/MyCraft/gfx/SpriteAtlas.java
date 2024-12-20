@@ -11,7 +11,11 @@ public class SpriteAtlas {
     private Vector2i spriteSize;
     private Vector2f spriteUnit, pixelUnit;
 
-    /* Init the sprite atlas */
+    /* Init the sprite atlas 
+     * @param path The path of the atlas
+     * @param fragmentShaderName The uniform sampler2D name 
+     * @param spriteSize The size of each sprite
+     * */
     public SpriteAtlas(String path, String fragmentShaderName, Vector2i spriteSize) {
         this.spriteSize = spriteSize;
 

@@ -16,10 +16,6 @@ public class Texture {
     private Vector2i size;
     private String fragmentShaderName;
 
-    public Texture() {
-        System.out.println("NEW TEXTURE");
-    }
-
     /* Initialize the texture
      * @param path The path of the texture
      * @param fragmentShaderName The fragment shader name
