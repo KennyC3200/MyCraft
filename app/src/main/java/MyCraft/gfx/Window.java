@@ -14,14 +14,14 @@ import org.joml.Vector2i;
 
 public class Window {
 
-    private static long handle;
-    private static String title;
-    private static Vector2i size;
+    private long handle;
+    private String title;
+    private Vector2i size;
 
-    private static double fps;
-    private static double timePrevious;
-    private static double timeCurrent;
-    private static double timeDelta;
+    private double fps;
+    private double timePrevious;
+    private double timeCurrent;
+    private double timeDelta;
 
     /* Constructor to initialize title and dimensions */
     public Window(String title, Vector2i size) {

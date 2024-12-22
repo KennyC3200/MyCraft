@@ -6,8 +6,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Keyboard {
 
-    private static Window window;
-    private static Button[] keys;
+    private Window window;
+    private Button[] keys;
 
     public Keyboard(Window window) {
         this.window = window;

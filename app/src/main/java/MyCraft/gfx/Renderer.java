@@ -21,8 +21,8 @@ public class Renderer {
         }
     }
 
-    private static Flags flags;
-    private static World world;
+    private Flags flags;
+    private World world;
 
     /* Initialize the renderer */
     public Renderer(World world) {
