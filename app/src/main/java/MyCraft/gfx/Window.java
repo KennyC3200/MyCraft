@@ -18,6 +18,11 @@ public class Window {
     private static String title;
     private static Vector2i size;
 
+    private static double fps;
+    private static double timePrevious;
+    private static double timeCurrent;
+    private static double timeDelta;
+
     /* Constructor to initialize title and dimensions */
     public Window(String title, Vector2i size) {
         this.title = title;
@@ -100,6 +105,12 @@ public class Window {
 
         size.x = width[0];
         size.y = height[0];
+
+        // Update the FPS
+        timeCurrent = glfwGetTime();
+        timeDelta = timeCurrent - timePrevious;
+        timePrevious = timeCurrent;
+        fps = 1.0 / timeDelta;
     }
 
     public long getHandle() {

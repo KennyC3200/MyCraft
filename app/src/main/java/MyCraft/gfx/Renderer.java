@@ -12,6 +12,7 @@ import java.nio.IntBuffer;
 
 public class Renderer {
 
+    /* Flags for the renderer */
     public static class Flags {
         public boolean wireframe;
 
