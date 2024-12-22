@@ -24,7 +24,8 @@ public class Renderer {
     private static Flags flags;
     private static World world;
 
-    public void init(World world) {
+    /* Initialize the renderer */
+    public Renderer(World world) {
         this.world = world;
         this.flags = new Flags();
 

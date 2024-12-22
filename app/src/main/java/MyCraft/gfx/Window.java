@@ -27,10 +27,8 @@ public class Window {
     public Window(String title, Vector2i size) {
         this.title = title;
         this.size = size;
-    }
 
-    /* Initialize the window */
-    public void init() {
+        // Initialize the window
         GLFWErrorCallback.createPrint(System.err).set();
 
         if (!glfwInit())

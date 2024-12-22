@@ -29,13 +29,10 @@ public class MyCraft {
     /* Initialize necessary components */
     public void init() {
         window = new Window("MyCraft", new Vector2i(1280, 720));
-        window.init();
 
         world = new World();
-        world.init();
 
-        renderer = new Renderer();
-        renderer.init(world);
+        renderer = new Renderer(world);
 
         keyboard = new Keyboard(window);
     }

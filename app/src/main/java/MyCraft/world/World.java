@@ -9,7 +9,7 @@ public class World {
     private Vector3i chunksSize;
 
     /* Initialize the world */
-    public void init() {
+    public World () {
         initBlocks();
         initChunks();
     }
