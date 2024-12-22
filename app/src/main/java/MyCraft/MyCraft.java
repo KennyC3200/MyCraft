@@ -63,6 +63,7 @@ public class MyCraft {
 
     /* Handle updates */
     public void update() {
+        window.update();
         keyboard.update();
 
         if (keyboard.getButton(GLFW_KEY_W).down) {

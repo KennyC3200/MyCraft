@@ -14,9 +14,9 @@ import org.joml.Vector2i;
 
 public class Window {
 
-    private long handle;
-    private String title;
-    private Vector2i size;
+    private static long handle;
+    private static String title;
+    private static Vector2i size;
 
     /* Constructor to initialize title and dimensions */
     public Window(String title, Vector2i size) {
@@ -88,6 +88,18 @@ public class Window {
 
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    /* Update the window */
+    public void update() {
+        // Update the window dimensions
+        int[] width = new int[1];
+        int[] height = new int[1];
+
+        glfwGetWindowSize(handle, width, height);
+
+        size.x = width[0];
+        size.y = height[0];
     }
 
     public long getHandle() {

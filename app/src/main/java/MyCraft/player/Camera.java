@@ -7,20 +7,20 @@ import org.joml.*;
 
 public class Camera {
 
-    private Vector3f position;
-    private Vector3f direction;
+    private static Vector3f position;
+    private static Vector3f direction;
 
     /* Camera vectors that define the vector space */
-    private Vector3f up, right, front;
+    private static Vector3f up, right, front;
 
-    private Matrix4f view, projection;
+    private static Matrix4f view, projection;
 
-    private float yaw, pitch, roll;
-    private float fov;
-    private float zNear, zFar;
-    private float sensitivity;
+    private static float yaw, pitch, roll;
+    private static float fov;
+    private static float zNear, zFar;
+    private static float sensitivity;
 
-    private boolean toggled;
+    private static boolean toggled;
 
     private Window window;
     private Mouse mouse;

@@ -20,8 +20,8 @@ public class Renderer {
         }
     }
 
-    private Flags flags;
-    private World world;
+    private static Flags flags;
+    private static World world;
 
     public void init(World world) {
         this.world = world;
