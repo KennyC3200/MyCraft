@@ -70,6 +70,11 @@ public class MyCraft {
         keyboard.update();
         mouse.update();
         player.update();
+
+        /* Toggle/untoggle wireframe */
+        if (keyboard.getButton(GLFW_KEY_T).pressed) {
+            renderer.getFlags().wireframe = !renderer.getFlags().wireframe;
+        }
     }
 
     /* Render */
