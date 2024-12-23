@@ -38,7 +38,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(2, 1, 2);
+        chunksSize = new Vector3i(8, 1, 8);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         // Create the chunks

@@ -73,27 +73,28 @@ public class ChunkMesh {
                     );
 
                     for (int i = 0; i < Direction.VECTOR.length; i++) {
-                        Vector3i neighbourBlockPosition = new Vector3i(blockPosition);
-                    }
+                        int neighbourBlockX = x + Direction.VECTOR[i].x;
+                        int neighbourBlockY = y + Direction.VECTOR[i].y;
+                        int neighbourBlockZ = z + Direction.VECTOR[i].z;
 
-                    BlockMesh
-                        .get(blockID)
-                        .meshFace(Direction.NORTH, blockPosition, verticesList, indicesList);
-                    BlockMesh
-                        .get(blockID)
-                        .meshFace(Direction.SOUTH, blockPosition, verticesList, indicesList);
-                    BlockMesh
-                        .get(blockID)
-                        .meshFace(Direction.EAST, blockPosition, verticesList, indicesList);
-                    BlockMesh
-                        .get(blockID)
-                        .meshFace(Direction.WEST, blockPosition, verticesList, indicesList);
-                    BlockMesh
-                        .get(blockID)
-                        .meshFace(Direction.UP, blockPosition, verticesList, indicesList);
-                    BlockMesh
-                        .get(blockID)
-                        .meshFace(Direction.DOWN, blockPosition, verticesList, indicesList);
+                        if (
+                            neighbourBlockX < 0 || neighbourBlockX >= Chunk.size.x ||
+                            neighbourBlockY < 0 || neighbourBlockY >= Chunk.size.y ||
+                            neighbourBlockZ < 0 || neighbourBlockZ >= Chunk.size.z
+                        )
+                        {
+                            BlockMesh
+                                .get(blockID)
+                                .meshFace(i, blockPosition, verticesList, indicesList);
+                            continue;
+                        }
+
+                        if (blocks[Chunk.posToIdx(neighbourBlockX, neighbourBlockY, neighbourBlockZ)].getID() == Block.AIR) {
+                            BlockMesh
+                                .get(blockID)
+                                .meshFace(i, blockPosition, verticesList, indicesList);
+                        }
+                    }
                 }
             }
         }
