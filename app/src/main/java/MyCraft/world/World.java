@@ -1,6 +1,7 @@
 package MyCraft.world;
 
 import org.joml.Vector3i;
+import org.joml.Vector3f;
 
 public class World {
 
@@ -38,19 +39,34 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        // TODO: Testing 1 chunk for now
-        chunksSize = new Vector3i(1, 1, 1);
+        chunksSize = new Vector3i(2, 1, 2);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
+        // Create the chunks
         chunks = new Chunk[chunksCount];
-        for (int i = 0; i < chunksCount; i++) {
-            chunks[i] = new Chunk(new Vector3i(0, 0, 0));
+        for (int x = 0; x < chunksSize.x; x++) {
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    chunks[chunkIdx(x, y, z)] = new Chunk(
+                        new Vector3f(
+                            x * Chunk.size.x, 
+                            y * Chunk.size.y, 
+                            z * Chunk.size.z
+                        )
+                    );
+                }
+            }
         }
     }
 
     /* Destroy the chunks */
     private void destroyChunks() {
         // TODO: Loop through each chunk and destroy it
+    }
+
+    /* Get the chunk index */
+    private int chunkIdx(int x, int y, int z) {
+        return (x * chunksSize.y * chunksSize.z) + (z * chunksSize.y) + (y);
     }
 
 }

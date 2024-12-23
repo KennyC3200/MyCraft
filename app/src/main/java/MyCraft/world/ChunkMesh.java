@@ -21,7 +21,6 @@ public class ChunkMesh {
 
     public static Shader shader;
 
-    private Vector3i position;
     private VAO vao;
     private VBO vbo;
     private VBO ibo;
@@ -32,9 +31,7 @@ public class ChunkMesh {
     /* Create the mesh, given a position
      * Initialize the VAO, VBO, and IBO
      * */
-    public ChunkMesh(Vector3i position) {
-        this.position = position;
-
+    public ChunkMesh() {
         vao = new VAO();
         vao.init();
 
@@ -59,30 +56,40 @@ public class ChunkMesh {
     }
 
     /* Mesh the chunk */
-    public void mesh(Block[] blocks) {
+    public void mesh(Block[] blocks, Vector3f position) {
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
         for (int x = 0; x < Chunk.size.x; x++) {
             for (int y = 0; y < Chunk.size.y; y++) {
                 for (int z = 0; z < Chunk.size.z; z++) {
-                    Vector3f pos = new Vector3f(x, y, z);
+                    int blockID = blocks[Chunk.posToIdx(x, y, z)].getID();
+                    if (blockID == Block.AIR) {
+                        continue;
+                    }
+
+                    Vector3f pos = new Vector3f(
+                        position.x + x, 
+                        position.y + y, 
+                        position.z + z
+                    );
+
                     BlockMesh
-                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .get(blockID)
                         .meshFace(Direction.NORTH, pos, verticesList, indicesList);
                     BlockMesh
-                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .get(blockID)
                         .meshFace(Direction.SOUTH, pos, verticesList, indicesList);
                     BlockMesh
-                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .get(blockID)
                         .meshFace(Direction.EAST, pos, verticesList, indicesList);
                     BlockMesh
-                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .get(blockID)
                         .meshFace(Direction.WEST, pos, verticesList, indicesList);
                     BlockMesh
-                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .get(blockID)
                         .meshFace(Direction.UP, pos, verticesList, indicesList);
                     BlockMesh
-                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .get(blockID)
                         .meshFace(Direction.DOWN, pos, verticesList, indicesList);
                 }
             }
