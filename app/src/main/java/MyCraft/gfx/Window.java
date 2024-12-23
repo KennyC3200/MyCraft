@@ -122,5 +122,9 @@ public class Window {
     public double getTimeDelta() {
         return timeDelta;
     }
+    
+    public double getFPS() {
+        return fps;
+    }
 
 }

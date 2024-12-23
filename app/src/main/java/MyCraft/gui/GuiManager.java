@@ -45,7 +45,7 @@ public class GuiManager {
         imGuiGlfw.newFrame();
 
         ImGui.newFrame();
-        ImGui.text("Hello world!");
+        ImGui.text("FPS: " + Integer.toString((int) window.getFPS()));
         ImGui.render();
 
         imGuiGl3.renderDrawData(ImGui.getDrawData());
