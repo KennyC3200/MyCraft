@@ -115,4 +115,8 @@ public class Window {
         return handle;
     }
 
+    public Vector2i getSize() {
+        return new Vector2i(size);
+    }
+
 }

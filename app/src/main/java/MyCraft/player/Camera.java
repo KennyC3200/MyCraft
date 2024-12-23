@@ -2,6 +2,7 @@ package MyCraft.player;
 
 import MyCraft.gfx.*;
 import MyCraft.input.*;
+import MyCraft.world.*;
 
 import org.joml.*;
 import org.lwjgl.system.MemoryStack;
@@ -52,22 +53,22 @@ public class Camera {
 
     /* Update the camera */
     public void update() {
-    }
+        // Update the view and projection matrices
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            view = new Matrix4f()
+                .translate(new Vector3f(0.0f, 0.0f, -3.0f))
+                .get(stack.mallocFloat(16));
+            ChunkMesh.shader.uniformMatrix4f("view", view); 
 
-    public FloatBuffer getView() {
-        return view;
-    }
-
-    public void setView(FloatBuffer view) {
-        this.view = view;
-    }
-
-    public FloatBuffer getProjection() {
-        return projection;
-    }
-
-    public void setProjection(FloatBuffer projection) {
-        this.projection = projection;
+            projection = new Matrix4f()
+                .perspective(
+                    (float) java.lang.Math.toRadians(45.0f), 
+                    (float) window.getSize().x / (float) window.getSize().y, 
+                    0.1f, 
+                    100.0f
+                ).get(stack.mallocFloat(16));
+            ChunkMesh.shader.uniformMatrix4f("projection", projection);
+        }
     }
 
 }

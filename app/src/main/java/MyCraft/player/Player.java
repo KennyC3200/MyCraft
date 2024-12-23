@@ -48,19 +48,6 @@ public class Player {
 
     /* Render the player */
     public void render() {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            camera.setView(new Matrix4f()
-                .translate(new Vector3f(0.0f, 0.0f, -3.0f))
-                .get(stack.mallocFloat(16))
-            );
-            ChunkMesh.shader.uniformMatrix4f("view", camera.getView());
-
-            camera.setProjection(new Matrix4f()
-                .perspective((float) java.lang.Math.toRadians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f)
-                .get(stack.mallocFloat(16))
-            );
-            ChunkMesh.shader.uniformMatrix4f("projection", camera.getProjection());
-        }
     }
 
     public Camera getCamera() {
