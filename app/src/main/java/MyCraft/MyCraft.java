@@ -74,9 +74,15 @@ public class MyCraft {
         mouse.update();
         player.update();
 
-        /* Toggle/untoggle wireframe */
+        // Toggle/untoggle wireframe
         if (keyboard.getButton(GLFW_KEY_T).pressed) {
             renderer.getFlags().wireframe = !renderer.getFlags().wireframe;
+        }
+
+        // Toggle/untoggle gui
+        if (keyboard.getButton(GLFW_KEY_ESCAPE).pressed) {
+            mouse.setCursorToggled(!mouse.getCursorToggled());
+            player.getCamera().setToggled(!mouse.getCursorToggled());
         }
     }
 

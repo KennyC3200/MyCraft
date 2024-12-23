@@ -98,4 +98,8 @@ public class Camera {
         return new Vector3f(right);
     }
 
+    public void setToggled(boolean bool) {
+        toggled = bool;
+    }
+
 }

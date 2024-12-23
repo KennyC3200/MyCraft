@@ -7,13 +7,14 @@ Controls
 * `Space` to fly up
 * `L-Shift` to fly down
 * `t` to see the wireframe
+* `Escape` to toggle the gui
 
 Libraries Used
 -----
 * [LWJGL3](https://github.com/LWJGL/lwjgl3) for graphics rendering
 * [JOML](https://github.com/JOML-CI/JOML) for maths
 * [ImGui Java](https://github.com/SpaiR/imgui-java) for the GUI
-    * Used [this repository](https://github.com/Trolobezka/mwe-imgui-java/) as reference
+    * Used [this repository](https://github.com/Trolobezka/mwe-imgui-java) as reference
 
 TODO
 -----

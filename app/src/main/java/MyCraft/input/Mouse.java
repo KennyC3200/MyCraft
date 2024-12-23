@@ -13,7 +13,7 @@ public class Mouse {
 
     private Vector2d position, positionDelta;
     private Button[] keys;
-    private boolean toggled;
+    private boolean cursorToggled;
     private boolean firstMove;
 
     /* Init the mouse */
@@ -26,7 +26,7 @@ public class Mouse {
             this.keys[i] = new Button();
         }
 
-        this.toggled = false;
+        this.cursorToggled = false;
         this.firstMove = true;
     }
 
@@ -64,12 +64,20 @@ public class Mouse {
         glfwSetInputMode(
             window.getHandle(), 
             GLFW_CURSOR, 
-            toggled ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED
+            cursorToggled ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED
         );
     }
 
     public Vector2f getPositionDelta() {
         return new Vector2f(positionDelta);
+    }
+
+    public boolean getCursorToggled() {
+        return cursorToggled;
+    }
+
+    public void setCursorToggled(boolean bool) {
+        cursorToggled = bool;
     }
 
 }
