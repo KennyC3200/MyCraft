@@ -17,7 +17,7 @@ public class Block {
     /* Create a new block
      * @param id The id of the block
      * */
-    public Block(long id) {
+    public Block(int id) {
         data = 0;
         setID(id);
     }
@@ -30,12 +30,12 @@ public class Block {
     /* Set the current id 
      * The id should be a 16 bit block id
      * */
-    public void setID(long id) {
+    public void setID(int id) {
         data = (data & 0xffffffffffff0000L) + id;
     }
 
-    public long getID() {
-        return data & 0xffff;
+    public int getID() {
+        return (int) (data & 0xffff);
     }
 
 }

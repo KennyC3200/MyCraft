@@ -19,9 +19,6 @@ import java.nio.IntBuffer;
 
 public class ChunkMesh {
 
-    public static Vector3i size;
-    public static int volume;
-
     public static Shader shader;
 
     private Vector3i position;
@@ -50,9 +47,6 @@ public class ChunkMesh {
 
     /* Init the necessary components */
     public static void init() {
-        size = new Vector3i(16, 16, 16);
-        volume = size.x * size.y * size.z;
-
         shader = new Shader();
         shader.init("./src/main/res/shaders/chunk.vs", "./src/main/res/shaders/chunk.fs");
     }
@@ -65,29 +59,34 @@ public class ChunkMesh {
     }
 
     /* Mesh the chunk */
-    public void mesh() {
-        // Mesh a block (for testing)
+    public void mesh(Block[] blocks) {
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
-        Vector3f pos = new Vector3f(0, 0, -1);
-        BlockMesh
-            .get(Block.GRASS)
-            .meshFace(Direction.NORTH, pos, verticesList, indicesList);
-        BlockMesh
-            .get(Block.GRASS)
-            .meshFace(Direction.SOUTH, pos, verticesList, indicesList);
-        BlockMesh
-            .get(Block.GRASS)
-            .meshFace(Direction.EAST, pos, verticesList, indicesList);
-        BlockMesh
-            .get(Block.GRASS)
-            .meshFace(Direction.WEST, pos, verticesList, indicesList);
-        BlockMesh
-            .get(Block.GRASS)
-            .meshFace(Direction.UP, pos, verticesList, indicesList);
-        BlockMesh
-            .get(Block.GRASS)
-            .meshFace(Direction.DOWN, pos, verticesList, indicesList);
+        for (int x = 0; x < Chunk.size.x; x++) {
+            for (int y = 0; y < Chunk.size.y; y++) {
+                for (int z = 0; z < Chunk.size.z; z++) {
+                    Vector3f pos = new Vector3f(x, y, z);
+                    BlockMesh
+                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .meshFace(Direction.NORTH, pos, verticesList, indicesList);
+                    BlockMesh
+                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .meshFace(Direction.SOUTH, pos, verticesList, indicesList);
+                    BlockMesh
+                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .meshFace(Direction.EAST, pos, verticesList, indicesList);
+                    BlockMesh
+                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .meshFace(Direction.WEST, pos, verticesList, indicesList);
+                    BlockMesh
+                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .meshFace(Direction.UP, pos, verticesList, indicesList);
+                    BlockMesh
+                        .get(blocks[Chunk.posToIdx(x, y, z)].getID())
+                        .meshFace(Direction.DOWN, pos, verticesList, indicesList);
+                }
+            }
+        }
 
         // Copy the vertices from the verticesList to the vertices buffer
         float[] verticesArray = new float[verticesList.size()];
