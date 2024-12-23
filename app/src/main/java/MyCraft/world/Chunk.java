@@ -17,6 +17,7 @@ public class Chunk {
     private boolean meshed;
     private Block[] blocks;
 
+    /* Initialize a chunk given a position */
     public Chunk(Vector3i position) {
         this.position = position;
 
