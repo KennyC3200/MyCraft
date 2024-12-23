@@ -64,12 +64,27 @@ public class ChunkMesh {
 
     /* Mesh the chunk */
     public void mesh() {
-        // Mesh a block
+        // Mesh a block (for testing)
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.NORTH, new Vector3f(-0.5f, -0.5f, 0), verticesList, indicesList);
+            .meshFace(Direction.NORTH, new Vector3f(0, 0, 0), verticesList, indicesList);
+        BlockMesh
+            .get(Block.GRASS)
+            .meshFace(Direction.SOUTH, new Vector3f(0, 0, 0), verticesList, indicesList);
+        BlockMesh
+            .get(Block.GRASS)
+            .meshFace(Direction.EAST, new Vector3f(0, 0, 0), verticesList, indicesList);
+        BlockMesh
+            .get(Block.GRASS)
+            .meshFace(Direction.WEST, new Vector3f(0, 0, 0), verticesList, indicesList);
+        BlockMesh
+            .get(Block.GRASS)
+            .meshFace(Direction.UP, new Vector3f(0, 0, 0), verticesList, indicesList);
+        BlockMesh
+            .get(Block.GRASS)
+            .meshFace(Direction.DOWN, new Vector3f(0, 0, 0), verticesList, indicesList);
 
         // Copy the vertices from the verticesList to the vertices buffer
         float[] verticesArray = new float[verticesList.size()];
