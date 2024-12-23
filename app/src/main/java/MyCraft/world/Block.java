@@ -5,9 +5,10 @@ package MyCraft.world;
  * */
 public class Block {
 
-    public static final Integer GRASS = 0;
-    public static final Integer DIRT = 1;
-    public static final Integer STONE = 2;
+    public static final Integer AIR = 0;
+    public static final Integer GRASS = 1;
+    public static final Integer DIRT = 2;
+    public static final Integer STONE = 3;
 
     /* Bit fields (64-bits)
      * 16 bits block id
