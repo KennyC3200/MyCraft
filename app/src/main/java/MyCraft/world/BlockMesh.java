@@ -144,7 +144,7 @@ public class BlockMesh {
     /* Mesh a face */
     public void meshFace(
         int direction, 
-        Vector3f position, 
+        Vector3i position, 
         ArrayList<Float> vertices, 
         ArrayList<Integer> indices) 
     {

@@ -1,7 +1,6 @@
 package MyCraft.world;
 
 import org.joml.Vector3i;
-import org.joml.Vector3f;
 
 public class World {
 
@@ -48,7 +47,7 @@ public class World {
             for (int y = 0; y < chunksSize.y; y++) {
                 for (int z = 0; z < chunksSize.z; z++) {
                     chunks[chunkIdx(x, y, z)] = new Chunk(
-                        new Vector3f(
+                        new Vector3i(
                             x * Chunk.size.x, 
                             y * Chunk.size.y, 
                             z * Chunk.size.z

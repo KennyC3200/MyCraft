@@ -3,7 +3,6 @@ package MyCraft.world;
 import org.lwjgl.*;
 
 import org.joml.Vector3i;
-import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -12,14 +11,14 @@ public class Chunk {
     public static Vector3i size;
     public static int volume;
 
-    private Vector3f position;
+    private Vector3i position;
 
     private ChunkMesh mesh;
     private boolean meshed;
     private Block[] blocks;
 
     /* Initialize a chunk given a position */
-    public Chunk(Vector3f position) {
+    public Chunk(Vector3i position) {
         this.position = position;
 
         mesh = new ChunkMesh();

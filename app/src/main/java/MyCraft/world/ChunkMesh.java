@@ -10,7 +10,6 @@ import org.lwjgl.*;
 import org.lwjgl.system.MemoryStack;
 
 import org.joml.Vector3i;
-import org.joml.Vector3f;
 import org.joml.Matrix4f;
 
 import java.util.*;
@@ -56,7 +55,7 @@ public class ChunkMesh {
     }
 
     /* Mesh the chunk */
-    public void mesh(Block[] blocks, Vector3f position) {
+    public void mesh(Block[] blocks, Vector3i position) {
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
         for (int x = 0; x < Chunk.size.x; x++) {
@@ -67,30 +66,34 @@ public class ChunkMesh {
                         continue;
                     }
 
-                    Vector3f pos = new Vector3f(
+                    Vector3i blockPosition = new Vector3i(
                         position.x + x, 
                         position.y + y, 
                         position.z + z
                     );
 
+                    for (int i = 0; i < Direction.VECTOR.length; i++) {
+                        Vector3i neighbourBlockPosition = new Vector3i(blockPosition);
+                    }
+
                     BlockMesh
                         .get(blockID)
-                        .meshFace(Direction.NORTH, pos, verticesList, indicesList);
+                        .meshFace(Direction.NORTH, blockPosition, verticesList, indicesList);
                     BlockMesh
                         .get(blockID)
-                        .meshFace(Direction.SOUTH, pos, verticesList, indicesList);
+                        .meshFace(Direction.SOUTH, blockPosition, verticesList, indicesList);
                     BlockMesh
                         .get(blockID)
-                        .meshFace(Direction.EAST, pos, verticesList, indicesList);
+                        .meshFace(Direction.EAST, blockPosition, verticesList, indicesList);
                     BlockMesh
                         .get(blockID)
-                        .meshFace(Direction.WEST, pos, verticesList, indicesList);
+                        .meshFace(Direction.WEST, blockPosition, verticesList, indicesList);
                     BlockMesh
                         .get(blockID)
-                        .meshFace(Direction.UP, pos, verticesList, indicesList);
+                        .meshFace(Direction.UP, blockPosition, verticesList, indicesList);
                     BlockMesh
                         .get(blockID)
-                        .meshFace(Direction.DOWN, pos, verticesList, indicesList);
+                        .meshFace(Direction.DOWN, blockPosition, verticesList, indicesList);
                 }
             }
         }
@@ -117,14 +120,6 @@ public class ChunkMesh {
     }
 
     public void render() {
-        // Model, view, and projection matrices
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer model = new Matrix4f()
-                .translate(new Vector3f(0, 0, 0))
-                .get(stack.mallocFloat(16));
-            shader.uniformMatrix4f("model", model);
-        }
-
         ibo.buffer(indices);
         vbo.buffer(vertices);
         
