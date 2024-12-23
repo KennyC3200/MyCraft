@@ -3,9 +3,10 @@ A Java implementation of Minecraft.
 
 Controls
 -----
-* WASD to move
-* Space to fly up
-* L-Shift to fly down
+* `WASD` to move
+* `Space` to fly up
+* `L-Shift` to fly down
+* `t` to see the wireframe
 
 Libraries Used
 -----
