@@ -3,6 +3,7 @@ package MyCraft;
 import MyCraft.gfx.*;
 import MyCraft.world.*;
 import MyCraft.input.*;
+import MyCraft.player.*;
 
 import org.lwjgl.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -16,8 +17,11 @@ public class MyCraft {
     private Renderer renderer;
 
     private Keyboard keyboard;
+    private Mouse mouse;
 
     private World world;
+
+    private Camera camera;
 
     /* Game */
     public MyCraft() {
@@ -35,6 +39,9 @@ public class MyCraft {
         renderer = new Renderer(world);
 
         keyboard = new Keyboard(window);
+        mouse = new Mouse(window);
+
+        camera = new Camera(window, mouse, new Vector3f(0, 0, 0));
     }
 
     /* Main game loop */
