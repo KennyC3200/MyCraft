@@ -22,6 +22,10 @@ public class Mouse {
         this.position = new Vector2d(0, 0);
         this.positionDelta = new Vector2d(0, 0);
         this.keys = new Button[GLFW_MOUSE_BUTTON_LAST];
+        for (int i = 0; i < GLFW_MOUSE_BUTTON_LAST; i++) {
+            this.keys[i] = new Button();
+        }
+
         this.toggled = true;
         this.firstMove = true;
     }

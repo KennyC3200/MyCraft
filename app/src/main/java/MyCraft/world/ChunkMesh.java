@@ -20,7 +20,7 @@ public class ChunkMesh {
     public static Vector3i size;
     public static int volume;
 
-    private static Shader shader;
+    public static Shader shader;
 
     private Vector3i position;
     private VAO vao;
@@ -99,16 +99,6 @@ public class ChunkMesh {
                 .rotate((float) java.lang.Math.toRadians(-55.0f), new Vector3f(1.0f, 0.0f, 0.0f))
                 .get(stack.mallocFloat(16));
             shader.uniformMatrix4f("model", model);
-
-            FloatBuffer view = new Matrix4f()
-                .translate(new Vector3f(0.0f, 0.0f, -3.0f))
-                .get(stack.mallocFloat(16));
-            shader.uniformMatrix4f("view", view);
-
-            FloatBuffer projection = new Matrix4f()
-                .perspective((float) java.lang.Math.toRadians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f)
-                .get(stack.mallocFloat(16));
-            shader.uniformMatrix4f("projection", projection);
         }
 
         ibo.buffer(indices);
@@ -122,18 +112,6 @@ public class ChunkMesh {
         ibo.bind();
       
         glDrawElements(GL_TRIANGLES, indices.remaining(), GL_UNSIGNED_INT, 0);
-    }
-
-    public static Vector3i getSize() {
-        return new Vector3i(size);
-    }
-
-    public static int getVolume() {
-        return volume;
-    }
-
-    public static Shader getShader() {
-        return shader;
     }
 
 }

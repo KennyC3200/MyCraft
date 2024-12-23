@@ -4,6 +4,9 @@ import MyCraft.gfx.*;
 import MyCraft.input.*;
 
 import org.joml.*;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.FloatBuffer;
 
 public class Camera {
 
@@ -13,7 +16,7 @@ public class Camera {
     /* Camera vectors that define the vector space */
     private Vector3f up, right, front;
 
-    private Matrix4f view, projection;
+    private FloatBuffer view, projection;
 
     private float yaw, pitch, roll;
     private float fov;
@@ -25,6 +28,7 @@ public class Camera {
     private Window window;
     private Mouse mouse;
 
+    /* Init the camera */
     public Camera(Window window, Mouse mouse, Vector3f position) {
         this.window = window;
         this.mouse = mouse;
@@ -46,7 +50,24 @@ public class Camera {
         toggled = true;
     }
 
+    /* Update the camera */
     public void update() {
+    }
+
+    public FloatBuffer getView() {
+        return view;
+    }
+
+    public void setView(FloatBuffer view) {
+        this.view = view;
+    }
+
+    public FloatBuffer getProjection() {
+        return projection;
+    }
+
+    public void setProjection(FloatBuffer projection) {
+        this.projection = projection;
     }
 
 }

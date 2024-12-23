@@ -21,7 +21,7 @@ public class MyCraft {
 
     private World world;
 
-    private Camera camera;
+    private Player player;
 
     /* Game */
     public MyCraft() {
@@ -34,14 +34,13 @@ public class MyCraft {
     public void init() {
         window = new Window("MyCraft", new Vector2i(1280, 720));
 
-        world = new World();
-
-        renderer = new Renderer(world);
-
         keyboard = new Keyboard(window);
         mouse = new Mouse(window);
 
-        camera = new Camera(window, mouse, new Vector3f(0, 0, 0));
+        world = new World();
+        player = new Player(window, keyboard, mouse, world);
+
+        renderer = new Renderer(world, player);
     }
 
     /* Main game loop */
@@ -69,15 +68,8 @@ public class MyCraft {
     public void update() {
         window.update();
         keyboard.update();
-
-        if (keyboard.getButton(GLFW_KEY_W).down) {
-        }
-        if (keyboard.getButton(GLFW_KEY_S).down) {
-        }
-        if (keyboard.getButton(GLFW_KEY_A).down) {
-        }
-        if (keyboard.getButton(GLFW_KEY_D).down) {
-        }
+        mouse.update();
+        player.update();
     }
 
     /* Render */
