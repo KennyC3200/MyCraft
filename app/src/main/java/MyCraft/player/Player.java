@@ -34,7 +34,7 @@ public class Player {
         this.world = world;
 
         position = new Vector3f(0, 0, 0);
-        speed = 20.0f;
+        speed = 15.0f;
 
         camera = new Camera(window, mouse, new Vector3f(position));
     }
