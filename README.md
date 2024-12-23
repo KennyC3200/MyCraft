@@ -1,6 +1,12 @@
 # README
 A Java implementation of Minecraft.
 
+Controls
+-----
+* WASD to move
+* Space to fly up
+* L-Shift to fly down
+
 Libraries Used
 -----
 * [LWJGL3](https://github.com/LWJGL/lwjgl3) for graphics rendering
