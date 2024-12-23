@@ -11,6 +11,7 @@ Libraries Used
 -----
 * [LWJGL3](https://github.com/LWJGL/lwjgl3) for graphics rendering
 * [JOML](https://github.com/JOML-CI/JOML) for maths
+* [ImGui Java](https://github.com/SpaiR/imgui-java) for the GUI
 
 TODO
 -----

@@ -2,8 +2,12 @@ plugins {
     id 'application'
 }
 
-project.ext.lwjglVersion = "3.3.4"
-project.ext.lwjglNatives = "natives-macos-arm64"
+ext {
+    lwjglVersion = "3.3.4"
+    lwjglNatives = "natives-macos-arm64"
+    jomlVersion = "1.10.8"
+    imguiVersion = "1.87.0"
+}
 
 group = 'MyCraft'
 version = '1.0-SNAPSHOT'
@@ -15,7 +19,6 @@ repositories {
     }
 }
 
-project.ext.jomlVersion = "1.10.8"
 dependencies {
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
@@ -33,6 +36,18 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
 
     implementation "org.joml:joml:${jomlVersion}"
+
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+    ['', '-opengl', '-glfw'].each {
+        implementation "org.lwjgl:lwjgl$it:$lwjglVersion"
+            implementation "org.lwjgl:lwjgl$it::natives-windows"
+    }
+
+    implementation "io.github.spair:imgui-java-binding:$imguiVersion"
+        implementation "io.github.spair:imgui-java-lwjgl3:$imguiVersion"
+
+        implementation "io.github.spair:imgui-java-natives-windows:$imguiVersion"
 }
 
 java {
@@ -47,6 +62,6 @@ application {
 
 tasks.withType(JavaExec) {
     if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-        jvmArgs '-XstartOnFirstThread'
+        jvmArgs += ['-XstartOnFirstThread', '-Djava.awt.headless=true']
     }
 }
