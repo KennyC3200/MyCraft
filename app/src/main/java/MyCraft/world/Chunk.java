@@ -3,6 +3,7 @@ package MyCraft.world;
 import org.lwjgl.*;
 
 import org.joml.Vector3i;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -39,11 +40,11 @@ public class Chunk {
     /* Render the current chunk */
     public void render() {
         if (!meshed) {
-            mesh.mesh(blocks, position);
+            mesh.mesh(blocks);
             meshed = true;
         }
 
-        mesh.render();
+        mesh.render(new Vector3f(position.x, position.y, position.z));
     }
 
     /* Return the index given a position */

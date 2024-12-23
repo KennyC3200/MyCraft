@@ -10,6 +10,7 @@ import org.lwjgl.*;
 import org.lwjgl.system.MemoryStack;
 
 import org.joml.Vector3i;
+import org.joml.Vector3f;
 import org.joml.Matrix4f;
 
 import java.util.*;
@@ -55,7 +56,7 @@ public class ChunkMesh {
     }
 
     /* Mesh the chunk */
-    public void mesh(Block[] blocks, Vector3i position) {
+    public void mesh(Block[] blocks) {
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
         for (int x = 0; x < Chunk.size.x; x++) {
@@ -66,11 +67,7 @@ public class ChunkMesh {
                         continue;
                     }
 
-                    Vector3i blockPosition = new Vector3i(
-                        position.x + x, 
-                        position.y + y, 
-                        position.z + z
-                    );
+                    Vector3i blockPosition = new Vector3i(x, y, z);
 
                     for (int i = 0; i < Direction.VECTOR.length; i++) {
                         Vector3i neighbourBlockPosition = new Vector3i(blockPosition);
@@ -119,7 +116,15 @@ public class ChunkMesh {
         indices.flip();
     }
 
-    public void render() {
+    public void render(Vector3f position) {
+        // Model matrix
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer model = new Matrix4f()
+                .translate(position)
+                .get(stack.mallocFloat(16));
+            shader.uniformMatrix4f("model", model);
+        }
+
         ibo.buffer(indices);
         vbo.buffer(vertices);
         
