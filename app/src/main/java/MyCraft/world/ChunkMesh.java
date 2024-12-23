@@ -9,7 +9,9 @@ import static org.lwjgl.opengl.GL33.*;
 import org.lwjgl.*;
 import org.lwjgl.system.MemoryStack;
 
-import org.joml.*;
+import org.joml.Vector3i;
+import org.joml.Vector3f;
+import org.joml.Matrix4f;
 
 import java.util.*;
 import java.nio.FloatBuffer;
@@ -67,24 +69,25 @@ public class ChunkMesh {
         // Mesh a block (for testing)
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
+        Vector3f pos = new Vector3f(0, 0, -1);
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.NORTH, new Vector3f(0, 0, 0), verticesList, indicesList);
+            .meshFace(Direction.NORTH, pos, verticesList, indicesList);
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.SOUTH, new Vector3f(0, 0, 0), verticesList, indicesList);
+            .meshFace(Direction.SOUTH, pos, verticesList, indicesList);
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.EAST, new Vector3f(0, 0, 0), verticesList, indicesList);
+            .meshFace(Direction.EAST, pos, verticesList, indicesList);
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.WEST, new Vector3f(0, 0, 0), verticesList, indicesList);
+            .meshFace(Direction.WEST, pos, verticesList, indicesList);
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.UP, new Vector3f(0, 0, 0), verticesList, indicesList);
+            .meshFace(Direction.UP, pos, verticesList, indicesList);
         BlockMesh
             .get(Block.GRASS)
-            .meshFace(Direction.DOWN, new Vector3f(0, 0, 0), verticesList, indicesList);
+            .meshFace(Direction.DOWN, pos, verticesList, indicesList);
 
         // Copy the vertices from the verticesList to the vertices buffer
         float[] verticesArray = new float[verticesList.size()];
@@ -111,7 +114,7 @@ public class ChunkMesh {
         // Model, view, and projection matrices
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer model = new Matrix4f()
-                .rotate((float) java.lang.Math.toRadians(-55.0f), new Vector3f(1.0f, 0.0f, 0.0f))
+                .translate(new Vector3f(0, 0, 0))
                 .get(stack.mallocFloat(16));
             shader.uniformMatrix4f("model", model);
         }

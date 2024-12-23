@@ -26,7 +26,7 @@ public class Mouse {
             this.keys[i] = new Button();
         }
 
-        this.toggled = true;
+        this.toggled = false;
         this.firstMove = true;
     }
 
@@ -43,7 +43,7 @@ public class Mouse {
         }
 
         positionDelta.x = x[0] - position.x;
-        positionDelta.y = y[0] - position.y;
+        positionDelta.y = position.y - y[0];
 
         position.x = x[0];
         position.y = y[0];
@@ -66,6 +66,10 @@ public class Mouse {
             GLFW_CURSOR, 
             toggled ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED
         );
+    }
+
+    public Vector2f getPositionDelta() {
+        return new Vector2f(positionDelta);
     }
 
 }
