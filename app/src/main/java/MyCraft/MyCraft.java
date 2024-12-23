@@ -4,6 +4,7 @@ import MyCraft.gfx.*;
 import MyCraft.world.*;
 import MyCraft.input.*;
 import MyCraft.player.*;
+import MyCraft.gui.*;
 
 import org.lwjgl.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -15,6 +16,7 @@ public class MyCraft {
 
     private Window window;
     private Renderer renderer;
+    private GuiManager guiManager;
 
     private Keyboard keyboard;
     private Mouse mouse;
@@ -40,7 +42,8 @@ public class MyCraft {
         world = new World();
         player = new Player(window, keyboard, mouse, world);
 
-        renderer = new Renderer(world, player);
+        guiManager = new GuiManager(window);
+        renderer = new Renderer(world, player, guiManager);
     }
 
     /* Main game loop */

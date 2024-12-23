@@ -2,6 +2,7 @@ package MyCraft.gfx;
 
 import MyCraft.world.*;
 import MyCraft.player.*;
+import MyCraft.gui.*;
 
 import org.lwjgl.*;
 
@@ -22,14 +23,17 @@ public class Renderer {
         }
     }
 
-    private World world;
-    private Player player;
     private Flags flags;
 
+    private World world;
+    private Player player;
+    private GuiManager guiManager;
+
     /* Initialize the renderer */
-    public Renderer(World world, Player player) {
+    public Renderer(World world, Player player, GuiManager guiManager) {
         this.world = world;
         this.player = player;
+        this.guiManager = guiManager;
         this.flags = new Flags();
 
         /* Blend for alpha channel
@@ -53,7 +57,8 @@ public class Renderer {
         world.render();
         player.render();
 
-        /* TODO: Render the UI */
+        /* Render the gui*/
+        guiManager.render();
     }
 
     public Flags getFlags() {
