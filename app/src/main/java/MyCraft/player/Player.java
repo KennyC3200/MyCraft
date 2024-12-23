@@ -20,6 +20,10 @@ public class Player {
     private Keyboard keyboard;
     private Mouse mouse;
     private World world;
+
+    private Vector3f position;
+    private float speed;
+
     private Camera camera;
 
     /* Init the player */
@@ -29,21 +33,36 @@ public class Player {
         this.mouse = mouse;
         this.world = world;
 
-        camera = new Camera(window, mouse, new Vector3f(0, 0, 0));
+        position = new Vector3f(0, 0, 0);
+        speed = 20.0f;
+
+        camera = new Camera(window, mouse, new Vector3f(position));
     }
 
     /* Update the player */
     public void update() {
-        camera.update();
-
+        float displacement = speed * (float) window.getTimeDelta();
         if (keyboard.getButton(GLFW_KEY_W).down) {
+            position.add(camera.getFront().mul(displacement));
         }
         if (keyboard.getButton(GLFW_KEY_S).down) {
+            position.sub(camera.getFront().mul(displacement));
         }
         if (keyboard.getButton(GLFW_KEY_A).down) {
+            position.sub(camera.getRight().mul(displacement));
         }
         if (keyboard.getButton(GLFW_KEY_D).down) {
+            position.add(camera.getRight().mul(displacement));
         }
+        if (keyboard.getButton(GLFW_KEY_SPACE).down) {
+            position.y += 0.5 * displacement;
+        }
+        if (keyboard.getButton(GLFW_KEY_LEFT_SHIFT).down) {
+            position.y -= 0.5 * displacement;
+        }
+
+        camera.setPosition(position);
+        camera.update();
     }
 
     /* Render the player */

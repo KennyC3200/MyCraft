@@ -8,7 +8,7 @@ Libraries Used
 
 TODO
 -----
-* Render a cube
+* Render a chunk
 * List for ?
 * Map for ? (blocks mined)
 * Sort for highscores (comparable and comparator interface)

@@ -119,4 +119,8 @@ public class Window {
         return new Vector2i(size);
     }
 
+    public double getTimeDelta() {
+        return timeDelta;
+    }
+
 }
