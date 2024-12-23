@@ -3,8 +3,8 @@ A Java implementation of Minecraft.
 
 Libraries Used
 -----
-* LWJGL for graphics rendering
-* JOML for maths
+* [LWJGL3](https://github.com/LWJGL/lwjgl3) for graphics rendering
+* [JOML](https://github.com/JOML-CI/JOML) for maths
 
 TODO
 -----
