@@ -1,11 +1,14 @@
 # README
+A Java implementation of Minecraft.
 
-# TODO
-- [x] Position in vertex shader
-- [x] UV coordinates for fragment shader
-- [x] Render basic texture
-- [ ] Render a cube
+Libraries Used
+-----
+* LWJGL for graphics rendering
+* JOML for maths
 
-- [ ] List for
-- [ ] Map for blocks mined
-- [ ] Sort for highscores (comparable and comparator interface)
+TODO
+-----
+* Render a cube
+* List for ?
+* Map for ? (blocks mined)
+* Sort for highscores (comparable and comparator interface)

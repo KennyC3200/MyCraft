@@ -17,6 +17,7 @@ public class Camera {
     /* Camera vectors that define the vector space */
     private Vector3f up, right, front;
 
+    /* View and projection 4x4 matrices */
     private FloatBuffer view, projection;
 
     private float yaw, pitch, roll;
