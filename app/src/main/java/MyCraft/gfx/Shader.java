@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL33.*;
 
 import java.util.*;
 import java.io.*;
+import java.nio.FloatBuffer;
 
 public class Shader {
 
@@ -65,6 +66,14 @@ public class Shader {
         glActiveTexture(GL_TEXTURE0 + unit);
         tex.bind();
         glUniform1i(glGetUniformLocation(handle, fragmentShaderName), unit);
+    }
+
+    /* Bind the uniform Matrix4f
+     * @param name The name of the uniform matrix
+     * @param mat4 The 4x4 float matrix as a float buffer
+     * */
+    public void uniformMatrix4f(String name, FloatBuffer mat4) {
+        glUniformMatrix4fv(glGetUniformLocation(handle, name), false, mat4);
     }
 
     /* Compile a shader program

@@ -68,7 +68,7 @@ public class Window {
                     (vid_mode.width() - width.get(0)) / 2,
                     (vid_mode.height() - height.get(0)) / 2
             );
-        } // The stack frame is popped automatically
+        }
 
         glfwMakeContextCurrent(handle);
 

@@ -3,10 +3,11 @@ package MyCraft.world;
 import MyCraft.util.*;
 import MyCraft.gfx.*;
 
-import org.lwjgl.*;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
+
+import org.lwjgl.*;
+import org.lwjgl.system.MemoryStack;
 
 import org.joml.*;
 
@@ -92,6 +93,24 @@ public class ChunkMesh {
     }
 
     public void render() {
+        // Model, view, and projection matrices
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer model = new Matrix4f()
+                .rotate((float) java.lang.Math.toRadians(-55.0f), new Vector3f(1.0f, 0.0f, 0.0f))
+                .get(stack.mallocFloat(16));
+            shader.uniformMatrix4f("model", model);
+
+            FloatBuffer view = new Matrix4f()
+                .translate(new Vector3f(0.0f, 0.0f, -3.0f))
+                .get(stack.mallocFloat(16));
+            shader.uniformMatrix4f("view", view);
+
+            FloatBuffer projection = new Matrix4f()
+                .perspective((float) java.lang.Math.toRadians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f)
+                .get(stack.mallocFloat(16));
+            shader.uniformMatrix4f("projection", projection);
+        }
+
         ibo.buffer(indices);
         vbo.buffer(vertices);
         
