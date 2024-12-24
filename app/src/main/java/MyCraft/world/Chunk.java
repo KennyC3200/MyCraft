@@ -36,6 +36,11 @@ public class Chunk {
         volume = size.x * size.y * size.z;
     }
 
+    /* Return the index given a position */
+    public static int posToIdx(int x, int y, int z) {
+        return (x * size.x * size.y) + (z * size.y) + (y);
+    }
+
     /* Render the current chunk */
     public void render() {
         if (!meshed) {
@@ -46,9 +51,9 @@ public class Chunk {
         mesh.render();
     }
 
-    /* Return the index given a position */
-    public static int posToIdx(int x, int y, int z) {
-        return (x * size.x * size.y) + (z * size.y) + (y);
+    /* Get a block given position */
+    public Block getBlock(int x, int y, int z) {
+        return blocks[posToIdx(x, y, z)];
     }
 
 }
