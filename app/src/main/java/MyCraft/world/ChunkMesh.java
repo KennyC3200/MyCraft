@@ -55,7 +55,7 @@ public class ChunkMesh {
     }
 
     /* Mesh the chunk */
-    public void mesh(Block[] blocks, Vector3i position) {
+    public void mesh(Block[] blocks, Vector3i position, Chunk[] adjacentChunks) {
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
         for (int x = 0; x < Chunk.size.x; x++) {
@@ -73,26 +73,35 @@ public class ChunkMesh {
                     );
 
                     for (int i = 0; i < Direction.VECTOR.length; i++) {
-                        int neighbourBlockX = x + Direction.VECTOR[i].x;
-                        int neighbourBlockY = y + Direction.VECTOR[i].y;
-                        int neighbourBlockZ = z + Direction.VECTOR[i].z;
+                        int adjacentBlockX = x + Direction.VECTOR[i].x;
+                        int adjacentBlockY = y + Direction.VECTOR[i].y;
+                        int adjacentBlockZ = z + Direction.VECTOR[i].z;
 
                         if (
-                            neighbourBlockX < 0 || neighbourBlockX >= Chunk.size.x ||
-                            neighbourBlockY < 0 || neighbourBlockY >= Chunk.size.y ||
-                            neighbourBlockZ < 0 || neighbourBlockZ >= Chunk.size.z
+                            adjacentBlockX < 0 || adjacentBlockX == Chunk.size.x ||
+                            adjacentBlockY < 0 || adjacentBlockY == Chunk.size.y ||
+                            adjacentBlockZ < 0 || adjacentBlockZ == Chunk.size.z
                         )
                         {
-                            BlockMesh
-                                .get(blockID)
-                                .meshFace(i, blockPosition, verticesList, indicesList);
+                            // adjacentChunks[i] is the adjacent chunk in question
+                            // Can do (adjacentBlockX + Chunk.size.x) % Chunk.size.x
+                            // Since: (-1 + 16) % 16 = 15 and 16 % 16 = 0, giving the correct adjacent block index
+                            // Note: -1 % 16 != 15 in Java, thus have to do (-1 + 16) % 16
+                            if (
+                                adjacentChunks[i] == null ||
+                                adjacentChunks[i].getBlock(
+                                    (adjacentBlockX + Chunk.size.x) % Chunk.size.x,
+                                    (adjacentBlockY + Chunk.size.y) % Chunk.size.y,
+                                    (adjacentBlockZ + Chunk.size.z) % Chunk.size.z
+                                ).getID() == Block.AIR
+                            ) {
+                                BlockMesh.get(blockID).meshFace(i, blockPosition, verticesList, indicesList);
+                            }
                             continue;
                         }
 
-                        if (blocks[Chunk.posToIdx(neighbourBlockX, neighbourBlockY, neighbourBlockZ)].getID() == Block.AIR) {
-                            BlockMesh
-                                .get(blockID)
-                                .meshFace(i, blockPosition, verticesList, indicesList);
+                        if (blocks[Chunk.posToIdx(adjacentBlockX, adjacentBlockY, adjacentBlockZ)].getID() == Block.AIR) {
+                            BlockMesh.get(blockID).meshFace(i, blockPosition, verticesList, indicesList);
                         }
                     }
                 }

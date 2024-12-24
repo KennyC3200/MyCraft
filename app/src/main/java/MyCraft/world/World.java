@@ -1,5 +1,7 @@
 package MyCraft.world;
 
+import MyCraft.util.*;
+
 import org.joml.Vector3i;
 
 public class World {
@@ -38,7 +40,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(8, 1, 8);
+        chunksSize = new Vector3i(16, 2, 16);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         // Create the chunks
@@ -53,6 +55,21 @@ public class World {
                             z * Chunk.size.z
                         )
                     );
+                }
+            }
+        }
+
+        // Set the adjacent chunks
+        for (int x = 0; x < chunksSize.x; x++) {
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    Chunk chunk = chunks[chunkIdx(x, y, z)];
+                    chunk.setAdjacent(Direction.NORTH, z - 1 >= 0           ? chunks[chunkIdx(x, y, z - 1)] : null);
+                    chunk.setAdjacent(Direction.SOUTH, z + 1 < chunksSize.z ? chunks[chunkIdx(x, y, z + 1)] : null);
+                    chunk.setAdjacent(Direction.EAST,  x + 1 < chunksSize.x ? chunks[chunkIdx(x + 1, y, z)] : null);
+                    chunk.setAdjacent(Direction.WEST,  x - 1 >= 0           ? chunks[chunkIdx(x - 1, y, z)] : null);
+                    chunk.setAdjacent(Direction.UP,    y + 1 < chunksSize.y ? chunks[chunkIdx(x, y + 1, z)] : null);
+                    chunk.setAdjacent(Direction.DOWN,  y - 1 >= 0           ? chunks[chunkIdx(x, y - 1, z)] : null);
                 }
             }
         }

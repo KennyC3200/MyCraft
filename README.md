@@ -18,6 +18,5 @@ Libraries Used
 
 TODO
 -----
-* Render a chunk
 * Map for ? (blocks mined)
 * Sort for highscores (comparable and comparator interface)

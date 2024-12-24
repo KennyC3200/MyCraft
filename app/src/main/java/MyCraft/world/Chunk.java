@@ -17,6 +17,8 @@ public class Chunk {
     private boolean meshed;
     private Block[] blocks;
 
+    private Chunk[] adjacents;
+
     /* Initialize a chunk given a position */
     public Chunk(Vector3i position) {
         this.position = position;
@@ -26,6 +28,8 @@ public class Chunk {
 
         blocks = new Block[volume];
         Arrays.fill(blocks, new Block(Block.GRASS));
+
+        adjacents = new Chunk[6];
     }
 
     /* Init the chunk class */
@@ -41,10 +45,15 @@ public class Chunk {
         return (x * size.x * size.y) + (z * size.y) + (y);
     }
 
+    /* Set adjacent chunk */
+    public void setAdjacent(int direction, Chunk chunk) {
+        adjacents[direction] = chunk;
+    }
+
     /* Render the current chunk */
     public void render() {
         if (!meshed) {
-            mesh.mesh(blocks, position);
+            mesh.mesh(blocks, position, adjacents);
             meshed = true;
         }
 
