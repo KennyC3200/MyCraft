@@ -85,14 +85,6 @@ public class Window {
         GL.createCapabilities();
     }
 
-    /* Destroy the window */
-    public void destroy() {
-        glfwDestroyWindow(handle);
-
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
-    }
-
     /* Update the window */
     public void update() {
         // Update the window dimensions

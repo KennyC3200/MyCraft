@@ -34,11 +34,6 @@ public class GuiManager {
         imGuiGl3.init(glslVersion);
     }
 
-    /* Destroy the imgui context */
-    public void destroy() {
-        ImGui.destroyContext();
-    }
-
     /* Render the gui */
     public void render() {
         imGuiGl3.newFrame();

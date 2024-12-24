@@ -83,12 +83,13 @@ public class ChunkMesh {
                             adjacentBlockZ < 0 || adjacentBlockZ == Chunk.size.z
                         )
                         {
-                            // adjacentChunks[i] is the adjacent chunk in question
-                            // Can do (adjacentBlockX + Chunk.size.x) % Chunk.size.x
-                            // Since: (-1 + 16) % 16 = 15 and 16 % 16 = 0, giving the correct adjacent block index
-                            // Note: -1 % 16 != 15 in Java, thus have to do (-1 + 16) % 16
+                            /* adjacentChunks[i] is the adjacent chunk in question
+                             * Can do (adjacentBlockX + Chunk.size.x) % Chunk.size.x
+                             * Since: (-1 + 16) % 16 = 15 and 16 % 16 = 0, giving the correct adjacent block index
+                             * Note: -1 % 16 != 15 in Java, thus have to do (-1 + 16) % 16
+                             */
                             if (
-                                adjacentChunks[i] == null ||
+                                adjacentChunks[i] != null &&
                                 adjacentChunks[i].getBlock(
                                     (adjacentBlockX + Chunk.size.x) % Chunk.size.x,
                                     (adjacentBlockY + Chunk.size.y) % Chunk.size.y,

@@ -19,15 +19,15 @@ public class Chunk {
 
     private Chunk[] adjacents;
 
-    /* Initialize a chunk given a position */
-    public Chunk(Vector3i position) {
+    /* Initialize a chunk given a position and block fill */
+    public Chunk(Vector3i position, int block) {
         this.position = position;
 
         mesh = new ChunkMesh();
         meshed = false;
 
         blocks = new Block[volume];
-        Arrays.fill(blocks, new Block(Block.GRASS));
+        Arrays.fill(blocks, new Block(block));
 
         adjacents = new Chunk[6];
     }

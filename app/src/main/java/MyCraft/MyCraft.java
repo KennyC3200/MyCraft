@@ -29,7 +29,6 @@ public class MyCraft {
     public MyCraft() {
         init();
         loop();
-        destroy();
     }
 
     /* Initialize necessary components */
@@ -61,12 +60,6 @@ public class MyCraft {
         }
     }
 
-    /* Destroy objects */
-    public void destroy() {
-        world.destroy();
-        window.destroy();
-    }
-
     /* Handle updates */
     public void update() {
         window.update();
@@ -83,6 +76,10 @@ public class MyCraft {
         if (keyboard.getButton(GLFW_KEY_ESCAPE).pressed) {
             mouse.setCursorToggled(!mouse.getCursorToggled());
             player.getCamera().setToggled(!mouse.getCursorToggled());
+        }
+
+        if (keyboard.getButton(GLFW_KEY_Q).pressed) {
+            System.exit(0);
         }
     }
 

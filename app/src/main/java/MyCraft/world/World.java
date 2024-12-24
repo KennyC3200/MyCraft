@@ -16,11 +16,6 @@ public class World {
         initChunks();
     }
 
-    /* Destroy the world */
-    public void destroy() {
-        destroyChunks();
-    }
-
     /* Render the world */
     public void render() {
         // Render the chunks
@@ -53,7 +48,8 @@ public class World {
                             x * Chunk.size.x, 
                             y * Chunk.size.y, 
                             z * Chunk.size.z
-                        )
+                        ),
+                        y < chunksSize.y / 2 ? Block.GRASS : Block.AIR
                     );
                 }
             }
@@ -75,14 +71,13 @@ public class World {
         }
     }
 
-    /* Destroy the chunks */
-    private void destroyChunks() {
-        // TODO: Loop through each chunk and destroy it
-    }
-
     /* Get the chunk index */
     private int chunkIdx(int x, int y, int z) {
         return (x * chunksSize.y * chunksSize.z) + (z * chunksSize.y) + (y);
+    }
+
+    public Vector3i getChunksSize() {
+        return new Vector3i(chunksSize);
     }
 
 }

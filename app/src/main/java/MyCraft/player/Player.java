@@ -21,7 +21,10 @@ public class Player {
     private Mouse mouse;
     private World world;
 
+    private Vector3f offset;
     private Vector3f position;
+
+    private float height;
     private float speed;
 
     private Camera camera;
@@ -33,8 +36,15 @@ public class Player {
         this.mouse = mouse;
         this.world = world;
 
-        position = new Vector3f(0, 0, 0);
+        height = 1.8f;
         speed = 15.0f;
+
+        offset = new Vector3f(
+            world.getChunksSize().x * Chunk.size.x / 2,
+            world.getChunksSize().y * Chunk.size.y / 2 + height,
+            world.getChunksSize().z * Chunk.size.z / 2
+        );
+        position = new Vector3f(offset);
 
         camera = new Camera(window, mouse, new Vector3f(position));
     }
