@@ -13,4 +13,3 @@ app/bin/main
 .project
 app/.project
 app/.classpath
-gradle/wrapper/gradle-wrapper.jar
