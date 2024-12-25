@@ -4,10 +4,8 @@ import static org.lwjgl.opengl.GL33.*;
 
 import org.joml.*;
 
-public class SpriteAtlas {
+public class SpriteAtlas extends Texture {
 
-    private Texture texture;
-    private Vector2i size;
     private Vector2f spriteSize;
     private Vector2f spriteUnit, pixelUnit;
 
@@ -17,10 +15,9 @@ public class SpriteAtlas {
      * @param spriteSize The size of each sprite
      * */
     public SpriteAtlas(String path, String fragmentShaderName, Vector2f spriteSize) {
-        this.spriteSize = spriteSize;
+        super(path, fragmentShaderName, GL_RGBA, GL_RGBA);
 
-        texture = new Texture(path, fragmentShaderName, GL_RGBA, GL_RGBA);
-        size = texture.getSize();
+        this.spriteSize = spriteSize;
 
         spriteUnit = new Vector2f(spriteSize.x / size.x, spriteSize.y / size.y);
         pixelUnit = new Vector2f(1.0f / size.x, 1.0f / size.y);
@@ -32,10 +29,6 @@ public class SpriteAtlas {
             spriteCoordinates.x * spriteUnit.x,
             spriteCoordinates.y * spriteUnit.y
         );
-    }
-
-    public Texture getTexture() {
-        return texture;
     }
 
     public Vector2f getSpriteSize() {

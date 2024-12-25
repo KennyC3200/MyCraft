@@ -79,7 +79,7 @@ public class BlockMesh {
     /* Init the block mesh */
     public static void init() {
         blockToMesh = new HashMap<Integer, BlockMesh>();
-        atlas = new SpriteAtlas("./src/main/res/images/blocks.png", "blocks", new Vector2f(16, 16));
+        atlas = new SpriteAtlas("./src/main/resources/images/blocks.png", "blocks", new Vector2f(16, 16));
 
         // Init the different blocks
         BlockMesh blockGrassMesh = new BlockMesh();

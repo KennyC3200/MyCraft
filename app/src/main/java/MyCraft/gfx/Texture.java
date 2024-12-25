@@ -7,14 +7,13 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.stb.STBImage.*;
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
 
 public class Texture {
 
-    private int handle;
-    private Vector2i size;
-    private String fragmentShaderName;
+    protected int handle;
+    protected Vector2i size;
+    protected String fragmentShaderName;
 
     /* Initialize the texture
      * @param path The path of the texture
