@@ -7,7 +7,7 @@ public class VAO {
     private int handle;
 
     /* Init the vertex array */
-    public void init() {
+    public VAO() {
         handle = glGenVertexArrays();
     }
 

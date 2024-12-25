@@ -32,19 +32,13 @@ public class ChunkMesh {
      * */
     public ChunkMesh() {
         vao = new VAO();
-        vao.init();
-
-        vbo = new VBO();
-        vbo.init(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
-
-        ibo = new VBO();
-        ibo.init(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
+        vbo = new VBO(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
+        ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
     }
 
     /* Init the necessary components */
     public static void init() {
-        shader = new Shader();
-        shader.init("./src/main/res/shaders/chunk.vs", "./src/main/res/shaders/chunk.fs");
+        shader = new Shader("./src/main/resources/shaders/chunk.vs", "./src/main/resources/shaders/chunk.fs");
     }
 
     /* Destroy the chunk mesh */

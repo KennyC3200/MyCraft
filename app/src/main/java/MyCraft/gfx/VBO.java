@@ -12,7 +12,7 @@ public class VBO {
     private int drawType;
 
     /* Init the buffer */
-    public void init(int type, int drawType) {
+    public VBO(int type, int drawType) {
         this.type = type;
         this.drawType = drawType;
         this.handle = glGenBuffers();

@@ -16,7 +16,7 @@ public class Shader {
      * @param vertexShaderPath The vertex shader path
      * @param fragmentShaderPath The fragment shader path
      * */
-    public void init(String vertexShaderPath, String fragmentShaderPath) {
+    public Shader(String vertexShaderPath, String fragmentShaderPath) {
         handle = glCreateProgram();
 
         int vertexShaderHandle = compile(vertexShaderPath, GL_VERTEX_SHADER);

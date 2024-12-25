@@ -20,7 +20,7 @@ public class World {
     public void render() {
         // Render the chunks
         ChunkMesh.shader.bind();
-        ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas().getTexture(), 0);
+        ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
         for (Chunk chunk : chunks) {
             chunk.render();
         }
