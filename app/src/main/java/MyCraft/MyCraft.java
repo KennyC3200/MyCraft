@@ -5,9 +5,10 @@ import MyCraft.world.*;
 import MyCraft.input.*;
 import MyCraft.player.*;
 import MyCraft.gui.*;
+import MyCraft.hud.*;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL33C.*;
 
 import org.joml.*;
 
@@ -15,7 +16,6 @@ public class MyCraft {
 
     private Window window;
     private Renderer renderer;
-    private GuiManager guiManager;
 
     private Keyboard keyboard;
     private Mouse mouse;
@@ -32,7 +32,7 @@ public class MyCraft {
 
     /* Initialize necessary components */
     public void init() {
-        window = new Window("MyCraft", new Vector2i(1280, 720));
+        window = new Window("MyCraft", new Vector2i(1440, 900));
 
         keyboard = new Keyboard(window);
         mouse = new Mouse(window);
@@ -40,8 +40,10 @@ public class MyCraft {
         world = new World();
         player = new Player(window, keyboard, mouse, world);
 
-        guiManager = new GuiManager(window);
-        renderer = new Renderer(world, player, guiManager);
+        HudManager.init(window);
+        GuiManager.init(window);
+
+        renderer = new Renderer(world, player);
     }
 
     /* Main game loop */
@@ -77,6 +79,7 @@ public class MyCraft {
             player.getCamera().setToggled(!mouse.getCursorToggled());
         }
 
+        // Quit the game
         if (keyboard.getButton(GLFW_KEY_Q).pressed) {
             System.exit(0);
         }

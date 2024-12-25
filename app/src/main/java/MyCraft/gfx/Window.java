@@ -47,7 +47,7 @@ public class Window {
 
         handle = glfwCreateWindow(
                 size.x, size.y,
-                title,
+                this.title,
                 NULL, NULL
         );
 

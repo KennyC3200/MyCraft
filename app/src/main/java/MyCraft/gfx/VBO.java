@@ -3,7 +3,7 @@ package MyCraft.gfx;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL33C.*;
 
 public class VBO {
     

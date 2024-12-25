@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.stb.STBImage.*;
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL33C.*;
 
 public class Texture {
 
@@ -67,7 +67,7 @@ public class Texture {
     }
 
     public Vector2i getSize() {
-        return size;
+        return new Vector2i(size);
     }
 
 }

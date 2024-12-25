@@ -2,7 +2,7 @@ package MyCraft.hud;
 
 import MyCraft.gfx.*;
 
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL33C.*;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -10,18 +10,21 @@ import java.nio.IntBuffer;
 public abstract class HudComponent {
 
     protected static Window window;
-    protected static Shader shader;
+    static Shader shader;
     protected static VAO vao;
     protected static VBO vbo;
     protected static VBO ibo;
 
-    /* Inherited members */
     protected FloatBuffer vertices;
     protected IntBuffer indices;
-    protected boolean toggled;
+    public boolean toggled;
+    boolean meshed;
+
+    abstract void mesh();
+    abstract void render();
 
     /* Init the hud component */
-    public static void init(Window window) {
+    static void init(Window window) {
         HudComponent.window = window;
 
         shader = new Shader("./src/main/resources/shaders/hud.vs", "./src/main/resources/shaders/hud.fs");
@@ -29,8 +32,5 @@ public abstract class HudComponent {
         vbo = new VBO(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
         ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
     }
-
-    abstract void mesh();
-    abstract void render();
 
 }

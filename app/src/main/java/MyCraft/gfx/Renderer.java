@@ -3,14 +3,9 @@ package MyCraft.gfx;
 import MyCraft.world.*;
 import MyCraft.player.*;
 import MyCraft.gui.*;
+import MyCraft.hud.*;
 
-import org.lwjgl.*;
-
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
-
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
+import static org.lwjgl.opengl.GL33C.*;
 
 public class Renderer {
 
@@ -27,13 +22,11 @@ public class Renderer {
 
     private World world;
     private Player player;
-    private GuiManager guiManager;
 
     /* Initialize the renderer */
-    public Renderer(World world, Player player, GuiManager guiManager) {
+    public Renderer(World world, Player player) {
         this.world = world;
         this.player = player;
-        this.guiManager = guiManager;
         this.flags = new Flags();
 
         /* Blend for alpha channel
@@ -58,7 +51,14 @@ public class Renderer {
         player.render();
 
         /* Render the gui*/
-        guiManager.render();
+        HudManager.render();
+        GuiManager.render();
+
+        /* TODO: IDK WHY TF WE NEED TO REBIND AFTER BUT JAVA IS HELLA DUMB 
+         * Like i've been trying to debug this for the past 3 hours and i'm pissed
+         * If it works it works
+         * */
+        ChunkMesh.shader.bind();
     }
 
     public Flags getFlags() {

@@ -1,10 +1,7 @@
 package MyCraft.gfx;
 
-import MyCraft.gfx.Texture;
+import static org.lwjgl.opengl.GL33C.*;
 
-import static org.lwjgl.opengl.GL33.*;
-
-import java.util.*;
 import java.io.*;
 import java.nio.FloatBuffer;
 

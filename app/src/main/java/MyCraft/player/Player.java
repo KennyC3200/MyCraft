@@ -1,18 +1,12 @@
 package MyCraft.player;
 
-import MyCraft.util.*;
 import MyCraft.gfx.*;
 import MyCraft.input.*;
 import MyCraft.world.*;
 
-import org.lwjgl.*;
-import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
 
 import org.joml.*;
-
-import java.nio.FloatBuffer;
 
 public class Player {
 

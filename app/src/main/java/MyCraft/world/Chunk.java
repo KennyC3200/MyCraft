@@ -1,6 +1,6 @@
 package MyCraft.world;
 
-import org.lwjgl.*;
+import static org.lwjgl.opengl.GL33C.*;
 
 import org.joml.Vector3i;
 

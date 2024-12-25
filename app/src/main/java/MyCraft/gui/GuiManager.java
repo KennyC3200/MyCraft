@@ -16,13 +16,13 @@ public class GuiManager {
     protected static final boolean IS_APPLE = OS.contains("mac") || OS.contains("darwin");
     private static String glslVersion = IS_APPLE ? "#version 150" : "#version 130";
 
-    private Window window;
-    private ImGuiImplGlfw imGuiGlfw;
-    private ImGuiImplGl3 imGuiGl3;
+    private static Window window;
+    private static ImGuiImplGlfw imGuiGlfw;
+    private static ImGuiImplGl3 imGuiGl3;
 
     /* Create the imgi context */
-    public GuiManager(Window window) {
-        this.window = window;
+    public static void init(Window window) {
+        GuiManager.window = window;
 
         ImGui.createContext();
         ImGuiIO io = ImGui.getIO();
@@ -35,7 +35,7 @@ public class GuiManager {
     }
 
     /* Render the gui */
-    public void render() {
+    public static void render() {
         imGuiGl3.newFrame();
         imGuiGlfw.newFrame();
 

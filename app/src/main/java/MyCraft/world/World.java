@@ -4,6 +4,8 @@ import MyCraft.util.*;
 
 import org.joml.Vector3i;
 
+import static org.lwjgl.opengl.GL33C.*;
+
 public class World {
 
     private Chunk[] chunks;
@@ -35,7 +37,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(16, 2, 16);
+        chunksSize = new Vector3i(1, 2, 1);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         // Create the chunks

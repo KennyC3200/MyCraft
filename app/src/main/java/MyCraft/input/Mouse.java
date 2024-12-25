@@ -5,7 +5,6 @@ import MyCraft.gfx.*;
 import org.joml.*;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
 
 public class Mouse {
 

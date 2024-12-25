@@ -3,14 +3,11 @@ package MyCraft.world;
 import MyCraft.util.*;
 import MyCraft.gfx.*;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL33C.*;
 
 import org.lwjgl.*;
-import org.lwjgl.system.MemoryStack;
 
 import org.joml.Vector3i;
-import org.joml.Matrix4f;
 
 import java.util.*;
 import java.nio.FloatBuffer;
@@ -109,7 +106,7 @@ public class ChunkMesh {
             verticesArray[i] = verticesList.get(i);
         }
 
-        vertices = BufferUtils.createFloatBuffer(verticesList.size());
+        vertices = BufferUtils.createFloatBuffer(verticesArray.length);
         vertices.put(verticesArray);
         vertices.flip();
 
@@ -119,7 +116,7 @@ public class ChunkMesh {
             indicesArray[i] = indicesList.get(i);
         }
 
-        indices = BufferUtils.createIntBuffer(indicesList.size());
+        indices = BufferUtils.createIntBuffer(indicesArray.length);
         indices.put(indicesArray);
         indices.flip();
     }
