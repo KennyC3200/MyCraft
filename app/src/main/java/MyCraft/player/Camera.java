@@ -3,6 +3,7 @@ package MyCraft.player;
 import MyCraft.gfx.*;
 import MyCraft.input.*;
 import MyCraft.world.*;
+import MyCraft.util.*;
 
 import org.joml.Vector3f;
 import org.joml.Matrix4f;
@@ -58,6 +59,8 @@ public class Camera {
         if (toggled) {
             yaw += Math.toRadians(sensitivity * mouse.getPositionDelta().x);
             pitch += Math.toRadians(sensitivity * mouse.getPositionDelta().y);
+            pitch = MathUtil.clamp(pitch, (float) Math.toRadians(-89.0f), (float) Math.toRadians(89.0f));
+
             direction = new Vector3f(
                 (float) Math.cos(yaw) * (float) Math.cos(pitch),
                 (float) Math.sin(pitch),
