@@ -6,7 +6,6 @@ import MyCraft.input.*;
 import MyCraft.player.*;
 import MyCraft.gui.*;
 
-import org.lwjgl.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
 

@@ -20,3 +20,5 @@ TODO
 -----
 * Map for ? (blocks mined)
 * Sort for highscores (comparable and comparator interface)
+* Crosshair
+* Hotbar
