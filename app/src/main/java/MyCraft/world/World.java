@@ -22,8 +22,6 @@ public class World {
         // Render the chunks
         ChunkMesh.shader.bind();
         ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
-        ChunkMesh.shader.uniformMatrix4f("view", Camera.getView()); 
-        ChunkMesh.shader.uniformMatrix4f("projection", Camera.getProjection());
         for (Chunk chunk : chunks) {
             chunk.render();
         }

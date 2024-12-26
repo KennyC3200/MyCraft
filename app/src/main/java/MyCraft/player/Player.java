@@ -5,8 +5,12 @@ import MyCraft.input.*;
 import MyCraft.world.*;
 
 import static org.lwjgl.glfw.GLFW.*;
+import org.lwjgl.system.MemoryStack;
 
 import org.joml.*;
+import org.joml.Matrix4f;
+
+import java.nio.FloatBuffer;
 
 public class Player {
 
@@ -69,8 +73,25 @@ public class Player {
         camera.update();
     }
 
-    /* Render the player */
+    /* Render the player and assign view and projection matrices */
     public void render() {
+
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer view = new Matrix4f()
+                .lookAt(
+                    position, 
+                    new Vector3f(camera.position).add(camera.direction), camera.up)
+                .get(stack.mallocFloat(16));
+
+            FloatBuffer projection = new Matrix4f()
+            .perspective(
+                    camera.fov,
+                    (float) window.getSize().x / (float) window.getSize().y, 
+                    camera.zNear, camera.zFar)
+            .get(stack.mallocFloat(16));
+            ChunkMesh.shader.uniformMatrix4f("view", view); 
+            ChunkMesh.shader.uniformMatrix4f("projection", projection);
+        }
     }
 
     public Camera getCamera() {

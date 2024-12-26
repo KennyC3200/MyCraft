@@ -2,34 +2,24 @@ package MyCraft.player;
 
 import MyCraft.gfx.*;
 import MyCraft.input.*;
-import MyCraft.world.*;
 import MyCraft.util.*;
 
 import org.joml.Vector3f;
-import org.joml.Matrix4f;
-
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.BufferUtils;
-
-import java.nio.FloatBuffer;
 
 public class Camera {
 
-    private Vector3f position;
-    private Vector3f direction;
+    Vector3f position;
+    Vector3f direction;
 
     /* Camera vectors that define the vector space */
-    private Vector3f up, right, front;
+    Vector3f up, right, front;
 
-    /* View and projection 4x4 matrices */
-    private static FloatBuffer view, projection;
+    float yaw, pitch, roll;
+    float fov;
+    float zNear, zFar;
+    float sensitivity;
 
-    private float yaw, pitch, roll;
-    private float fov;
-    private float zNear, zFar;
-    private float sensitivity;
-
-    private boolean toggled;
+    boolean toggled;
 
     private Window window;
     private Mouse mouse;
@@ -73,18 +63,6 @@ public class Camera {
             // Gives the direction that the player will move in the x and z components
             front = new Vector3f(up).cross(right).normalize();
         }
-
-        // Update the view and projection matrices
-        view = new Matrix4f()
-            .lookAt(position, new Vector3f(position).add(direction), up)
-            .get(BufferUtils.createFloatBuffer(16));
-
-        projection = new Matrix4f()
-            .perspective(
-                fov,
-                (float) window.getSize().x / (float) window.getSize().y, 
-                zNear, zFar)
-            .get(BufferUtils.createFloatBuffer(16));
     }
 
     public void setPosition(Vector3f position) {
@@ -101,14 +79,6 @@ public class Camera {
 
     public void setToggled(boolean bool) {
         toggled = bool;
-    }
-
-    public static FloatBuffer getView() {
-        return view;
-    }
-
-    public static FloatBuffer getProjection() {
-        return projection;
     }
 
 }
