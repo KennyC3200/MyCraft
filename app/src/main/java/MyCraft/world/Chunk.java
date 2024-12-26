@@ -27,7 +27,9 @@ public class Chunk {
         meshed = false;
 
         blocks = new Block[volume];
-        Arrays.fill(blocks, new Block(block));
+        for (int i = 0; i < volume; i++) {
+            blocks[i] = new Block(block);
+        }
 
         adjacents = new Chunk[6];
     }
@@ -48,6 +50,16 @@ public class Chunk {
     /* Set adjacent chunk */
     public void setAdjacent(int direction, Chunk chunk) {
         adjacents[direction] = chunk;
+    }
+
+    /* Force the CURRENT CHUNK and ADJACENT CHUNKS to mesh */
+    public void mesh() {
+        meshed = false;
+        for (int i = 0; i < 6; i++) {
+            if (adjacents[i] != null) {
+                adjacents[i].meshed = false;
+            }
+        }
     }
 
     /* Render the current chunk */

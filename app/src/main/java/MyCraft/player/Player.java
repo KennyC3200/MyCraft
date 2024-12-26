@@ -38,17 +38,19 @@ public class Player {
         speed = 15.0f;
 
         offset = new Vector3f(
-            world.getChunksSize().x * Chunk.size.x / 2,
-            world.getChunksSize().y * Chunk.size.y / 2 + height,
-            world.getChunksSize().z * Chunk.size.z / 2
+            0.001f + world.getChunksSize().x * Chunk.size.x / 2,
+            0.001f + world.getChunksSize().y * Chunk.size.y / 2 + height,
+            0.001f + world.getChunksSize().z * Chunk.size.z / 2
         );
         position = new Vector3f(offset);
 
-        camera = new Camera(window, mouse, new Vector3f(position));
+        camera = new Camera(window, mouse, position);
     }
 
     /* Update the player */
     public void update() {
+
+        // Handle movement
         float displacement = speed * (float) window.getTimeDelta();
         if (keyboard.getButton(GLFW_KEY_W).down) {
             position.add(camera.getFront().mul(displacement));
@@ -69,13 +71,32 @@ public class Player {
             position.y -= 0.5 * displacement;
         }
 
+        // Update the camera
         camera.setPosition(position);
         camera.update();
+
+        // Handle player raycast and block placement/deletion
+        Ray.CastData raycast = Ray.cast(world, position, camera.getDirection(), 8.0f);
+        if (raycast != null && raycast.hit) {
+            if (mouse.getButton(GLFW_MOUSE_BUTTON_LEFT).pressed) {
+                world.getBlock(raycast.position).setID(Block.AIR);
+                world.getChunk(raycast.position).mesh();
+            }
+            if (mouse.getButton(GLFW_MOUSE_BUTTON_RIGHT).pressed) {
+                int blockX = raycast.position.x + raycast.out.x;
+                int blockY = raycast.position.y + raycast.out.y;
+                int blockZ = raycast.position.z + raycast.out.z;
+
+                if (world.getBlock(blockX, blockY, blockZ).getID() == Block.AIR) {
+                    world.getBlock(blockX, blockY, blockZ).setID(Block.STONE);
+                    world.getChunk(blockX, blockY, blockZ).mesh();
+                }
+            }
+        }
     }
 
     /* Render the player and assign view and projection matrices */
     public void render() {
-
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer view = new Matrix4f()
                 .lookAt(
@@ -84,11 +105,11 @@ public class Player {
                 .get(stack.mallocFloat(16));
 
             FloatBuffer projection = new Matrix4f()
-            .perspective(
-                    camera.fov,
-                    (float) window.getSize().x / (float) window.getSize().y, 
-                    camera.zNear, camera.zFar)
-            .get(stack.mallocFloat(16));
+                .perspective(
+                        camera.fov,
+                        (float) window.getSize().x / (float) window.getSize().y, 
+                        camera.zNear, camera.zFar)
+                .get(stack.mallocFloat(16));
             ChunkMesh.shader.uniformMatrix4f("view", view); 
             ChunkMesh.shader.uniformMatrix4f("projection", projection);
         }
@@ -96,6 +117,19 @@ public class Player {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public String getPositionString() {
+        return String.format("(%.1f, %.1f, %.1f)", position.x, position.y, position.z);
+    }
+
+    public String getPositionMinusOffsetString() {
+        return String.format(
+            "(%.1f, %.1f, %.1f)", 
+            position.x - offset.x, 
+            position.y - offset.y, 
+            position.z - offset.z
+        );
     }
 
 }

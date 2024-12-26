@@ -41,7 +41,7 @@ public class MyCraft {
         player = new Player(window, keyboard, mouse, world);
 
         HudManager.init(window);
-        GuiManager.init(window);
+        GuiManager.init(window, player);
 
         renderer = new Renderer(world, player);
     }

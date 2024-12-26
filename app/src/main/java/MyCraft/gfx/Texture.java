@@ -67,7 +67,7 @@ public class Texture {
     }
 
     public Vector2i getSize() {
-        return new Vector2i(size);
+        return size;
     }
 
 }

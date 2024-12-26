@@ -1,7 +1,6 @@
 package MyCraft.world;
 
 import MyCraft.util.*;
-import MyCraft.player.*;
 
 import org.joml.Vector3i;
 
@@ -62,6 +61,7 @@ public class World {
                 for (int z = 0; z < chunksSize.z; z++) {
                     Chunk chunk = chunks[chunkIdx(x, y, z)];
                     chunk.setAdjacent(Direction.NORTH, z - 1 >= 0           ? chunks[chunkIdx(x, y, z - 1)] : null);
+                    chunk.setAdjacent(Direction.SOUTH, z + 1 < chunksSize.z ? chunks[chunkIdx(x, y, z + 1)] : null);
                     chunk.setAdjacent(Direction.EAST,  x + 1 < chunksSize.x ? chunks[chunkIdx(x + 1, y, z)] : null);
                     chunk.setAdjacent(Direction.WEST,  x - 1 >= 0           ? chunks[chunkIdx(x - 1, y, z)] : null);
                     chunk.setAdjacent(Direction.UP,    y + 1 < chunksSize.y ? chunks[chunkIdx(x, y + 1, z)] : null);
@@ -72,12 +72,48 @@ public class World {
     }
 
     public Vector3i getChunksSize() {
-        return new Vector3i(chunksSize);
+        return chunksSize;
     }
 
-    /* Get the chunk index */
+    /* Get a block, given the BLOCK position */
+    public Block getBlock(int x, int y, int z) {
+        if (
+            x < 0 || x >= Chunk.size.x * chunksSize.x ||
+            y < 0 || y >= Chunk.size.y * chunksSize.y ||
+            z < 0 || z >= Chunk.size.z * chunksSize.z
+        ) {
+            return null;
+        }
+
+        return chunks[chunkIdx(
+            x / Chunk.size.x, 
+            y / Chunk.size.y, 
+            z / Chunk.size.z
+        )].getBlock(
+            x - (x / Chunk.size.x) * Chunk.size.x, 
+            y - (y / Chunk.size.y) * Chunk.size.y, 
+            z - (z / Chunk.size.z) * Chunk.size.z 
+        );
+    }
+
+    /* Get a block, given the BLOCK position */
+    public Block getBlock(Vector3i position) {
+        return getBlock(position.x, position.y, position.z);
+    }
+
+    /* Get the chunk index given a CHUNK position */
     private int chunkIdx(int x, int y, int z) {
         return (x * chunksSize.y * chunksSize.z) + (z * chunksSize.y) + (y);
+    }
+
+    /* Get a chunk given a PLAYER position */
+    public Chunk getChunk(int x, int y, int z) {
+        return chunks[chunkIdx(x / Chunk.size.x, y / Chunk.size.y, z / Chunk.size.z)];
+    }
+
+    /* Get a chunk given a PLAYER position */
+    public Chunk getChunk(Vector3i position) {
+        return getChunk(position.x, position.y, position.z);
     }
 
 }

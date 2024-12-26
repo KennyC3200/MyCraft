@@ -51,6 +51,7 @@ public class Renderer {
         player.render();
 
         /* Render the gui*/
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         HudManager.render();
         GuiManager.render();
     }

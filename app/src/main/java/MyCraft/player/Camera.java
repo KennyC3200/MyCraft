@@ -58,7 +58,9 @@ public class Camera {
                 (float) Math.sin(pitch),
                 (float) Math.sin(yaw) * (float) Math.cos(pitch)
             ).normalize();
+
             right = new Vector3f(direction).cross(up).normalize();
+
             // This is the cross product of the up vector and right vector
             // Gives the direction that the player will move in the x and z components
             front = new Vector3f(up).cross(right).normalize();
@@ -70,11 +72,15 @@ public class Camera {
     }
 
     public Vector3f getFront() {
-        return new Vector3f(front);
+        return front;
     }
 
     public Vector3f getRight() {
-        return new Vector3f(right);
+        return right;
+    }
+
+    public Vector3f getDirection() {
+        return direction;
     }
 
     public void setToggled(boolean bool) {

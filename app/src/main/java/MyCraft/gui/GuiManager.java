@@ -1,8 +1,7 @@
 package MyCraft.gui;
 
 import MyCraft.gfx.*;
-
-import org.lwjgl.glfw.GLFW;
+import MyCraft.player.*;
 
 import imgui.ImGui;
 import imgui.ImGuiIO;
@@ -17,12 +16,15 @@ public class GuiManager {
     private static String glslVersion = IS_APPLE ? "#version 150" : "#version 130";
 
     private static Window window;
+    private static Player player;
+
     private static ImGuiImplGlfw imGuiGlfw;
     private static ImGuiImplGl3 imGuiGl3;
 
     /* Create the imgi context */
-    public static void init(Window window) {
+    public static void init(Window window, Player player) {
         GuiManager.window = window;
+        GuiManager.player = player;
 
         ImGui.createContext();
         ImGuiIO io = ImGui.getIO();
@@ -41,6 +43,8 @@ public class GuiManager {
 
         ImGui.newFrame();
         ImGui.text("FPS: " + Integer.toString((int) window.getFPS()));
+        ImGui.text(String.format("POSITION: " + player.getPositionString()));
+        ImGui.text(String.format("POSITION - OFFSET: " + player.getPositionMinusOffsetString()));
         ImGui.render();
 
         imGuiGl3.renderDrawData(ImGui.getDrawData());
