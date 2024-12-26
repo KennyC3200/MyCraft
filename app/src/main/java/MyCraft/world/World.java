@@ -1,10 +1,9 @@
 package MyCraft.world;
 
 import MyCraft.util.*;
+import MyCraft.player.*;
 
 import org.joml.Vector3i;
-
-import static org.lwjgl.opengl.GL33C.*;
 
 public class World {
 
@@ -23,6 +22,8 @@ public class World {
         // Render the chunks
         ChunkMesh.shader.bind();
         ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
+        ChunkMesh.shader.uniformMatrix4f("view", Camera.getView()); 
+        ChunkMesh.shader.uniformMatrix4f("projection", Camera.getProjection());
         for (Chunk chunk : chunks) {
             chunk.render();
         }
@@ -37,7 +38,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(1, 2, 1);
+        chunksSize = new Vector3i(8, 2, 8);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         // Create the chunks
@@ -72,13 +73,13 @@ public class World {
         }
     }
 
+    public Vector3i getChunksSize() {
+        return new Vector3i(chunksSize);
+    }
+
     /* Get the chunk index */
     private int chunkIdx(int x, int y, int z) {
         return (x * chunksSize.y * chunksSize.z) + (z * chunksSize.y) + (y);
-    }
-
-    public Vector3i getChunksSize() {
-        return new Vector3i(chunksSize);
     }
 
 }

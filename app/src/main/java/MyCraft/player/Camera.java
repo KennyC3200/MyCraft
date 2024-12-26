@@ -7,7 +7,9 @@ import MyCraft.util.*;
 
 import org.joml.Vector3f;
 import org.joml.Matrix4f;
+
 import org.lwjgl.system.MemoryStack;
+import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 
@@ -20,7 +22,7 @@ public class Camera {
     private Vector3f up, right, front;
 
     /* View and projection 4x4 matrices */
-    private FloatBuffer view, projection;
+    private static FloatBuffer view, projection;
 
     private float yaw, pitch, roll;
     private float fov;
@@ -73,20 +75,16 @@ public class Camera {
         }
 
         // Update the view and projection matrices
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            view = new Matrix4f()
-                .lookAt(position, new Vector3f(position).add(direction), up)
-                .get(stack.mallocFloat(16));
-            ChunkMesh.shader.uniformMatrix4f("view", view); 
+        view = new Matrix4f()
+            .lookAt(position, new Vector3f(position).add(direction), up)
+            .get(BufferUtils.createFloatBuffer(16));
 
-            projection = new Matrix4f()
-                .perspective(
-                    fov,
-                    (float) window.getSize().x / (float) window.getSize().y, 
-                    zNear, zFar
-                ).get(stack.mallocFloat(16));
-            ChunkMesh.shader.uniformMatrix4f("projection", projection);
-        }
+        projection = new Matrix4f()
+            .perspective(
+                fov,
+                (float) window.getSize().x / (float) window.getSize().y, 
+                zNear, zFar)
+            .get(BufferUtils.createFloatBuffer(16));
     }
 
     public void setPosition(Vector3f position) {
@@ -103,6 +101,14 @@ public class Camera {
 
     public void setToggled(boolean bool) {
         toggled = bool;
+    }
+
+    public static FloatBuffer getView() {
+        return view;
+    }
+
+    public static FloatBuffer getProjection() {
+        return projection;
     }
 
 }

@@ -53,12 +53,6 @@ public class Renderer {
         /* Render the gui*/
         HudManager.render();
         GuiManager.render();
-
-        /* TODO: IDK WHY TF WE NEED TO REBIND AFTER BUT JAVA IS HELLA DUMB 
-         * Like i've been trying to debug this for the past 3 hours and i'm pissed
-         * If it works it works
-         * */
-        ChunkMesh.shader.bind();
     }
 
     public Flags getFlags() {
