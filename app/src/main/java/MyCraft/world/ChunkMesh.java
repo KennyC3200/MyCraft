@@ -78,8 +78,11 @@ public class ChunkMesh {
                              * Can do (adjacentBlockX + Chunk.size.x) % Chunk.size.x
                              * Since: (-1 + 16) % 16 = 15 and 16 % 16 = 0, giving the correct adjacent block index
                              * Note: -1 % 16 != 15 in Java, thus have to do (-1 + 16) % 16
+                             * Note: the first if statement joined by the && is to ensure that the UP block face
+                             *       is rendered at the block sky limit
                              */
                             if (
+                                i == Direction.UP && adjacentChunks[i] == null ||
                                 adjacentChunks[i] != null &&
                                 adjacentChunks[i].getBlock(
                                     (adjacentBlockX + Chunk.size.x) % Chunk.size.x,

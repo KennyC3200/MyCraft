@@ -24,4 +24,3 @@ TODO
 * AABB
 * Map generation
 * Block highlight
-* Up face not rendering at block sky limit
