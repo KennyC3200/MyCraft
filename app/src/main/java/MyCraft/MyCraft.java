@@ -43,7 +43,7 @@ public class MyCraft {
         HudManager.init(window);
         GuiManager.init(window, player);
 
-        renderer = new Renderer(world, player);
+        renderer = new Renderer(window, world, player);
     }
 
     /* Main game loop */

@@ -5,12 +5,8 @@ import MyCraft.input.*;
 import MyCraft.world.*;
 
 import static org.lwjgl.glfw.GLFW.*;
-import org.lwjgl.system.MemoryStack;
 
 import org.joml.*;
-import org.joml.Matrix4f;
-
-import java.nio.FloatBuffer;
 
 public class Player {
 
@@ -44,7 +40,7 @@ public class Player {
         );
         position = new Vector3f(offset);
 
-        camera = new Camera(window, mouse, position);
+        camera = new Camera(mouse, position);
     }
 
     /* Update the player */
@@ -86,32 +82,13 @@ public class Player {
                 int blockX = raycast.position.x + raycast.out.x;
                 int blockY = raycast.position.y + raycast.out.y;
                 int blockZ = raycast.position.z + raycast.out.z;
+                Block block = world.getBlock(blockX, blockY, blockZ);
 
-                if (world.getBlock(blockX, blockY, blockZ).getID() == Block.AIR) {
+                if (block != null && block.getID() == Block.AIR) {
                     world.getBlock(blockX, blockY, blockZ).setID(Block.STONE);
                     world.getChunk(blockX, blockY, blockZ).mesh();
                 }
             }
-        }
-    }
-
-    /* Render the player and assign view and projection matrices */
-    public void render() {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer view = new Matrix4f()
-                .lookAt(
-                    position, 
-                    new Vector3f(camera.position).add(camera.direction), camera.up)
-                .get(stack.mallocFloat(16));
-
-            FloatBuffer projection = new Matrix4f()
-                .perspective(
-                        camera.fov,
-                        (float) window.getSize().x / (float) window.getSize().y, 
-                        camera.zNear, camera.zFar)
-                .get(stack.mallocFloat(16));
-            ChunkMesh.shader.uniformMatrix4f("view", view); 
-            ChunkMesh.shader.uniformMatrix4f("projection", projection);
         }
     }
 

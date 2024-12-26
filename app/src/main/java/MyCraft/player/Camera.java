@@ -8,25 +8,23 @@ import org.joml.Vector3f;
 
 public class Camera {
 
-    Vector3f position;
-    Vector3f direction;
+    private Vector3f position;
+    private Vector3f direction;
 
     /* Camera vectors that define the vector space */
-    Vector3f up, right, front;
+    private Vector3f up, right, front;
 
-    float yaw, pitch, roll;
-    float fov;
-    float zNear, zFar;
-    float sensitivity;
+    private float yaw, pitch, roll;
+    private float fov;
+    private float zNear, zFar;
+    private float sensitivity;
 
-    boolean toggled;
+    private boolean toggled;
 
-    private Window window;
     private Mouse mouse;
 
     /* Init the camera */
-    public Camera(Window window, Mouse mouse, Vector3f position) {
-        this.window = window;
+    public Camera(Mouse mouse, Vector3f position) {
         this.mouse = mouse;
         this.position = position;
 
@@ -67,8 +65,24 @@ public class Camera {
         }
     }
 
+    public float getFOV() {
+        return fov;
+    }
+
+    public float getZNear() {
+        return zNear;
+    }
+
+    public float getZFar() {
+        return zFar;
+    }
+
     public void setPosition(Vector3f position) {
         this.position = position;
+    }
+
+    public Vector3f getPosition() {
+        return position;
     }
 
     public Vector3f getFront() {
@@ -77,6 +91,10 @@ public class Camera {
 
     public Vector3f getRight() {
         return right;
+    }
+
+    public Vector3f getUp() {
+        return up;
     }
 
     public Vector3f getDirection() {

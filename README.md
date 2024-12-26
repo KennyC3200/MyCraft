@@ -21,3 +21,7 @@ TODO
 * Map for ? (blocks mined)
 * Sort for highscores (comparable and comparator interface)
 * Hotbar
+* AABB
+* Map generation
+* Block highlight
+* Up face not rendering at block sky limit

@@ -6,6 +6,12 @@ import MyCraft.gui.*;
 import MyCraft.hud.*;
 
 import static org.lwjgl.opengl.GL33C.*;
+import org.lwjgl.system.MemoryStack;
+
+import org.joml.Vector3f;
+import org.joml.Matrix4f;
+
+import java.nio.FloatBuffer;
 
 public class Renderer {
 
@@ -20,11 +26,13 @@ public class Renderer {
 
     private Flags flags;
 
+    private Window window;
     private World world;
     private Player player;
 
     /* Initialize the renderer */
-    public Renderer(World world, Player player) {
+    public Renderer(Window window, World world, Player player) {
+        this.window = window;
         this.world = world;
         this.player = player;
         this.flags = new Flags();
@@ -39,6 +47,7 @@ public class Renderer {
         glEnable(GL_DEPTH_TEST);
     }
 
+    /* Render the game */
     public void render() {
         if (flags.wireframe) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -46,18 +55,45 @@ public class Renderer {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
-        /* Render the world */
-        world.render();
-        player.render();
-
-        /* Render the gui*/
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        HudManager.render();
-        GuiManager.render();
+        renderWorld();
+        renderUI();
     }
 
     public Flags getFlags() {
         return flags;
+    }
+
+    /* Render the world */
+    private void renderWorld() {
+        // Bind the shader and uniform texture
+        ChunkMesh.shader.bind();
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            Camera camera = player.getCamera();
+            FloatBuffer view = new Matrix4f()
+                .lookAt(
+                    camera.getPosition(), 
+                    new Vector3f(camera.getPosition()).add(camera.getDirection()), camera.getUp())
+                .get(stack.mallocFloat(16));
+
+            FloatBuffer projection = new Matrix4f()
+                .perspective(
+                        camera.getFOV(),
+                        (float) window.getSize().x / (float) window.getSize().y, 
+                        camera.getZNear(), camera.getZFar())
+                .get(stack.mallocFloat(16));
+            ChunkMesh.shader.uniformMatrix4f("view", view); 
+            ChunkMesh.shader.uniformMatrix4f("projection", projection);
+        }
+        ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
+
+        world.render();
+    }
+
+    /* Render the ui */
+    private void renderUI() {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        HudManager.render();
+        GuiManager.render();
     }
 
 }

@@ -2,7 +2,13 @@ package MyCraft.world;
 
 import MyCraft.util.*;
 
+import org.lwjgl.system.MemoryStack;
+
 import org.joml.Vector3i;
+import org.joml.Vector3f;
+import org.joml.Matrix4f;
+
+import java.nio.FloatBuffer;
 
 public class World {
 
@@ -18,9 +24,6 @@ public class World {
 
     /* Render the world */
     public void render() {
-        // Render the chunks
-        ChunkMesh.shader.bind();
-        ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
         for (Chunk chunk : chunks) {
             chunk.render();
         }
