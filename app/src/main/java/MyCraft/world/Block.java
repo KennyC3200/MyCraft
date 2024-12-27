@@ -5,6 +5,7 @@ package MyCraft.world;
  * */
 public class Block {
 
+    public static final Integer NONE = -1;
     public static final Integer AIR = 0;
     public static final Integer GRASS = 1;
     public static final Integer DIRT = 2;

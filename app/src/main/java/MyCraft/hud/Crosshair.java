@@ -5,6 +5,9 @@ import MyCraft.gfx.*;
 import static org.lwjgl.opengl.GL33C.*;
 import org.lwjgl.BufferUtils;
 
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+
 public class Crosshair extends HudComponent {
 
     private Texture texture;
@@ -13,6 +16,9 @@ public class Crosshair extends HudComponent {
     public Crosshair() {
         texture = new Texture("./src/main/resources/images/crosshair.png", "tex", GL_RGBA, GL_RGBA);
         toggled = true;
+
+        vertices = new FloatBuffer[1];
+        indices = new IntBuffer[1];
     }
 
     /* Mesh the crosshair texture */
@@ -33,13 +39,13 @@ public class Crosshair extends HudComponent {
             1, 2, 3,
         };
 
-        vertices = BufferUtils.createFloatBuffer(verticesArray.length);
-        vertices.put(verticesArray);
-        vertices.flip();
+        vertices[0] = BufferUtils.createFloatBuffer(verticesArray.length);
+        vertices[0].put(verticesArray);
+        vertices[0].flip();
 
-        indices = BufferUtils.createIntBuffer(indicesArray.length);
-        indices.put(indicesArray);
-        indices.flip();
+        indices[0] = BufferUtils.createIntBuffer(indicesArray.length);
+        indices[0].put(indicesArray);
+        indices[0].flip();
     }
 
     /* Render the crosshair texture */
@@ -51,8 +57,8 @@ public class Crosshair extends HudComponent {
 
         shader.uniformTexture2D(texture, 0);
 
-        ibo.buffer(indices);
-        vbo.buffer(vertices);
+        ibo.buffer(indices[0]);
+        vbo.buffer(vertices[0]);
 
         vao.attribPointer(vbo, 0, 2, GL_FLOAT, 4 * Float.BYTES, 0 * Float.BYTES);
         vao.attribPointer(vbo, 1, 2, GL_FLOAT, 4 * Float.BYTES, 2 * Float.BYTES);
@@ -60,7 +66,7 @@ public class Crosshair extends HudComponent {
         vao.bind();
         ibo.bind();
       
-        glDrawElements(GL_TRIANGLES, indices.remaining(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indices[0].remaining(), GL_UNSIGNED_INT, 0);
     }
 
 }

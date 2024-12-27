@@ -31,6 +31,14 @@ public class SpriteAtlas extends Texture {
         );
     }
 
+    /* Get the sprite uv coordinates given sprite coordinates */
+    public Vector2f spriteUV(int x, int y) {
+        return new Vector2f(
+            x * spriteUnit.x,
+            y * spriteUnit.y
+        );
+    }
+
     public Vector2f getSpriteSize() {
         return spriteSize;
     }

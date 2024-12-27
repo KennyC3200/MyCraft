@@ -23,6 +23,10 @@ public class Player {
 
     private Camera camera;
 
+    private int hotbarSize;
+    private Integer[] hotbarItems;
+    private int currentHotbarIdx;
+
     /* Init the player */
     public Player(Window window, Keyboard keyboard, Mouse mouse, World world) {
         this.window = window;
@@ -41,6 +45,13 @@ public class Player {
         position = new Vector3f(offset);
 
         camera = new Camera(mouse, position);
+
+        hotbarSize = 9;
+        hotbarItems = new Integer[9];
+        for (int i = 0; i < hotbarSize; i++) {
+            hotbarItems[i] = Block.STONE;
+        }
+        currentHotbarIdx = 0;
     }
 
     /* Update the player */
@@ -65,6 +76,15 @@ public class Player {
         }
         if (keyboard.getButton(GLFW_KEY_LEFT_SHIFT).down) {
             position.y -= 0.5 * displacement;
+        }
+
+        /* Handle the hotbar
+         * Keep in mind that the index starts at 0, not 1
+         * */
+        for (int i = 0; i < hotbarSize; i++) {
+            if (keyboard.getButton(GLFW_KEY_1 + i).pressed) {
+                currentHotbarIdx = i;
+            }
         }
 
         // Update the camera
@@ -107,6 +127,18 @@ public class Player {
             position.y - offset.y, 
             position.z - offset.z
         );
+    }
+
+    public int getHotbarSize() {
+        return hotbarSize;
+    }
+
+    public Integer getHotbarItem(int idx) {
+        return hotbarItems[idx];
+    }
+
+    public int getCurrentHotbarIdx() {
+        return currentHotbarIdx;
     }
 
 }

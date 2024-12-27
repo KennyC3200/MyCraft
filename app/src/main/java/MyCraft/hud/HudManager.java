@@ -1,6 +1,7 @@
 package MyCraft.hud;
 
 import MyCraft.gfx.*;
+import MyCraft.player.*;
 
 public class HudManager {
 
@@ -8,11 +9,11 @@ public class HudManager {
     private static Hotbar hotbar;
 
     /* Init the hud */
-    public static void init(Window window) {
+    public static void init(Window window, Player player) {
         HudComponent.init(window);
 
         crosshair = new Crosshair();
-        hotbar = new Hotbar();
+        hotbar = new Hotbar(player);
     }
 
     /* Render the hud */

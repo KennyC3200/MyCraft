@@ -15,10 +15,11 @@ public abstract class HudComponent {
     protected static VBO vbo;
     protected static VBO ibo;
 
-    protected FloatBuffer vertices;
-    protected IntBuffer indices;
-    public boolean toggled;
+    protected FloatBuffer[] vertices;
+    protected IntBuffer[] indices;
     boolean meshed;
+
+    public boolean toggled;
 
     abstract void mesh();
     abstract void render();

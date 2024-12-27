@@ -9,6 +9,20 @@ import java.util.*;
 
 public class BlockMesh {
 
+    /* Face struct */
+    public class Face {
+
+        public Vector2f uvMin, uvMax;
+        public float[] uvCoordinates;
+
+        public Face() {
+            uvCoordinates = new float[2 * 4];
+        }
+
+    }
+
+    private Face[] faces;
+
     /* Vertices for the cube */
     private final float[] VERTICES = {
         // NORTH (-z)
@@ -50,20 +64,6 @@ public class BlockMesh {
 
     /* Indices for the cube */
     private static final int[] INDICES = {2,  0,  1,  2,  3,  1};
-
-    /* Face struct */
-    private class Face {
-
-        public Vector2f uvMin, uvMax;
-        public float[] uvCoordinates;
-
-        public Face() {
-            uvCoordinates = new float[2 * 4];
-        }
-
-    }
-
-    private Face[] faces;
 
     private static HashMap<Integer, BlockMesh> blockToMesh;
     private static SpriteAtlas atlas;
@@ -165,6 +165,10 @@ public class BlockMesh {
             vertices.add(faces[direction].uvCoordinates[i * 2 + 1]);
 
         }
+    }
+
+    public Face getFace(int direction) {
+        return faces[direction];
     }
 
 }

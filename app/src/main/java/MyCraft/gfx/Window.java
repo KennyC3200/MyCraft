@@ -11,6 +11,7 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import org.joml.Vector2i;
+import org.joml.Vector2f;
 
 public class Window {
 
@@ -117,6 +118,10 @@ public class Window {
     
     public double getFPS() {
         return fps;
+    }
+
+    public Vector2f getPixelUnit() {
+        return new Vector2f(1.0f / size.x, 1.0f / size.y);
     }
 
 }

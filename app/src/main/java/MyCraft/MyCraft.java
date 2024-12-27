@@ -40,7 +40,7 @@ public class MyCraft {
         world = new World();
         player = new Player(window, keyboard, mouse, world);
 
-        HudManager.init(window);
+        HudManager.init(window, player);
         GuiManager.init(window, player);
 
         renderer = new Renderer(window, world, player);

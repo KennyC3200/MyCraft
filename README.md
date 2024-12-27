@@ -22,5 +22,5 @@ TODO
 * Sort for highscores (comparable and comparator interface)
 * Hotbar
 * AABB
-* Map generation
+* Map generation with perlin noise
 * Block highlight

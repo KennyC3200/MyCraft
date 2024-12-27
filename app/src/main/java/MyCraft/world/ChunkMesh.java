@@ -49,6 +49,7 @@ public class ChunkMesh {
     public void mesh(Block[] blocks, Vector3i position, Chunk[] adjacentChunks) {
         ArrayList<Float> verticesList = new ArrayList<Float>();
         ArrayList<Integer> indicesList = new ArrayList<Integer>();
+
         for (int x = 0; x < Chunk.size.x; x++) {
             for (int y = 0; y < Chunk.size.y; y++) {
                 for (int z = 0; z < Chunk.size.z; z++) {
@@ -57,11 +58,7 @@ public class ChunkMesh {
                         continue;
                     }
 
-                    Vector3i blockPosition = new Vector3i(
-                        position.x + x, 
-                        position.y + y, 
-                        position.z + z
-                    );
+                    Vector3i blockPosition = new Vector3i(position.x + x, position.y + y, position.z + z);
 
                     for (int i = 0; i < Direction.VECTOR.length; i++) {
                         int adjacentBlockX = x + Direction.VECTOR[i].x;
