@@ -36,7 +36,7 @@ public class Ray {
             direction.z < 0 ? -1 : 1
         );
 
-        d_length = MathUtil.intBound(position, direction);
+        d_length = MathUtils.intBound(position, direction);
         d_delta = new Vector3f(
             step.x / direction.x,
             step.y / direction.y,

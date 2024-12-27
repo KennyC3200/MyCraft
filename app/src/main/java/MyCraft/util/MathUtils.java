@@ -2,7 +2,7 @@ package MyCraft.util;
 
 import org.joml.Vector3f;
 
-public class MathUtil {
+public class MathUtils {
 
     public static float clamp(float x, float min, float max) {
         return Math.max(min, Math.min(max, x));

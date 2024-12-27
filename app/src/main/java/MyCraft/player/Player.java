@@ -23,7 +23,7 @@ public class Player {
 
     private Camera camera;
 
-    private int hotbarSize;
+    public static final int HOTBAR_SIZE = 9;
     private Integer[] hotbarItems;
     private int currentHotbarIdx;
 
@@ -46,9 +46,8 @@ public class Player {
 
         camera = new Camera(mouse, position);
 
-        hotbarSize = 9;
         hotbarItems = new Integer[9];
-        for (int i = 0; i < hotbarSize; i++) {
+        for (int i = 0; i < HOTBAR_SIZE; i++) {
             hotbarItems[i] = Block.STONE;
         }
         currentHotbarIdx = 0;
@@ -81,7 +80,7 @@ public class Player {
         /* Handle the hotbar
          * Keep in mind that the index starts at 0, not 1
          * */
-        for (int i = 0; i < hotbarSize; i++) {
+        for (int i = 0; i < HOTBAR_SIZE; i++) {
             if (keyboard.getButton(GLFW_KEY_1 + i).pressed) {
                 currentHotbarIdx = i;
             }
@@ -127,10 +126,6 @@ public class Player {
             position.y - offset.y, 
             position.z - offset.z
         );
-    }
-
-    public int getHotbarSize() {
-        return hotbarSize;
     }
 
     public Integer getHotbarItem(int idx) {

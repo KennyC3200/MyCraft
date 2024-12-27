@@ -17,7 +17,7 @@ public abstract class HudComponent {
 
     protected FloatBuffer[] vertices;
     protected IntBuffer[] indices;
-    boolean meshed;
+    public boolean meshed;
 
     public boolean toggled;
 

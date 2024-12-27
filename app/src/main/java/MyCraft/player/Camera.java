@@ -49,7 +49,7 @@ public class Camera {
         if (toggled) {
             yaw += Math.toRadians(sensitivity * mouse.getPositionDelta().x);
             pitch += Math.toRadians(sensitivity * mouse.getPositionDelta().y);
-            pitch = MathUtil.clamp(pitch, (float) Math.toRadians(-89.0f), (float) Math.toRadians(89.0f));
+            pitch = MathUtils.clamp(pitch, (float) Math.toRadians(-89.0f), (float) Math.toRadians(89.0f));
 
             direction = new Vector3f(
                 (float) Math.cos(yaw) * (float) Math.cos(pitch),

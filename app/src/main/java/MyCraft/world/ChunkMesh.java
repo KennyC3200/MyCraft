@@ -101,24 +101,10 @@ public class ChunkMesh {
         }
 
         // Copy the vertices from the verticesList to the vertices buffer
-        float[] verticesArray = new float[verticesList.size()];
-        for (int i = 0; i < verticesList.size(); i++) {
-            verticesArray[i] = verticesList.get(i);
-        }
-
-        vertices = BufferUtils.createFloatBuffer(verticesArray.length);
-        vertices.put(verticesArray);
-        vertices.flip();
+        vertices = MyCraft.util.BufferUtils.listToFloatBuffer(verticesList);
 
         // Copy the indices from the indicesList to the indicesBuffer
-        int[] indicesArray = new int[indicesList.size()];
-        for (int i = 0; i < indicesList.size(); i++) {
-            indicesArray[i] = indicesList.get(i);
-        }
-
-        indices = BufferUtils.createIntBuffer(indicesArray.length);
-        indices.put(indicesArray);
-        indices.flip();
+        indices = MyCraft.util.BufferUtils.listToIntBuffer(indicesList);
     }
 
     public void render() {
