@@ -47,11 +47,14 @@ public class Player {
 
         camera = new Camera(mouse, position);
 
+        currentHotbarIdx = 0;
         hotbarItems = new Integer[9];
         for (int i = 0; i < HOTBAR_SIZE; i++) {
             hotbarItems[i] = Block.NONE;
         }
-        currentHotbarIdx = 0;
+        hotbarItems[0] = Block.GRASS;
+        hotbarItems[1] = Block.DIRT;
+        hotbarItems[2] = Block.STONE;
     }
 
     /* Update the player */
@@ -106,7 +109,7 @@ public class Player {
                 Block block = world.getBlock(blockX, blockY, blockZ);
 
                 if (block != null && block.getID() == Block.AIR) {
-                    world.getBlock(blockX, blockY, blockZ).setID(Block.STONE);
+                    world.getBlock(blockX, blockY, blockZ).setID(hotbarItems[currentHotbarIdx]);
                     world.getChunk(blockX, blockY, blockZ).mesh();
                 }
             }
