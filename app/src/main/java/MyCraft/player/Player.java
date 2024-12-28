@@ -3,6 +3,7 @@ package MyCraft.player;
 import MyCraft.gfx.*;
 import MyCraft.input.*;
 import MyCraft.world.*;
+import MyCraft.hud.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -48,7 +49,7 @@ public class Player {
 
         hotbarItems = new Integer[9];
         for (int i = 0; i < HOTBAR_SIZE; i++) {
-            hotbarItems[i] = Block.STONE;
+            hotbarItems[i] = Block.NONE;
         }
         currentHotbarIdx = 0;
     }
@@ -83,6 +84,7 @@ public class Player {
         for (int i = 0; i < HOTBAR_SIZE; i++) {
             if (keyboard.getButton(GLFW_KEY_1 + i).pressed) {
                 currentHotbarIdx = i;
+                HudManager.meshHotbar();
             }
         }
 

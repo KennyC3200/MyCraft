@@ -21,8 +21,8 @@ public class Hotbar extends HudComponent {
     private SpriteAtlas atlas;
 
     private static int MESH_COUNT = 0;
-    private static final int FRAME_MESH = MESH_COUNT++;
     private static final int ITEM_MESH = MESH_COUNT++;
+    private static final int FRAME_MESH = MESH_COUNT++;
 
     private ArrayList<Float>[] verticesList;
     private ArrayList<Integer>[] indicesList;
@@ -39,16 +39,16 @@ public class Hotbar extends HudComponent {
 
         verticesList = new ArrayList[MESH_COUNT];
         indicesList = new ArrayList[MESH_COUNT];
-
-        for (int mesh = 0; mesh < MESH_COUNT; mesh++) {
-            verticesList[mesh] = new ArrayList<Float>();
-            indicesList[mesh] = new ArrayList<Integer>();
-        }
     }
 
     /* Mesh the hotbar */
     @Override
     public void mesh() {
+        for (int mesh = 0; mesh < MESH_COUNT; mesh++) {
+            verticesList[mesh] = new ArrayList<Float>();
+            indicesList[mesh] = new ArrayList<Integer>();
+        }
+
         for (int i = 0; i < Player.HOTBAR_SIZE; i++) {
             Vector2f unit = window.getPixelUnit();
 
@@ -83,9 +83,17 @@ public class Hotbar extends HudComponent {
             return;
         }
         
-        shader.uniformTexture2D(atlas, 0);
-
         for (int mesh = 0; mesh < MESH_COUNT; mesh++) {
+            if (indicesList[mesh].size() == 0) {
+                continue;
+            }
+
+            if (mesh == ITEM_MESH) {
+                shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
+            } else if (mesh == FRAME_MESH) {
+                shader.uniformTexture2D(atlas, 0);
+            }
+            
             ibo.buffer(indices[mesh]);
             vbo.buffer(vertices[mesh]);
 
@@ -102,8 +110,20 @@ public class Hotbar extends HudComponent {
     /* Mesh the frame of a item in the hotbar */
     private void meshFrame(Vector2f p1, Vector2f p2, boolean active) {
         int uOffset = 0;
-        if (toggled) {
+        if (active) {
             uOffset = 1;
+        }
+
+        // IMPORTANT: Calculate the vertex offset for the indices
+        //            since more vertices have been added
+        int vertexOffset = verticesList[FRAME_MESH].size() / 4;
+        int[] indicesArray = {
+            vertexOffset + 0, vertexOffset + 1, vertexOffset + 3,
+            vertexOffset + 1, vertexOffset + 2, vertexOffset + 3
+        };
+
+        for (int i = 0; i < indicesArray.length; i++) {
+            indicesList[FRAME_MESH].add(indicesArray[i]);
         }
 
         Vector2f uv1 = atlas.spriteUV(1 + uOffset, 0);
@@ -121,21 +141,24 @@ public class Hotbar extends HudComponent {
         for (int i = 0; i < verticesArray.length; i++) {
             verticesList[FRAME_MESH].add(verticesArray[i]);
         }
-
-        int[] indicesArray = {
-            0, 1, 3,
-            1, 2, 3
-        };
-
-        for (int i = 0; i < indicesArray.length; i++) {
-            indicesList[FRAME_MESH].add(indicesArray[i]);
-        }
     }
 
     /* Mesh a item in the hotbar */
     private void meshItem(Vector2f p1, Vector2f p2, Integer block) {
         Vector2f uvMin = BlockMesh.get(block).getFace(Direction.NORTH).uvMin;
         Vector2f uvMax = BlockMesh.get(block).getFace(Direction.NORTH).uvMax;
+
+        // IMPORTANT: Calculate the vertex offset for the indices
+        //            since more vertices have been added
+        int vertexOffset = verticesList[ITEM_MESH].size() / 4;
+        int[] indicesArray = {
+            vertexOffset + 0, vertexOffset + 1, vertexOffset + 3,
+            vertexOffset + 1, vertexOffset + 2, vertexOffset + 3
+        };
+
+        for (int i = 0; i < indicesArray.length; i++) {
+            indicesList[ITEM_MESH].add(indicesArray[i]);
+        }
 
         float[] verticesArray = {
             p1.x, p2.y, uvMin.x, 1 - uvMin.y,
@@ -146,15 +169,6 @@ public class Hotbar extends HudComponent {
 
         for (int i = 0; i < verticesArray.length; i++) {
             verticesList[ITEM_MESH].add(verticesArray[i]);
-        }
-
-        int[] indicesArray = {
-            0, 1, 3,
-            1, 2, 3,
-        };
-
-        for (int i = 0; i < indicesArray.length; i++) {
-            indicesList[ITEM_MESH].add(indicesArray[i]);
         }
     }
 }

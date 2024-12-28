@@ -2,13 +2,7 @@ package MyCraft.world;
 
 import MyCraft.util.*;
 
-import org.lwjgl.system.MemoryStack;
-
 import org.joml.Vector3i;
-import org.joml.Vector3f;
-import org.joml.Matrix4f;
-
-import java.nio.FloatBuffer;
 
 public class World {
 

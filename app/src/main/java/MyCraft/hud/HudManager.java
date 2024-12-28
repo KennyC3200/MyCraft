@@ -33,4 +33,9 @@ public class HudManager {
         hotbar.render();
     }
 
+    /* Mesh the hotbar */
+    public static void meshHotbar() {
+        hotbar.meshed = false;
+    }
+
 }
