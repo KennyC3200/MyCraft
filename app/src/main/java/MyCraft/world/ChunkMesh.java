@@ -5,8 +5,6 @@ import MyCraft.gfx.*;
 
 import static org.lwjgl.opengl.GL33C.*;
 
-import org.lwjgl.*;
-
 import org.joml.Vector3i;
 
 import java.util.*;

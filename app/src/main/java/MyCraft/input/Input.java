@@ -23,7 +23,7 @@ public abstract class Input {
     /* Get the button state */
     protected abstract int getButtonState(int button);
 
-    public void update() {
+    protected void update() {
         for (int i = buttonFirst; i < buttonLast; i++) {
             int state = getButtonState(i);
             if (state == GLFW_PRESS) {

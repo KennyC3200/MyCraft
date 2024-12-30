@@ -125,7 +125,7 @@ public class BlockMesh {
      * @param uvMin the uv min coordinate
      * @param uvMax the uv max coordinate
      * */
-    public void addFace(int direction, Vector2f uvMin, Vector2f uvMax) {
+    private void addFace(int direction, Vector2f uvMin, Vector2f uvMax) {
         faces[direction].uvMin = uvMin;
         faces[direction].uvMax = uvMax;
 

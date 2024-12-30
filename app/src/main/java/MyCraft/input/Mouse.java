@@ -23,6 +23,7 @@ public class Mouse extends Input {
     }
 
     /* Update the mouse */
+    @Override
     public void update() {
         double[] x = new double[1];
         double[] y = new double[1];

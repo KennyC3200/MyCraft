@@ -28,6 +28,8 @@ public class Player {
     private Integer[] hotbarItems;
     private int currentHotbarIdx;
 
+    private AABB[] aabb;
+
     /* Init the player */
     public Player(Window window, Keyboard keyboard, Mouse mouse, World world) {
         this.window = window;
@@ -55,6 +57,16 @@ public class Player {
         hotbarItems[0] = Block.GRASS;
         hotbarItems[1] = Block.DIRT;
         hotbarItems[2] = Block.STONE;
+
+        // TODO: Change this
+        aabb = new AABB[7];
+        for (int i = 0; i < aabb.length; i++) {
+            aabb[i] = new AABB(
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 0, 0)
+            );
+        }
     }
 
     /* Update the player */
@@ -81,6 +93,10 @@ public class Player {
             position.y -= 0.5 * displacement;
         }
 
+        // Update the camera
+        camera.setPosition(position);
+        camera.update();
+
         /* Handle the hotbar
          * Keep in mind that the index starts at 0, not 1
          * */
@@ -91,16 +107,12 @@ public class Player {
             }
         }
 
-        // Update the camera
-        camera.setPosition(position);
-        camera.update();
-
         // Handle player raycast and block placement/deletion
         Ray.CastData raycast = Ray.cast(world, position, camera.getDirection(), 8.0f);
         if (raycast != null && raycast.hit) {
             if (mouse.getButton(GLFW_MOUSE_BUTTON_LEFT).pressed) {
                 world.getBlock(raycast.position).setID(Block.AIR);
-                world.getChunk(raycast.position).mesh();
+                world.getChunk(raycast.position).setDirty();
             }
             if (mouse.getButton(GLFW_MOUSE_BUTTON_RIGHT).pressed) {
                 int blockX = raycast.position.x + raycast.out.x;
@@ -110,7 +122,7 @@ public class Player {
 
                 if (block != null && block.getID() == Block.AIR) {
                     world.getBlock(blockX, blockY, blockZ).setID(hotbarItems[currentHotbarIdx]);
-                    world.getChunk(blockX, blockY, blockZ).mesh();
+                    world.getChunk(blockX, blockY, blockZ).setDirty();
                 }
             }
         }

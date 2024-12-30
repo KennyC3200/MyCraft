@@ -52,8 +52,8 @@ public class Chunk {
         adjacents[direction] = chunk;
     }
 
-    /* Force the CURRENT CHUNK and ADJACENT CHUNKS to mesh */
-    public void mesh() {
+    /* Make the CURRENT CHUNK and ADJACENT CHUNKS to mesh */
+    public void setDirty() {
         meshed = false;
         for (int i = 0; i < 6; i++) {
             if (adjacents[i] != null) {

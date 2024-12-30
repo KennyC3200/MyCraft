@@ -84,8 +84,8 @@ public class Renderer {
             ChunkMesh.shader.uniformMatrix4f("view", view); 
             ChunkMesh.shader.uniformMatrix4f("projection", projection);
         }
-        ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
 
+        ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
         world.render();
     }
 
