@@ -84,7 +84,8 @@ public class ChunkMesh {
                                     (adjacentBlockY + Chunk.size.y) % Chunk.size.y,
                                     (adjacentBlockZ + Chunk.size.z) % Chunk.size.z
                                 ).getID() == Block.AIR
-                            ) {
+                            ) 
+                            {
                                 BlockMesh.get(blockID).meshFace(i, blockPosition, verticesList, indicesList);
                             }
                             continue;

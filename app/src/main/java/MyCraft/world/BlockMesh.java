@@ -161,7 +161,7 @@ public class BlockMesh {
             vertices.add(VERTICES[3 * 4 * direction + i * 3 + 2] + position.z);
 
             // Add the uv coordinates
-            vertices.add(faces[direction].uvCoordinates[i * 2]);
+            vertices.add(faces[direction].uvCoordinates[i * 2 + 0]);
             vertices.add(faces[direction].uvCoordinates[i * 2 + 1]);
 
         }
