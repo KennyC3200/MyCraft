@@ -58,10 +58,10 @@ public class ChunkMesh {
 
                     Vector3i blockPosition = new Vector3i(position.x + x, position.y + y, position.z + z);
 
-                    for (int i = 0; i < Direction.VECTOR.length; i++) {
-                        int adjacentBlockX = x + Direction.VECTOR[i].x;
-                        int adjacentBlockY = y + Direction.VECTOR[i].y;
-                        int adjacentBlockZ = z + Direction.VECTOR[i].z;
+                    for (int i = 0; i < Direction.IVEC.length; i++) {
+                        int adjacentBlockX = x + Direction.IVEC[i].x;
+                        int adjacentBlockY = y + Direction.IVEC[i].y;
+                        int adjacentBlockZ = z + Direction.IVEC[i].z;
 
                         if (
                             adjacentBlockX < 0 || adjacentBlockX == Chunk.size.x ||
@@ -82,8 +82,7 @@ public class ChunkMesh {
                                 adjacentChunks[i].getBlock(
                                     (adjacentBlockX + Chunk.size.x) % Chunk.size.x,
                                     (adjacentBlockY + Chunk.size.y) % Chunk.size.y,
-                                    (adjacentBlockZ + Chunk.size.z) % Chunk.size.z
-                                ).getID() == Block.AIR
+                                    (adjacentBlockZ + Chunk.size.z) % Chunk.size.z).getID() == Block.AIR
                             ) 
                             {
                                 BlockMesh.get(blockID).meshFace(i, blockPosition, verticesList, indicesList);

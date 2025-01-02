@@ -49,22 +49,18 @@ public class Renderer {
 
     /* Render the game */
     public void render() {
+        renderWorld();
+        renderUI();
+    }
+
+    /* Render the world */
+    private void renderWorld() {
         if (flags.wireframe) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         } else {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
-        renderWorld();
-        renderUI();
-    }
-
-    public Flags getFlags() {
-        return flags;
-    }
-
-    /* Render the world */
-    private void renderWorld() {
         // Bind the shader and uniform texture
         ChunkMesh.shader.bind();
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -94,6 +90,10 @@ public class Renderer {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         HudManager.render();
         GuiManager.render();
+    }
+
+    public Flags getFlags() {
+        return flags;
     }
 
 }

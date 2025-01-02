@@ -1,8 +1,10 @@
 package MyCraft.world;
 
 import MyCraft.util.*;
+import MyCraft.player.AABB;
 
 import org.joml.Vector3i;
+import org.joml.Vector3f;
 
 public class World {
 
@@ -32,7 +34,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(16, 3, 16);
+        chunksSize = new Vector3i(8, 2, 8);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         // Create the chunks
@@ -111,6 +113,20 @@ public class World {
     /* Get a chunk given a PLAYER position */
     public Chunk getChunk(Vector3i position) {
         return getChunk(position.x, position.y, position.z);
+    }
+
+    /* Returns AABBs surrounding the player */
+    public AABB[] getBlockAABBs(AABB playerAABB) {
+        Vector3f min = playerAABB.getMin();
+        Vector3f max = playerAABB.getMax();
+
+        // Keep in mind that height = 1.8f
+        // Hence, the player AABB needs to be checked against 10 surrounding blocks
+        AABB aabbs[] = new AABB[10];
+        for (int i = 0; i < 10; i++) {
+        }
+
+        return aabbs;
     }
 
 }

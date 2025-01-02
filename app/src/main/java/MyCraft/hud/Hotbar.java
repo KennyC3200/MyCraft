@@ -49,14 +49,14 @@ public class Hotbar extends HudComponent {
             indicesList[mesh] = new ArrayList<Integer>();
         }
 
-        for (int i = 0; i < Player.HOTBAR_SIZE; i++) {
+        for (int i = 0; i < Player.hotbar_size; i++) {
             Vector2f unit = window.getPixelUnit();
 
             // 80 x 80 window pixel units
             Vector2f size = new Vector2f(80.0f * unit.x, 80.0f * unit.y);
 
             // The hotbar frame/item is defined by two points, since it is a square
-            Vector2f p1 = new Vector2f(-size.x * (Player.HOTBAR_SIZE / 2.0f - i), -1.0f + 0.05f);
+            Vector2f p1 = new Vector2f(-size.x * (Player.hotbar_size / 2.0f - i), -1.0f + 0.05f);
             Vector2f p2 = new Vector2f(p1.x + size.x, p1.y + size.y);
 
             if (player.getHotbarItem(i) != Block.NONE) {
@@ -109,13 +109,9 @@ public class Hotbar extends HudComponent {
 
     /* Mesh the frame of a item in the hotbar */
     private void meshFrame(Vector2f p1, Vector2f p2, boolean active) {
-        int uOffset = 0;
-        if (active) {
-            uOffset = 1;
-        }
+        int uOffset = active ? 1 : 0;
 
-        // IMPORTANT: Calculate the vertex offset for the indices
-        //            since more vertices have been added
+        // IMPORTANT: Calculate the vertex offset for the indices since more vertices have been added
         int vertexOffset = verticesList[FRAME_MESH].size() / 4;
         int[] indicesArray = {
             vertexOffset + 0, vertexOffset + 1, vertexOffset + 3,
@@ -148,8 +144,7 @@ public class Hotbar extends HudComponent {
         Vector2f uvMin = BlockMesh.get(block).getFace(Direction.NORTH).uvMin;
         Vector2f uvMax = BlockMesh.get(block).getFace(Direction.NORTH).uvMax;
 
-        // IMPORTANT: Calculate the vertex offset for the indices
-        //            since more vertices have been added
+        // IMPORTANT: Calculate the vertex offset for the indices since more vertices have been added
         int vertexOffset = verticesList[ITEM_MESH].size() / 4;
         int[] indicesArray = {
             vertexOffset + 0, vertexOffset + 1, vertexOffset + 3,

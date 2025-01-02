@@ -1,10 +1,6 @@
 package MyCraft.world;
 
-import static org.lwjgl.opengl.GL33C.*;
-
 import org.joml.Vector3i;
-
-import java.util.*;
 
 public class Chunk {
 
@@ -42,9 +38,9 @@ public class Chunk {
         volume = size.x * size.y * size.z;
     }
 
-    /* Return the index given a position */
+    /* Return the index given a block position inside the chunk */
     public static int posToIdx(int x, int y, int z) {
-        return (x * size.x * size.y) + (z * size.y) + (y);
+        return (x * size.y * size.z) + (z * size.y) + (y);
     }
 
     /* Set adjacent chunk */

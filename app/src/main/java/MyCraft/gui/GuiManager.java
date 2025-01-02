@@ -5,7 +5,6 @@ import MyCraft.player.*;
 
 import imgui.ImGui;
 import imgui.ImGuiIO;
-import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 
@@ -43,8 +42,9 @@ public class GuiManager {
 
         ImGui.newFrame();
         ImGui.text("FPS: " + Integer.toString((int) window.getFPS()));
-        ImGui.text(String.format("POSITION: " + player.getPositionString()));
-        ImGui.text(String.format("POSITION - OFFSET: " + player.getPositionMinusOffsetString()));
+        ImGui.text(String.format("OFFSET: " + player.getOffsetStr()));
+        ImGui.text(String.format("POSITION: " + player.getPositionStr()));
+        ImGui.text(String.format("POSITION - OFFSET: " + player.getPositionMinusOffsetStr()));
         ImGui.render();
 
         imGuiGl3.renderDrawData(ImGui.getDrawData());
