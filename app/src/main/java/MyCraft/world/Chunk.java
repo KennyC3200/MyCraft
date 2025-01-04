@@ -6,8 +6,8 @@ public class Chunk {
 
     public static Vector3i size;
     public static int volume;
+
     public static FastNoiseLite noise;
-    public static final float noiseScale = 0.1f;
 
     private Vector3i position;
 
@@ -18,7 +18,7 @@ public class Chunk {
     private Chunk[] adjacents;
 
     /* Initialize a chunk given a position and block fill */
-    public Chunk(Vector3i position) {
+    public Chunk(Vector3i position, int groundLevelY) {
         this.position = position;
 
         mesh = new ChunkMesh();
@@ -26,15 +26,14 @@ public class Chunk {
 
         blocks = new Block[volume];
         for (int x = 0; x < size.x; x++) {
-            for (int y = 0; y < size.y; y++) {
-                for (int z = 0; z < size.z; z++) {
-                    blocks[posToIdx(x, y, z)] = new Block(
-                        noise.GetNoise(
-                            x * size.x * noiseScale, 
-                            y * size.y * noiseScale, 
-                            z * size.z * noiseScale
-                        ) > 0 ? Block.AIR : Block.GRASS
-                    );
+            for (int z = 0; z < size.z; z++) {
+                float noiseYThreshold = groundLevelY + noise.GetNoise(position.x + x, position.z + z) * groundLevelY * 0.2f;
+                for (int y = 0; y < size.y; y++) {
+                    if (position.y + y < noiseYThreshold) {
+                        blocks[posToIdx(x, y, z)] = new Block(Block.GRASS);
+                    } else {
+                        blocks[posToIdx(x, y, z)] = new Block(Block.AIR);
+                    }
                 }
             }
         }
@@ -51,6 +50,9 @@ public class Chunk {
 
         noise = new FastNoiseLite();
         noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+        noise.SetFrequency(0.01f);
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFractalOctaves(10);
     }
 
     /* Return the index given a block position inside the chunk */

@@ -19,10 +19,11 @@ Libraries Used
 
 TODO
 -----
+* Chunks generating as you move around
+* Mountains generating
 * AABB
     * What happens if the player is between chunks? I believe it shouldn't matter
 * Menu screen with imgui
 * Map for ? (blocks mined)
 * Sort for highscores (comparable and comparator interface)
-* Map generation with perlin noise
 * Block highlight

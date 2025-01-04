@@ -23,7 +23,7 @@ public class Player {
     private final float height = 1.8f;
     private final float width = 0.6f;
 
-    private float movementSpeed = 15.0f;
+    private float movementSpeed = 30.0f;
     private float fallingVelocity = 0.0f;
 
     private float gravityAcceleration = -15.0f;

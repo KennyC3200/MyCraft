@@ -34,7 +34,7 @@ public class World {
     private void initChunks() {
         Chunk.init();
 
-        chunksSize = new Vector3i(16, 10, 16);
+        chunksSize = new Vector3i(16, 16, 16);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         // Create the chunks
@@ -47,7 +47,8 @@ public class World {
                             x * Chunk.size.x, 
                             y * Chunk.size.y, 
                             z * Chunk.size.z
-                        )
+                        ),
+                        chunksSize.y * Chunk.size.y / 2 // The groundLevelY is currently just the worldMiddleY
                     );
                 }
             }
