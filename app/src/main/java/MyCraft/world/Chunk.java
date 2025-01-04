@@ -6,6 +6,8 @@ public class Chunk {
 
     public static Vector3i size;
     public static int volume;
+    public static FastNoiseLite noise;
+    public static final float noiseScale = 0.1f;
 
     private Vector3i position;
 
@@ -16,15 +18,25 @@ public class Chunk {
     private Chunk[] adjacents;
 
     /* Initialize a chunk given a position and block fill */
-    public Chunk(Vector3i position, int block) {
+    public Chunk(Vector3i position) {
         this.position = position;
 
         mesh = new ChunkMesh();
         meshed = false;
 
         blocks = new Block[volume];
-        for (int i = 0; i < volume; i++) {
-            blocks[i] = new Block(block);
+        for (int x = 0; x < size.x; x++) {
+            for (int y = 0; y < size.y; y++) {
+                for (int z = 0; z < size.z; z++) {
+                    blocks[posToIdx(x, y, z)] = new Block(
+                        noise.GetNoise(
+                            x * size.x * noiseScale, 
+                            y * size.y * noiseScale, 
+                            z * size.z * noiseScale
+                        ) > 0 ? Block.AIR : Block.GRASS
+                    );
+                }
+            }
         }
 
         adjacents = new Chunk[6];
@@ -36,6 +48,9 @@ public class Chunk {
 
         size = new Vector3i(16, 16, 16);
         volume = size.x * size.y * size.z;
+
+        noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
     }
 
     /* Return the index given a block position inside the chunk */
