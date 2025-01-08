@@ -20,10 +20,14 @@ Libraries Used
 TODO
 -----
 * Optimize rendering
-    * Pack the data into a single int (32-bits)
+    * Pass two GL_UNSIGNED_INT into the vertex shader to represent the face coordinates
+    * Pass a uniform chunkPos vec3 into the vertex shader
+    * Pack the data into a single int (64-bits)
     * Pack and unpack the data, each vertex should be 0-16 (4 bits); a face is (4 * 6) / 8 = 3 bytes
-    * Pass a chunkPos vec3 into the vertex shader
     * Need to use GL_UNSIGNED_BYTE instead of GL_FLOAT for the vertices, since they are 0-16
+* Implement a tick system to load the chunks progressively
+    * 20 ticks/sec, or 1 tick/0.05 sec
+    * Load the chunks at the tick rate
 * Optimize meshing
     * Maybe the old algorithm was faster? IDK
 * Chunks generating as you move around

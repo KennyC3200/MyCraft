@@ -17,7 +17,7 @@ public class World {
         Block.init();
         Chunk.init();
 
-        chunksSize = new Vector3i(24, 16, 24);
+        chunksSize = new Vector3i(2, 2, 2);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         initChunks();
