@@ -82,7 +82,7 @@ public class Chunk {
             meshed = true;
         }
 
-        mesh.render();
+        mesh.render(position);
     }
 
     /* Get a block given position */

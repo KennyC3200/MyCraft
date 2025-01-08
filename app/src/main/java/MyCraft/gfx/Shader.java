@@ -5,6 +5,9 @@ import static org.lwjgl.opengl.GL33C.*;
 import java.io.*;
 import java.nio.FloatBuffer;
 
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+
 public class Shader {
 
     private int handle;
@@ -71,6 +74,14 @@ public class Shader {
      * */
     public void uniformMatrix4f(String name, FloatBuffer mat4) {
         glUniformMatrix4fv(glGetUniformLocation(handle, name), false, mat4);
+    }
+
+    /* Bind the uniform vec3
+     * @param name The name of the uniform vec3
+     * @param vec The vec3 vector
+     */
+    public void uniformVec3(String name, float x, float y, float z) {
+        glUniform3f(glGetUniformLocation(handle, name), x, y, z);
     }
 
     /* Compile a shader program

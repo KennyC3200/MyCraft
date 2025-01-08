@@ -6,6 +6,7 @@ import MyCraft.gfx.*;
 import static org.lwjgl.opengl.GL33C.*;
 
 import org.joml.Vector3i;
+import org.joml.Vector3f;
 
 import java.util.*;
 import java.nio.FloatBuffer;
@@ -56,7 +57,7 @@ public class ChunkMesh {
                         continue;
                     }
 
-                    Vector3i blockPosition = new Vector3i(position.x + x, position.y + y, position.z + z);
+                    Vector3i blockPosition = new Vector3i(x, y, z);
 
                     for (int i = 0; i < Direction.IVEC.length; i++) {
                         int adjacentBlockX = x + Direction.IVEC[i].x;
@@ -106,10 +107,13 @@ public class ChunkMesh {
         indices = MyCraft.util.BufferUtils.listToIntBuffer(indicesList);
     }
 
-    public void render() {
+    public void render(Vector3i position) {
         ibo.buffer(indices);
         vbo.buffer(vertices);
         
+        // Bind the vec3 for the chunk position
+        shader.uniformVec3("chunk_pos", position.x, position.y, position.z);
+
         // Have attribPointer for the coordinates and uv coordinates
         vao.attribPointer(vbo, 0, 3, GL_FLOAT, 5 * Float.BYTES, 0 * Float.BYTES);
         vao.attribPointer(vbo, 1, 2, GL_FLOAT, 5 * Float.BYTES, 3 * Float.BYTES);
