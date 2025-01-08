@@ -1,5 +1,5 @@
-# README
-A Java implementation of Minecraft.
+# MyCraft
+A Minecraft clone made for fun in Java using OpenGL.
 
 Controls
 -----
@@ -19,8 +19,14 @@ Libraries Used
 
 TODO
 -----
+* Optimize rendering
+    * Pack the data into a single int (32-bits)
+    * Pack and unpack the data, each vertex should be 0-16 (4 bits); a face is (4 * 6) / 8 = 3 bytes
+    * Pass a chunkPos vec3 into the vertex shader
+    * Need to use GL_UNSIGNED_BYTE instead of GL_FLOAT for the vertices, since they are 0-16
+* Optimize meshing
+    * Maybe the old algorithm was faster? IDK
 * Chunks generating as you move around
-* Mountains generating
 * AABB
     * What happens if the player is between chunks? I believe it shouldn't matter
 * Menu screen with imgui

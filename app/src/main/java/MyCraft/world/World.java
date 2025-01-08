@@ -14,7 +14,12 @@ public class World {
 
     /* Initialize the world */
     public World () {
-        initBlocks();
+        Block.init();
+        Chunk.init();
+
+        chunksSize = new Vector3i(24, 16, 24);
+        chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
+
         initChunks();
     }
 
@@ -25,30 +30,17 @@ public class World {
         }
     }
 
-    /* Initialize the blocks */
-    private void initBlocks() {
-        Block.init();
-    }
-
     /* Initialize the chunks */
     private void initChunks() {
-        Chunk.init();
-
-        chunksSize = new Vector3i(16, 16, 16);
-        chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
+        chunks = new Chunk[chunksCount];
 
         // Create the chunks
-        chunks = new Chunk[chunksCount];
         for (int x = 0; x < chunksSize.x; x++) {
             for (int y = 0; y < chunksSize.y; y++) {
                 for (int z = 0; z < chunksSize.z; z++) {
                     chunks[chunkIdx(x, y, z)] = new Chunk(
-                        new Vector3i(
-                            x * Chunk.size.x, 
-                            y * Chunk.size.y, 
-                            z * Chunk.size.z
-                        ),
-                        chunksSize.y * Chunk.size.y / 2 // The groundLevelY is currently just the worldMiddleY
+                        new Vector3i(x * Chunk.size.x, y * Chunk.size.y, z * Chunk.size.z),
+                        chunksSize.y * Chunk.size.y / 2
                     );
                 }
             }

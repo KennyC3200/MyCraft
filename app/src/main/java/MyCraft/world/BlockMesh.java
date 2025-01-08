@@ -24,7 +24,7 @@ public class BlockMesh {
     private Face[] faces;
 
     /* Vertices for the cube */
-    private final float[] VERTICES = {
+    private static final float[] VERTICES = {
         // NORTH (-z)
         0, 0, 0,
         1, 0, 0,
@@ -120,7 +120,7 @@ public class BlockMesh {
         return atlas;
     }
 
-    /* Add a face to the mesh (only call from BlockData)
+    /* Add a face to the mesh (only called from init method)
      * @param direction The direction (see Direction.java)
      * @param uvMin the uv min coordinate
      * @param uvMax the uv max coordinate

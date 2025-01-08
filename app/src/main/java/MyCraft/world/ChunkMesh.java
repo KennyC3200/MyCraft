@@ -94,6 +94,7 @@ public class ChunkMesh {
                             BlockMesh.get(blockID).meshFace(i, blockPosition, verticesList, indicesList);
                         }
                     }
+
                 }
             }
         }

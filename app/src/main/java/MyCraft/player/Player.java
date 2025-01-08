@@ -47,9 +47,9 @@ public class Player {
         this.world = world;
 
         offset = new Vector3f(
-            world.getChunksSize().x * Chunk.size.x / 2,
-            world.getChunksSize().y * Chunk.size.y / 2,
-            world.getChunksSize().z * Chunk.size.z / 2
+            0.0001f + world.getChunksSize().x * Chunk.size.x / 2,
+            0.0001f + world.getChunksSize().y * Chunk.size.y / 2,
+            0.0001f + world.getChunksSize().z * Chunk.size.z / 2
         );
         position = new Vector3f(offset);
         cameraPosition = new Vector3f(position.x, position.y + height, position.z);
