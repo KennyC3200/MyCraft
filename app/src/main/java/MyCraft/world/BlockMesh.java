@@ -5,6 +5,8 @@ import MyCraft.gfx.*;
 
 import org.joml.*;
 
+import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_SHORT;
+
 import java.util.*;
 
 public class BlockMesh {
@@ -24,7 +26,7 @@ public class BlockMesh {
     private Face[] faces;
 
     /* Vertices for the cube */
-    private static final float[] VERTICES = {
+    private static final int[] VERTICES = {
         // NORTH (-z)
         0, 0, 0,
         1, 0, 0,
@@ -148,22 +150,66 @@ public class BlockMesh {
         ArrayList<Float> vertices, 
         ArrayList<Integer> indices) 
     {
-        // Add the indices
+        // Add the indices for the face
         for (int i = 0; i < 6; i++) {
             indices.add(vertices.size() / 5 + INDICES[i]);
         }
 
-        // Add the vertices
+        // Add the vertices for the face
         for (int i = 0; i < 4; i++) {
             // Add the position coordinates
-            vertices.add(VERTICES[3 * 4 * direction + i * 3 + 0] + position.x);
-            vertices.add(VERTICES[3 * 4 * direction + i * 3 + 1] + position.y);
-            vertices.add(VERTICES[3 * 4 * direction + i * 3 + 2] + position.z);
+            vertices.add((float) VERTICES[(3 * 4) * direction + i * 3 + 0] + position.x);
+            vertices.add((float) VERTICES[(3 * 4) * direction + i * 3 + 1] + position.y);
+            vertices.add((float) VERTICES[(3 * 4) * direction + i * 3 + 2] + position.z);
 
             // Add the uv coordinates
             vertices.add(faces[direction].uvCoordinates[i * 2 + 0]);
             vertices.add(faces[direction].uvCoordinates[i * 2 + 1]);
         }
+    }
+
+    // TODO: Remove static
+    public static void meshFace(
+        int direction,
+        Vector3i position,
+        ArrayList<Integer> vertices
+        // TODO: ArrayList<Float> uvVertices,
+        // TODO: ArrayList<Integer> indices
+    ) 
+    {
+        // Add the indices for the face
+        // for (int i = 0; i < 6; i++) {
+        //     indices.add(vertices.size() / 4 + INDICES[i]);
+        // }
+
+        // Add the vertices for the face
+        int t1 = 0x0;
+
+        // Third vertex
+        t1 |= (VERTICES[(3 * 4) * direction + 0] << (27 - 0 * 5)) + (position.x << (27 - 0 * 5));
+        t1 |= (VERTICES[(3 * 4) * direction + 1] << (27 - 1 * 5)) + (position.y << (27 - 1 * 5));
+        t1 |= (VERTICES[(3 * 4) * direction + 2] << (27 - 2 * 5)) + (position.z << (27 - 2 * 5));
+
+        // Fourth vertex
+        t1 |= (VERTICES[(3 * 4) * direction + 3] << (27 - 3 * 5)) + (position.x << (27 - 3 * 5));
+        t1 |= (VERTICES[(3 * 4) * direction + 4] << (27 - 4 * 5)) + (position.y << (27 - 4 * 5));
+        t1 |= (VERTICES[(3 * 4) * direction + 5] << (27 - 5 * 5)) + (position.z << (27 - 5 * 5));
+
+        vertices.add(t1);
+
+        int t2 = 0x0;
+
+        // Third vertex
+        t2 |= (VERTICES[(3 * 4) * direction + 0 + (3 * 2)] << (27 - 0 * 5)) + (position.x << (27 - 0 * 5));
+        t2 |= (VERTICES[(3 * 4) * direction + 1 + (3 * 2)] << (27 - 1 * 5)) + (position.y << (27 - 1 * 5));
+        t2 |= (VERTICES[(3 * 4) * direction + 2 + (3 * 2)] << (27 - 2 * 5)) + (position.z << (27 - 2 * 5));
+
+        // Fourth vertex
+        t2 |= (VERTICES[(3 * 4) * direction + 3 + (3 * 2)] << (27 - 3 * 5)) + (position.x << (27 - 3 * 5));
+        t2 |= (VERTICES[(3 * 4) * direction + 4 + (3 * 2)] << (27 - 4 * 5)) + (position.y << (27 - 4 * 5));
+        t2 |= (VERTICES[(3 * 4) * direction + 5 + (3 * 2)] << (27 - 5 * 5)) + (position.z << (27 - 5 * 5));
+
+        vertices.add(t2);
     }
 
     public Face getFace(int direction) {

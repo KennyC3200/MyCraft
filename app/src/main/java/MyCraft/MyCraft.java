@@ -6,6 +6,7 @@ import MyCraft.input.*;
 import MyCraft.player.*;
 import MyCraft.gui.*;
 import MyCraft.hud.*;
+import MyCraft.util.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
@@ -15,6 +16,8 @@ import static org.lwjgl.opengl.GL11C.glClearColor;
 import static org.lwjgl.opengl.GL33C.*;
 
 import org.joml.*;
+
+import java.util.*;
 
 public class MyCraft {
 
@@ -49,33 +52,19 @@ public class MyCraft {
 
         renderer = new Renderer(window, world, player);
 
-        // Last 8 bits are wasted bits
-        int t1 = 0x0;
-        int t2 = 0x0;
-        int vertices[] = {
-            // NORTH (-z)
-            0, 0, 0,
-            1, 0, 0,
-            0, 1, 0,
-            1, 1, 0,
-        };
+        ArrayList<Integer> vertices = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            t1 |= vertices[i] << (28 - i * 4);
+            BlockMesh.meshFace(i, new Vector3i(15, 15, 15), vertices);
         }
-        for (int i = 0; i < 6; i++) {
-            t2 |= vertices[i + 6] << (28 - i * 4);
-        }
-        System.out.println("t1: ");
-        for (int i = 0; i < 6; i++) {
-            System.out.print(((t1 >> (28 - i * 4)) & 0xf) + " ");
-            if (i == 2 || i == 5) {
-                System.out.println();
+
+        for (int i = 0; i < vertices.size(); i++) {
+            for (int j = 0; j < 6; j++) {
+                System.out.print(((vertices.get(i) >> (27 - j * 5)) & 31) + " ");
+                if (j == 2 || j == 5) {
+                    System.out.println();
+                }
             }
-        }
-        System.out.println("t2: ");
-        for (int i = 0; i < 6; i++) {
-            System.out.print(((t2 >> (28 - i * 4)) & 0xf) + " ");
-            if (i == 2 || i == 5) {
+            if (i % 2 != 0) {
                 System.out.println();
             }
         }
