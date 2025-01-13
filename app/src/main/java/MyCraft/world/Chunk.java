@@ -4,8 +4,8 @@ import org.joml.Vector3i;
 
 public class Chunk {
 
-    public static Vector3i size;
-    public static int volume;
+    public static final Vector3i size = new Vector3i(16, 16, 16);
+    public static final int volume = size.x * size.y * size.z;
 
     public static FastNoiseLite noise;
 
@@ -44,9 +44,6 @@ public class Chunk {
     /* Init the chunk class */
     public static void init() {
         ChunkMesh.init();
-
-        size = new Vector3i(16, 16, 16);
-        volume = size.x * size.y * size.z;
 
         noise = new FastNoiseLite();
         noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);

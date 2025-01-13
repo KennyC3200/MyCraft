@@ -34,7 +34,7 @@ public class ChunkMesh {
 
     /* Init the necessary components */
     public static void init() {
-        shader = new Shader("./src/main/resources/shaders/chunk.vs", "./src/main/resources/shaders/chunk.fs");
+        shader = new Shader("./src/main/resources/shaders/chunk.vert", "./src/main/resources/shaders/chunk.frag");
     }
 
     /* Destroy the chunk mesh */
@@ -84,7 +84,7 @@ public class ChunkMesh {
                                     (adjacentBlockX + Chunk.size.x) % Chunk.size.x,
                                     (adjacentBlockY + Chunk.size.y) % Chunk.size.y,
                                     (adjacentBlockZ + Chunk.size.z) % Chunk.size.z).getID() == Block.AIR
-                            ) 
+                            )
                             {
                                 BlockMesh.get(blockID).meshFace(i, blockPosition, verticesList, indicesList);
                             }
@@ -110,17 +110,17 @@ public class ChunkMesh {
     public void render(Vector3i position) {
         ibo.buffer(indices);
         vbo.buffer(vertices);
-        
+
         // Bind the vec3 for the chunk position
         shader.uniformVec3("chunk_pos", position.x, position.y, position.z);
 
         // Have attribPointer for the coordinates and uv coordinates
         vao.attribPointer(vbo, 0, 3, GL_FLOAT, 5 * Float.BYTES, 0 * Float.BYTES);
         vao.attribPointer(vbo, 1, 2, GL_FLOAT, 5 * Float.BYTES, 3 * Float.BYTES);
-       
+
         vao.bind();
         ibo.bind();
-      
+
         glDrawElements(GL_TRIANGLES, indices.remaining(), GL_UNSIGNED_INT, 0);
     }
 

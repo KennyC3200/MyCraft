@@ -5,25 +5,9 @@ import MyCraft.gfx.*;
 
 import org.joml.*;
 
-import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_SHORT;
-
 import java.util.*;
 
 public class BlockMesh {
-
-    /* Face struct */
-    public class Face {
-
-        public Vector2f uvMin, uvMax;
-        public float[] uvCoordinates;
-
-        public Face() {
-            uvCoordinates = new float[2 * 4];
-        }
-
-    }
-
-    private Face[] faces;
 
     /* Vertices for the cube */
     private static final int[] VERTICES = {
@@ -67,6 +51,23 @@ public class BlockMesh {
     /* Indices for the cube */
     private static final int[] INDICES = {2,  0,  1,  2,  3,  1};
 
+    /* Face struct */
+    public class Face {
+
+        public Vector2f uvMin, uvMax;
+        public float[] uvCoordinates;
+
+        public Vector2i[] spriteCoordinates;
+
+        public Face() {
+            uvCoordinates = new float[2 * 4];
+            spriteCoordinates = new Vector2i[4];
+        }
+
+    }
+
+    private Face[] faces;
+
     private static HashMap<Integer, BlockMesh> blockToMesh;
     private static SpriteAtlas atlas;
 
@@ -81,7 +82,9 @@ public class BlockMesh {
     /* Init the block mesh */
     public static void init() {
         blockToMesh = new HashMap<Integer, BlockMesh>();
-        atlas = new SpriteAtlas("./src/main/resources/images/blocks.png", "blocks", new Vector2f(16, 16));
+
+        // The sprite atlas is also 16 x 16 = 256 blocks in total
+        atlas = new SpriteAtlas("./src/main/resources/images/blocks.png", "blocks", new Vector2i(16, 16));
 
         // Init the different blocks
         BlockMesh blockGrassMesh = new BlockMesh();
@@ -91,6 +94,12 @@ public class BlockMesh {
         blockGrassMesh.addFace(Direction.WEST, atlas.spriteUV(new Vector2i(1, 0)), atlas.spriteUV(new Vector2i(2, 1)));
         blockGrassMesh.addFace(Direction.UP, atlas.spriteUV(new Vector2i(0, 0)), atlas.spriteUV(new Vector2i(1, 1)));
         blockGrassMesh.addFace(Direction.DOWN, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
+        blockGrassMesh.addFaceNew(Direction.NORTH, new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFaceNew(Direction.SOUTH, new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFaceNew(Direction.EAST, new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFaceNew(Direction.WEST, new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFaceNew(Direction.UP, new Vector2i(0, 0), new Vector2i(1, 1));
+        blockGrassMesh.addFaceNew(Direction.DOWN, new Vector2i(2, 0), new Vector2i(3, 1));
         blockToMesh.put(Block.GRASS, blockGrassMesh);
 
         BlockMesh blockDirtMesh = new BlockMesh();
@@ -122,7 +131,8 @@ public class BlockMesh {
         return atlas;
     }
 
-    /* Add a face to the mesh (only called from init method)
+    /*
+     * Add a face to the mesh (only called from init method)
      * @param direction The direction (see Direction.java)
      * @param uvMin the uv min coordinate
      * @param uvMax the uv max coordinate
@@ -131,7 +141,7 @@ public class BlockMesh {
         faces[direction].uvMin = uvMin;
         faces[direction].uvMax = uvMax;
 
-        float[] uvCoordinates= {
+        float[] uvCoordinates = {
             uvMin.x, 1 - uvMax.y,
             uvMax.x, 1 - uvMax.y,
             uvMin.x, 1 - uvMin.y,
@@ -143,12 +153,21 @@ public class BlockMesh {
         }
     }
 
+    private void addFaceNew(int direction, Vector2i spriteCoordinateMin, Vector2i spriteCoordinateMax) {
+        Vector2i spritesSize = atlas.getSpritesSize();
+
+        faces[direction].spriteCoordinates[0] = new Vector2i(spriteCoordinateMin.x, spritesSize.y - spriteCoordinateMax.y);
+        faces[direction].spriteCoordinates[1] = new Vector2i(spriteCoordinateMax.x, spritesSize.y - spriteCoordinateMax.y);
+        faces[direction].spriteCoordinates[2] = new Vector2i(spriteCoordinateMin.x, spritesSize.y - spriteCoordinateMin.y);
+        faces[direction].spriteCoordinates[3] = new Vector2i(spriteCoordinateMax.x, spritesSize.y - spriteCoordinateMin.y);
+    }
+
     /* Mesh a face */
     public void meshFace(
-        int direction, 
-        Vector3i position, 
-        ArrayList<Float> vertices, 
-        ArrayList<Integer> indices) 
+        int direction,
+        Vector3i position,
+        ArrayList<Float> vertices,
+        ArrayList<Integer> indices)
     {
         // Add the indices for the face
         for (int i = 0; i < 6; i++) {
@@ -168,48 +187,36 @@ public class BlockMesh {
         }
     }
 
-    // TODO: Remove static
-    public static void meshFace(
+    public void meshFaceNew(
         int direction,
         Vector3i position,
-        ArrayList<Integer> vertices
-        // TODO: ArrayList<Float> uvVertices,
-        // TODO: ArrayList<Integer> indices
-    ) 
+        ArrayList<Integer> vertices,
+        ArrayList<Integer> indices
+    )
     {
         // Add the indices for the face
-        // for (int i = 0; i < 6; i++) {
-        //     indices.add(vertices.size() / 4 + INDICES[i]);
-        // }
+        for (int i = 0; i < 6; i++) {
+            indices.add(vertices.size() / 4 + INDICES[i]);
+        }
 
         // Add the vertices for the face
-        int t1 = 0x0;
+        // Data packing:
+        // - Each vertex coordinate (x, y, z) is stored in 5 bits, since they range from [0, 16]
+        // - Each sprite coordinate (x, y) is stored in 5 bits, since they range from [0, 16]
+        for (int i = 0; i < 4; i++) {
+            int t = 0x0;
 
-        // Third vertex
-        t1 |= (VERTICES[(3 * 4) * direction + 0] << (27 - 0 * 5)) + (position.x << (27 - 0 * 5));
-        t1 |= (VERTICES[(3 * 4) * direction + 1] << (27 - 1 * 5)) + (position.y << (27 - 1 * 5));
-        t1 |= (VERTICES[(3 * 4) * direction + 2] << (27 - 2 * 5)) + (position.z << (27 - 2 * 5));
+            // Vertex coordinates
+            t |= (VERTICES[(3 * 4) * direction + (3 * i) + 0] << (0 * 5)) + (position.x << (0 * 5)); // x-coordinate
+            t |= (VERTICES[(3 * 4) * direction + (3 * i) + 1] << (1 * 5)) + (position.y << (1 * 5)); // y-coordinate
+            t |= (VERTICES[(3 * 4) * direction + (3 * i) + 2] << (2 * 5)) + (position.z << (2 * 5)); // z-coordinate
 
-        // Fourth vertex
-        t1 |= (VERTICES[(3 * 4) * direction + 3] << (27 - 3 * 5)) + (position.x << (27 - 3 * 5));
-        t1 |= (VERTICES[(3 * 4) * direction + 4] << (27 - 4 * 5)) + (position.y << (27 - 4 * 5));
-        t1 |= (VERTICES[(3 * 4) * direction + 5] << (27 - 5 * 5)) + (position.z << (27 - 5 * 5));
+            // Sprite atlas coordinates
+            t |= faces[direction].spriteCoordinates[i].x << ((3 * 5) + (0 * 5)); // x-coordinate
+            t |= faces[direction].spriteCoordinates[i].y << ((3 * 5) + (1 * 5)); // y-coordinate
 
-        vertices.add(t1);
-
-        int t2 = 0x0;
-
-        // Third vertex
-        t2 |= (VERTICES[(3 * 4) * direction + 0 + (3 * 2)] << (27 - 0 * 5)) + (position.x << (27 - 0 * 5));
-        t2 |= (VERTICES[(3 * 4) * direction + 1 + (3 * 2)] << (27 - 1 * 5)) + (position.y << (27 - 1 * 5));
-        t2 |= (VERTICES[(3 * 4) * direction + 2 + (3 * 2)] << (27 - 2 * 5)) + (position.z << (27 - 2 * 5));
-
-        // Fourth vertex
-        t2 |= (VERTICES[(3 * 4) * direction + 3 + (3 * 2)] << (27 - 3 * 5)) + (position.x << (27 - 3 * 5));
-        t2 |= (VERTICES[(3 * 4) * direction + 4 + (3 * 2)] << (27 - 4 * 5)) + (position.y << (27 - 4 * 5));
-        t2 |= (VERTICES[(3 * 4) * direction + 5 + (3 * 2)] << (27 - 5 * 5)) + (position.z << (27 - 5 * 5));
-
-        vertices.add(t2);
+            vertices.add(t);
+        }
     }
 
     public Face getFace(int direction) {

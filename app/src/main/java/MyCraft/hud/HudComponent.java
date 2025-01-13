@@ -28,7 +28,7 @@ public abstract class HudComponent {
     static void init(Window window) {
         HudComponent.window = window;
 
-        shader = new Shader("./src/main/resources/shaders/hud.vs", "./src/main/resources/shaders/hud.fs");
+        shader = new Shader("./src/main/resources/shaders/hud.vert", "./src/main/resources/shaders/hud.frag");
         vao = new VAO();
         vbo = new VBO(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
         ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW);

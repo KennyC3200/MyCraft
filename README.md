@@ -20,7 +20,7 @@ Libraries Used
 TODO
 -----
 * Optimize rendering
-    * Pass two GL_UNSIGNED_INT into the vertex shader to represent the face coordinates
+    * Pass two `GL_UNSIGNED_INT` into the vertex shader to represent the face coordinates
     * Shader will receive them as a `uvec2` in the vertex shader
     * Pack the data into a single int (64-bits)
     * Need to use GL_UNSIGNED_BYTE instead of GL_FLOAT for the vertices, since they are 0-16

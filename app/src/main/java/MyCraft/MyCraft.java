@@ -1,13 +1,5 @@
 package MyCraft;
 
-import MyCraft.gfx.*;
-import MyCraft.world.*;
-import MyCraft.input.*;
-import MyCraft.player.*;
-import MyCraft.gui.*;
-import MyCraft.hud.*;
-import MyCraft.util.*;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
@@ -15,9 +7,15 @@ import static org.lwjgl.opengl.GL11C.glClear;
 import static org.lwjgl.opengl.GL11C.glClearColor;
 import static org.lwjgl.opengl.GL33C.*;
 
-import org.joml.*;
-
+import MyCraft.gfx.*;
+import MyCraft.gui.*;
+import MyCraft.hud.*;
+import MyCraft.input.*;
+import MyCraft.player.*;
+import MyCraft.util.*;
+import MyCraft.world.*;
 import java.util.*;
+import org.joml.*;
 
 public class MyCraft {
 
@@ -53,20 +51,28 @@ public class MyCraft {
         renderer = new Renderer(window, world, player);
 
         ArrayList<Integer> vertices = new ArrayList<>();
+        ArrayList<Integer> indices = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            BlockMesh.meshFace(i, new Vector3i(15, 15, 15), vertices);
+            BlockMesh.get(Block.GRASS).meshFaceNew(
+                i,
+                new Vector3i(15, 15, 15),
+                vertices,
+                indices
+            );
         }
 
-        for (int i = 0; i < vertices.size(); i++) {
-            for (int j = 0; j < 6; j++) {
-                System.out.print(((vertices.get(i) >> (27 - j * 5)) & 31) + " ");
-                if (j == 2 || j == 5) {
-                    System.out.println();
-                }
-            }
-            if (i % 2 != 0) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 4; j++) {
+                int t = vertices.get(4 * i + j);
+                System.out.print((t & 31) + " ");
+                System.out.print((t >> 5 & 31) + " ");
+                System.out.print(((t >> 15 & 31) / 16.0f) + " ");
+                System.out.print(((t >> 20 & 31) / 16.0f) + " ");
+                System.out.print(BlockMesh.get(Block.GRASS).getFace(i).uvCoordinates[j * 2] + " ");
+                System.out.print(BlockMesh.get(Block.GRASS).getFace(i).uvCoordinates[j * 2 + 1] + " ");
                 System.out.println();
             }
+            System.out.println();
         }
     }
 
@@ -117,5 +123,4 @@ public class MyCraft {
     public static void main(String args[]) {
         new MyCraft();
     }
-
 }

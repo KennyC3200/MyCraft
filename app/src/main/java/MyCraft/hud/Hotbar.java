@@ -6,6 +6,7 @@ import MyCraft.world.*;
 import MyCraft.player.*;
 
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 
 import static org.lwjgl.opengl.GL33C.*;
 
@@ -32,7 +33,7 @@ public class Hotbar extends HudComponent {
         this.player = player;
 
         toggled = true;
-        atlas = new SpriteAtlas("./src/main/resources/images/hotbar.png", "tex", new Vector2f(22, 22));
+        atlas = new SpriteAtlas("./src/main/resources/images/hotbar.png", "tex", new Vector2i(22, 22));
 
         vertices = new FloatBuffer[MESH_COUNT];
         indices = new IntBuffer[MESH_COUNT];

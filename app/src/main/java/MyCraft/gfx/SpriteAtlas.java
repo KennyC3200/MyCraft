@@ -6,20 +6,22 @@ import org.joml.*;
 
 public class SpriteAtlas extends Texture {
 
-    private Vector2f spriteSize;
+    /* spriteSize is the size of each sprite, spritesSize is how many sprites there are */
+    private Vector2i spriteSize, spritesSize;
     private Vector2f spriteUnit, pixelUnit;
 
-    /* Init the sprite atlas 
+    /* Init the sprite atlas
      * @param path The path of the atlas
      * @param fragmentShaderName The uniform sampler2D name
      * @param spriteSize The size of each sprite
      * */
-    public SpriteAtlas(String path, String fragmentShaderName, Vector2f spriteSize) {
+    public SpriteAtlas(String path, String fragmentShaderName, Vector2i spriteSize) {
         super(path, fragmentShaderName, GL_RGBA, GL_RGBA);
 
         this.spriteSize = spriteSize;
+        this.spritesSize = new Vector2i(size.x / spriteSize.x, size.y / spriteSize.y);
 
-        spriteUnit = new Vector2f(spriteSize.x / size.x, spriteSize.y / size.y);
+        spriteUnit = new Vector2f((float) spriteSize.x / size.x, (float) spriteSize.y / size.y);
         pixelUnit = new Vector2f(1.0f / size.x, 1.0f / size.y);
     }
 
@@ -39,8 +41,12 @@ public class SpriteAtlas extends Texture {
         );
     }
 
-    public Vector2f getSpriteSize() {
+    public Vector2i getSpriteSize() {
         return spriteSize;
+    }
+
+    public Vector2i getSpritesSize() {
+        return spritesSize;
     }
 
     public Vector2f getSpriteUnit() {
