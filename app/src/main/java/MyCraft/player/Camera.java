@@ -1,6 +1,5 @@
 package MyCraft.player;
 
-import MyCraft.gfx.*;
 import MyCraft.input.*;
 import MyCraft.util.*;
 

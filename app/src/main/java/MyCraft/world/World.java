@@ -77,13 +77,13 @@ public class World {
         }
 
         return chunks[chunkIdx(
-            x / Chunk.size.x, 
-            y / Chunk.size.y, 
+            x / Chunk.size.x,
+            y / Chunk.size.y,
             z / Chunk.size.z
         )].getBlock(
-            x - (x / Chunk.size.x) * Chunk.size.x, 
-            y - (y / Chunk.size.y) * Chunk.size.y, 
-            z - (z / Chunk.size.z) * Chunk.size.z 
+            x - (x / Chunk.size.x) * Chunk.size.x,
+            y - (y / Chunk.size.y) * Chunk.size.y,
+            z - (z / Chunk.size.z) * Chunk.size.z
         );
     }
 

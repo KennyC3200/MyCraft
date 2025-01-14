@@ -157,37 +157,14 @@ public class BlockMesh {
     public void meshFace(
         int direction,
         Vector3i position,
-        ArrayList<Float> vertices,
-        ArrayList<Integer> indices)
-    {
-        // Add the indices for the face
-        for (int i = 0; i < 6; i++) {
-            indices.add(vertices.size() / 5 + INDICES[i]);
-        }
-
-        // Add the vertices for the face
-        for (int i = 0; i < 4; i++) {
-            // Add the position coordinates
-            vertices.add((float) VERTICES[(3 * 4) * direction + i * 3 + 0] + position.x);
-            vertices.add((float) VERTICES[(3 * 4) * direction + i * 3 + 1] + position.y);
-            vertices.add((float) VERTICES[(3 * 4) * direction + i * 3 + 2] + position.z);
-
-            // Add the uv coordinates
-            vertices.add(faces[direction].uvCoordinates[i * 2 + 0]);
-            vertices.add(faces[direction].uvCoordinates[i * 2 + 1]);
-        }
-    }
-
-    public void meshFaceNew(
-        int direction,
-        Vector3i position,
         ArrayList<Integer> vertices,
         ArrayList<Integer> indices
     )
     {
         // Add the indices for the face
+        int indices_offset = vertices.size();
         for (int i = 0; i < 6; i++) {
-            indices.add(vertices.size() / 4 + INDICES[i]);
+            indices.add(indices_offset + INDICES[i]);
         }
 
         // Add the vertices for the face
@@ -195,18 +172,19 @@ public class BlockMesh {
         // - Each vertex coordinate (x, y, z) is stored in 5 bits, since they range from [0, 16]
         // - Each sprite coordinate (x, y) is stored in 5 bits, since they range from [0, 16]
         for (int i = 0; i < 4; i++) {
-            int t = 0x0;
+            int data = 0x0;
 
             // Vertex coordinates
-            t |= (VERTICES[(3 * 4) * direction + (3 * i) + 0] << (0 * 5)) + (position.x << (0 * 5)); // x-coordinate
-            t |= (VERTICES[(3 * 4) * direction + (3 * i) + 1] << (1 * 5)) + (position.y << (1 * 5)); // y-coordinate
-            t |= (VERTICES[(3 * 4) * direction + (3 * i) + 2] << (2 * 5)) + (position.z << (2 * 5)); // z-coordinate
+            int idx_offset = (3 * 4) * direction + (i * 3);
+            data |= (VERTICES[idx_offset + 0] << (0 * 5)) + (position.x << (0 * 5)); // x-coordinate
+            data |= (VERTICES[idx_offset + 1] << (1 * 5)) + (position.y << (1 * 5)); // y-coordinate
+            data |= (VERTICES[idx_offset + 2] << (2 * 5)) + (position.z << (2 * 5)); // z-coordinate
 
             // Sprite atlas coordinates
-            t |= faces[direction].spriteCoordinates[i].x << ((3 * 5) + (0 * 5)); // x-coordinate
-            t |= faces[direction].spriteCoordinates[i].y << ((3 * 5) + (1 * 5)); // y-coordinate
+            data |= faces[direction].spriteCoordinates[i].x << ((3 * 5) + (0 * 5)); // x-coordinate
+            data |= faces[direction].spriteCoordinates[i].y << ((3 * 5) + (1 * 5)); // y-coordinate
 
-            vertices.add(t);
+            vertices.add(data);
         }
     }
 

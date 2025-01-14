@@ -5,14 +5,11 @@ import static org.lwjgl.opengl.GL33C.*;
 import java.io.*;
 import java.nio.FloatBuffer;
 
-import org.joml.Vector3f;
-import org.joml.Vector3i;
-
 public class Shader {
 
     private int handle;
 
-    /* Init the shader 
+    /* Init the shader
      * @param vertexShaderPath The vertex shader path
      * @param fragmentShaderPath The fragment shader path
      * */

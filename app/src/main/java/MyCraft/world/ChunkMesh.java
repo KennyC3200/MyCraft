@@ -6,10 +6,8 @@ import MyCraft.gfx.*;
 import static org.lwjgl.opengl.GL33C.*;
 
 import org.joml.Vector3i;
-import org.joml.Vector3f;
 
 import java.util.*;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class ChunkMesh {
@@ -20,7 +18,7 @@ public class ChunkMesh {
     private VBO vbo;
     private VBO ibo;
 
-    private FloatBuffer vertices;
+    private IntBuffer vertices;
     private IntBuffer indices;
 
     /* Create the mesh, given a position
@@ -46,8 +44,8 @@ public class ChunkMesh {
 
     /* Mesh the chunk */
     public void mesh(Block[] blocks, Vector3i position, Chunk[] adjacentChunks) {
-        ArrayList<Float> verticesList = new ArrayList<Float>();
-        ArrayList<Integer> indicesList = new ArrayList<Integer>();
+        ArrayList<Integer> verticesList = new ArrayList<>();
+        ArrayList<Integer> indicesList = new ArrayList<>();
 
         for (int x = 0; x < Chunk.size.x; x++) {
             for (int y = 0; y < Chunk.size.y; y++) {
@@ -101,7 +99,7 @@ public class ChunkMesh {
         }
 
         // Copy the vertices from the verticesList to the vertices buffer
-        vertices = MyCraft.util.BufferUtils.listToFloatBuffer(verticesList);
+        vertices = MyCraft.util.BufferUtils.listToIntBuffer(verticesList);
 
         // Copy the indices from the indicesList to the indicesBuffer
         indices = MyCraft.util.BufferUtils.listToIntBuffer(indicesList);
@@ -115,8 +113,7 @@ public class ChunkMesh {
         shader.uniformVec3("chunk_pos", position.x, position.y, position.z);
 
         // Have attribPointer for the coordinates and uv coordinates
-        vao.attribPointer(vbo, 0, 3, GL_FLOAT, 5 * Float.BYTES, 0 * Float.BYTES);
-        vao.attribPointer(vbo, 1, 2, GL_FLOAT, 5 * Float.BYTES, 3 * Float.BYTES);
+        vao.attribPointer(vbo, 0, 1, GL_UNSIGNED_INT, 1 * Integer.BYTES, 0 * Integer.BYTES);
 
         vao.bind();
         ibo.bind();
