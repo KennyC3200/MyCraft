@@ -81,6 +81,14 @@ public class Shader {
         glUniform3f(glGetUniformLocation(handle, name), x, y, z);
     }
 
+    /* Bind the uniform ivec3
+     * @param name The name of the uniform ivec3
+     * @param vec The ivec3 vector
+     */
+    public void uniformVec2(String name, float x, float y) {
+        glUniform2f(glGetUniformLocation(handle, name), x, y);
+    }
+
     /* Compile a shader program
      * @param path The path of the shader
      * @param type The type of the shader

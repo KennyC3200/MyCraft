@@ -13,7 +13,7 @@ uniform mat4 projection;
 uniform vec3 chunk_pos;
 
 // For the sprite atlas
-uniform ivec2 sprites_size;
+uniform vec2 sprites_size;
 
 void main() {
     // Unpack the face position
@@ -27,8 +27,8 @@ void main() {
 
     // Unpack the sprite texture coordinate and convert it into UV coordinates
     vec2 uv = vec2(
-        (data >> 15u & 31u) / 16.0f,
-        (data >> 20u & 31u) / 16.0f
+        (data >> 15u & 31u) / sprites_size.x,
+        (data >> 20u & 31u) / sprites_size.y
     );
 
     v_uv = uv;

@@ -67,21 +67,27 @@ public class Renderer {
             Camera camera = player.getCamera();
             FloatBuffer view = new Matrix4f()
                 .lookAt(
-                    camera.getPosition(), 
+                    camera.getPosition(),
                     new Vector3f(camera.getPosition()).add(camera.getDirection()), camera.getUp())
                 .get(stack.mallocFloat(16));
 
             FloatBuffer projection = new Matrix4f()
                 .perspective(
                         camera.getFOV(),
-                        (float) window.getSize().x / (float) window.getSize().y, 
+                        (float) window.getSize().x / (float) window.getSize().y,
                         camera.getZNear(), camera.getZFar())
                 .get(stack.mallocFloat(16));
-            ChunkMesh.shader.uniformMatrix4f("view", view); 
+
+            ChunkMesh.shader.uniformMatrix4f("view", view);
             ChunkMesh.shader.uniformMatrix4f("projection", projection);
         }
 
         ChunkMesh.shader.uniformTexture2D(BlockMesh.getAtlas(), 0);
+        ChunkMesh.shader.uniformVec2(
+            "sprites_size",
+            BlockMesh.getAtlas().getSpritesSize().x,
+            BlockMesh.getAtlas().getSpritesSize().y
+        );
         world.render();
     }
 
