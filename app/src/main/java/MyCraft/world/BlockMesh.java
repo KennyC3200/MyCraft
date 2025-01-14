@@ -54,9 +54,11 @@ public class BlockMesh {
     /* Face struct */
     public class Face {
 
+        // UV coordinats
         public Vector2f uvMin, uvMax;
         public float[] uvCoordinates;
 
+        // Sprite coordinates on the texture atlas
         public Vector2i[] spriteCoordinates;
 
         public Face() {
@@ -88,36 +90,30 @@ public class BlockMesh {
 
         // Init the different blocks
         BlockMesh blockGrassMesh = new BlockMesh();
-        blockGrassMesh.addFace(Direction.NORTH, atlas.spriteUV(new Vector2i(1, 0)), atlas.spriteUV(new Vector2i(2, 1)));
-        blockGrassMesh.addFace(Direction.SOUTH, atlas.spriteUV(new Vector2i(1, 0)), atlas.spriteUV(new Vector2i(2, 1)));
-        blockGrassMesh.addFace(Direction.EAST, atlas.spriteUV(new Vector2i(1, 0)), atlas.spriteUV(new Vector2i(2, 1)));
-        blockGrassMesh.addFace(Direction.WEST, atlas.spriteUV(new Vector2i(1, 0)), atlas.spriteUV(new Vector2i(2, 1)));
-        blockGrassMesh.addFace(Direction.UP, atlas.spriteUV(new Vector2i(0, 0)), atlas.spriteUV(new Vector2i(1, 1)));
-        blockGrassMesh.addFace(Direction.DOWN, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
-        blockGrassMesh.addFaceNew(Direction.NORTH, new Vector2i(1, 0), new Vector2i(2, 1));
-        blockGrassMesh.addFaceNew(Direction.SOUTH, new Vector2i(1, 0), new Vector2i(2, 1));
-        blockGrassMesh.addFaceNew(Direction.EAST, new Vector2i(1, 0), new Vector2i(2, 1));
-        blockGrassMesh.addFaceNew(Direction.WEST, new Vector2i(1, 0), new Vector2i(2, 1));
-        blockGrassMesh.addFaceNew(Direction.UP, new Vector2i(0, 0), new Vector2i(1, 1));
-        blockGrassMesh.addFaceNew(Direction.DOWN, new Vector2i(2, 0), new Vector2i(3, 1));
+        blockGrassMesh.addFace(Direction.NORTH, new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFace(Direction.SOUTH, new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFace(Direction.EAST,  new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFace(Direction.WEST,  new Vector2i(1, 0), new Vector2i(2, 1));
+        blockGrassMesh.addFace(Direction.UP,    new Vector2i(0, 0), new Vector2i(1, 1));
+        blockGrassMesh.addFace(Direction.DOWN,  new Vector2i(2, 0), new Vector2i(3, 1));
         blockToMesh.put(Block.GRASS, blockGrassMesh);
 
         BlockMesh blockDirtMesh = new BlockMesh();
-        blockDirtMesh.addFace(Direction.NORTH, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
-        blockDirtMesh.addFace(Direction.SOUTH, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
-        blockDirtMesh.addFace(Direction.EAST,  atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
-        blockDirtMesh.addFace(Direction.WEST, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
-        blockDirtMesh.addFace(Direction.UP, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
-        blockDirtMesh.addFace(Direction.DOWN, atlas.spriteUV(new Vector2i(2, 0)), atlas.spriteUV(new Vector2i(3, 1)));
+        blockDirtMesh.addFace(Direction.NORTH, new Vector2i(2, 0), new Vector2i(3, 1));
+        blockDirtMesh.addFace(Direction.SOUTH, new Vector2i(2, 0), new Vector2i(3, 1));
+        blockDirtMesh.addFace(Direction.EAST,  new Vector2i(2, 0), new Vector2i(3, 1));
+        blockDirtMesh.addFace(Direction.WEST,  new Vector2i(2, 0), new Vector2i(3, 1));
+        blockDirtMesh.addFace(Direction.UP,    new Vector2i(2, 0), new Vector2i(3, 1));
+        blockDirtMesh.addFace(Direction.DOWN,  new Vector2i(2, 0), new Vector2i(3, 1));
         blockToMesh.put(Block.DIRT, blockDirtMesh);
 
         BlockMesh blockStoneMesh = new BlockMesh();
-        blockStoneMesh.addFace(Direction.NORTH, atlas.spriteUV(new Vector2i(3, 0)), atlas.spriteUV(new Vector2i(4, 1)));
-        blockStoneMesh.addFace(Direction.SOUTH, atlas.spriteUV(new Vector2i(3, 0)), atlas.spriteUV(new Vector2i(4, 1)));
-        blockStoneMesh.addFace(Direction.EAST, atlas.spriteUV(new Vector2i(3, 0)), atlas.spriteUV(new Vector2i(4, 1)));
-        blockStoneMesh.addFace(Direction.WEST, atlas.spriteUV(new Vector2i(3, 0)), atlas.spriteUV(new Vector2i(4, 1)));
-        blockStoneMesh.addFace(Direction.UP, atlas.spriteUV(new Vector2i(3, 0)), atlas.spriteUV(new Vector2i(4, 1)));
-        blockStoneMesh.addFace(Direction.DOWN, atlas.spriteUV(new Vector2i(3, 0)), atlas.spriteUV(new Vector2i(4, 1)));
+        blockStoneMesh.addFace(Direction.NORTH, new Vector2i(3, 0), new Vector2i(4, 1));
+        blockStoneMesh.addFace(Direction.SOUTH, new Vector2i(3, 0), new Vector2i(4, 1));
+        blockStoneMesh.addFace(Direction.EAST,  new Vector2i(3, 0), new Vector2i(4, 1));
+        blockStoneMesh.addFace(Direction.WEST,  new Vector2i(3, 0), new Vector2i(4, 1));
+        blockStoneMesh.addFace(Direction.UP,    new Vector2i(3, 0), new Vector2i(4, 1));
+        blockStoneMesh.addFace(Direction.DOWN,  new Vector2i(3, 0), new Vector2i(4, 1));
         blockToMesh.put(Block.STONE, blockStoneMesh);
     }
 
@@ -131,13 +127,17 @@ public class BlockMesh {
         return atlas;
     }
 
-    /*
-     * Add a face to the mesh (only called from init method)
-     * @param direction The direction (see Direction.java)
-     * @param uvMin the uv min coordinate
-     * @param uvMax the uv max coordinate
-     * */
-    private void addFace(int direction, Vector2f uvMin, Vector2f uvMax) {
+    private void addFace(int direction, Vector2i spriteCoordinateMin, Vector2i spriteCoordinateMax) {
+        Vector2i spritesSize = atlas.getSpritesSize();
+
+        faces[direction].spriteCoordinates[0] = new Vector2i(spriteCoordinateMin.x, spritesSize.y - spriteCoordinateMax.y);
+        faces[direction].spriteCoordinates[1] = new Vector2i(spriteCoordinateMax.x, spritesSize.y - spriteCoordinateMax.y);
+        faces[direction].spriteCoordinates[2] = new Vector2i(spriteCoordinateMin.x, spritesSize.y - spriteCoordinateMin.y);
+        faces[direction].spriteCoordinates[3] = new Vector2i(spriteCoordinateMax.x, spritesSize.y - spriteCoordinateMin.y);
+
+        Vector2f uvMin = atlas.spriteUV(spriteCoordinateMin);
+        Vector2f uvMax = atlas.spriteUV(spriteCoordinateMax);
+
         faces[direction].uvMin = uvMin;
         faces[direction].uvMax = uvMax;
 
@@ -151,15 +151,6 @@ public class BlockMesh {
         for (int i = 0; i < 2 * 4; i++) {
             faces[direction].uvCoordinates[i] = uvCoordinates[i];
         }
-    }
-
-    private void addFaceNew(int direction, Vector2i spriteCoordinateMin, Vector2i spriteCoordinateMax) {
-        Vector2i spritesSize = atlas.getSpritesSize();
-
-        faces[direction].spriteCoordinates[0] = new Vector2i(spriteCoordinateMin.x, spritesSize.y - spriteCoordinateMax.y);
-        faces[direction].spriteCoordinates[1] = new Vector2i(spriteCoordinateMax.x, spritesSize.y - spriteCoordinateMax.y);
-        faces[direction].spriteCoordinates[2] = new Vector2i(spriteCoordinateMin.x, spritesSize.y - spriteCoordinateMin.y);
-        faces[direction].spriteCoordinates[3] = new Vector2i(spriteCoordinateMax.x, spritesSize.y - spriteCoordinateMin.y);
     }
 
     /* Mesh a face */

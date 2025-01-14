@@ -50,30 +50,30 @@ public class MyCraft {
 
         renderer = new Renderer(window, world, player);
 
-        ArrayList<Integer> vertices = new ArrayList<>();
-        ArrayList<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            BlockMesh.get(Block.GRASS).meshFaceNew(
-                i,
-                new Vector3i(15, 15, 15),
-                vertices,
-                indices
-            );
-        }
+    //     ArrayList<Integer> vertices = new ArrayList<>();
+    //     ArrayList<Integer> indices = new ArrayList<>();
+    //     for (int i = 0; i < 6; i++) {
+    //         BlockMesh.get(Block.GRASS).meshFaceNew(
+    //             i,
+    //             new Vector3i(15, 15, 15),
+    //             vertices,
+    //             indices
+    //         );
+    //     }
 
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 4; j++) {
-                int t = vertices.get(4 * i + j);
-                System.out.print((t & 31) + " ");
-                System.out.print((t >> 5 & 31) + " ");
-                System.out.print(((t >> 15 & 31) / 16.0f) + " ");
-                System.out.print(((t >> 20 & 31) / 16.0f) + " ");
-                System.out.print(BlockMesh.get(Block.GRASS).getFace(i).uvCoordinates[j * 2] + " ");
-                System.out.print(BlockMesh.get(Block.GRASS).getFace(i).uvCoordinates[j * 2 + 1] + " ");
-                System.out.println();
-            }
-            System.out.println();
-        }
+    //     for (int i = 0; i < 6; i++) {
+    //         for (int j = 0; j < 4; j++) {
+    //             int t = vertices.get(4 * i + j);
+    //             System.out.print((t & 31) + " ");
+    //             System.out.print((t >> 5 & 31) + " ");
+    //             System.out.print(((t >> 15 & 31) / 16.0f) + " ");
+    //             System.out.print(((t >> 20 & 31) / 16.0f) + " ");
+    //             System.out.print(BlockMesh.get(Block.GRASS).getFace(i).uvCoordinates[j * 2] + " ");
+    //             System.out.print(BlockMesh.get(Block.GRASS).getFace(i).uvCoordinates[j * 2 + 1] + " ");
+    //             System.out.println();
+    //         }
+    //         System.out.println();
+    //     }
     }
 
     /* Main game loop */

@@ -3,6 +3,7 @@
 layout (location = 0) in vec3 block_pos;
 layout (location = 1) in vec2 uv;
 
+// Block uv coordinates from the texture atlas
 out vec2 v_uv;
 
 // For the camera
