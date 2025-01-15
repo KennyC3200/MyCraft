@@ -45,6 +45,7 @@ public class Chunk {
     public static void init() {
         ChunkMesh.init();
 
+        // Configure the noise
         noise = new FastNoiseLite();
         noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
         noise.SetFrequency(0.01f);

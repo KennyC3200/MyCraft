@@ -30,8 +30,8 @@ public abstract class HudComponent {
 
         shader = new Shader("./src/main/resources/shaders/hud.vert", "./src/main/resources/shaders/hud.frag");
         vao = new VAO();
-        vbo = new VBO(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
-        ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
+        vbo = new VBO(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+        ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
     }
 
 }

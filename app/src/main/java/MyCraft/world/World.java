@@ -66,7 +66,9 @@ public class World {
         return chunksSize;
     }
 
-    /* Get a block, given the BLOCK position */
+    /* Get a block, given the BLOCK position
+     * @return The block, otherwise null if out of bounds
+     */
     public Block getBlock(int x, int y, int z) {
         if (
             x < 0 || x >= Chunk.size.x * chunksSize.x ||

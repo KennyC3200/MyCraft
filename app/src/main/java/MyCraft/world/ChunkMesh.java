@@ -26,8 +26,8 @@ public class ChunkMesh {
      * */
     public ChunkMesh() {
         vao = new VAO();
-        vbo = new VBO(GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
-        ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
+        vbo = new VBO(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+        ibo = new VBO(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
     }
 
     /* Init the necessary components */
@@ -105,7 +105,15 @@ public class ChunkMesh {
         indices = MyCraft.util.BufferUtils.listToIntBuffer(indicesList);
     }
 
+    /* Render the current chunk mesh, given a position */
     public void render(Vector3i position) {
+        // !!! VERY IMPORTANT TO HAVE !!!
+        // Calling glDrawElements and all the other stuff is extremely expensive
+        // Especially when you have a large number of chunks
+        if (!indices.hasRemaining()) {
+            return;
+        }
+
         ibo.buffer(indices);
         vbo.buffer(vertices);
 
