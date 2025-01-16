@@ -4,6 +4,7 @@ import MyCraft.gfx.*;
 import MyCraft.input.*;
 import MyCraft.world.*;
 import MyCraft.hud.*;
+import MyCraft.util.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -35,6 +36,9 @@ public class Player {
     private Integer[] hotbarItems;
     private int currentHotbarIdx;
 
+    private Vector3i chunkPosition;
+    private Vector3i prevChunkPosition;
+
     // Keep in mind that height = 1.8f
     // Hence, the player AABB needs to be checked against 10 surrounding blocks
     private AABB aabb;
@@ -65,6 +69,14 @@ public class Player {
         hotbarItems[0] = Block.GRASS;
         hotbarItems[1] = Block.DIRT;
         hotbarItems[2] = Block.STONE;
+
+        // Chunk positions
+        chunkPosition = new Vector3i(
+            (int) position.x / Chunk.size.x,
+            (int) position.y / Chunk.size.y,
+            (int) position.z / Chunk.size.z
+        );
+        prevChunkPosition = new Vector3i(chunkPosition);
 
         aabb = new AABB(
             new Vector3f(position.x, position.y, position.z),
@@ -132,6 +144,21 @@ public class Player {
                     world.getChunk(blockX, blockY, blockZ).setDirty();
                 }
             }
+        }
+
+        chunkPosition.x = (int) position.x / Chunk.size.x;
+        chunkPosition.y = (int) position.y / Chunk.size.y;
+        chunkPosition.z = (int) position.z / Chunk.size.z;
+
+        // Generate new chunks as the player moves around
+        int x_diff = chunkPosition.x - prevChunkPosition.x;
+        int z_diff = chunkPosition.z - prevChunkPosition.z;
+        if (x_diff > 0) {
+            world.createNewChunks(Direction.EAST);
+
+            prevChunkPosition.x = chunkPosition.x;
+            prevChunkPosition.y = chunkPosition.y;
+            prevChunkPosition.z = chunkPosition.z;
         }
 
         // Handle gravity

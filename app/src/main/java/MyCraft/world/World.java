@@ -12,6 +12,8 @@ public class World {
     private int chunksCount;
     private Vector3i chunksSize;
 
+    private Vector3i position;
+
     /* Initialize the world */
     public World () {
         Block.init();
@@ -19,6 +21,8 @@ public class World {
 
         chunksSize = new Vector3i(24, 10, 24);
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
+
+        position = new Vector3i(0, 0, 0);
 
         initChunks();
     }
@@ -38,10 +42,7 @@ public class World {
         for (int x = 0; x < chunksSize.x; x++) {
             for (int y = 0; y < chunksSize.y; y++) {
                 for (int z = 0; z < chunksSize.z; z++) {
-                    chunks[chunkIdx(x, y, z)] = new Chunk(
-                        new Vector3i(x * Chunk.size.x, y * Chunk.size.y, z * Chunk.size.z),
-                        chunksSize.y * Chunk.size.y / 2
-                    );
+                    initChunk(x, y, z);
                 }
             }
         }
@@ -50,15 +51,35 @@ public class World {
         for (int x = 0; x < chunksSize.x; x++) {
             for (int y = 0; y < chunksSize.y; y++) {
                 for (int z = 0; z < chunksSize.z; z++) {
-                    Chunk chunk = chunks[chunkIdx(x, y, z)];
-                    chunk.setAdjacent(Direction.NORTH, z - 1 >= 0           ? chunks[chunkIdx(x, y, z - 1)] : null);
-                    chunk.setAdjacent(Direction.SOUTH, z + 1 < chunksSize.z ? chunks[chunkIdx(x, y, z + 1)] : null);
-                    chunk.setAdjacent(Direction.EAST,  x + 1 < chunksSize.x ? chunks[chunkIdx(x + 1, y, z)] : null);
-                    chunk.setAdjacent(Direction.WEST,  x - 1 >= 0           ? chunks[chunkIdx(x - 1, y, z)] : null);
-                    chunk.setAdjacent(Direction.UP,    y + 1 < chunksSize.y ? chunks[chunkIdx(x, y + 1, z)] : null);
-                    chunk.setAdjacent(Direction.DOWN,  y - 1 >= 0           ? chunks[chunkIdx(x, y - 1, z)] : null);
+                    initChunkAdjacents(x, y, z);
                 }
             }
+        }
+    }
+
+    /* Init a chunk given an ARRAY position */
+    public void initChunk(int x, int y, int z) {
+        chunks[chunkIdx(x, y, z)] = new Chunk(
+            new Vector3i(x * Chunk.size.x, y * Chunk.size.y, z * Chunk.size.z),
+            chunksSize.y * Chunk.size.y / 2
+        );
+    }
+
+    /* Init adjacents for a chunk given an ARRAY position */
+    public void initChunkAdjacents(int x, int y, int z) {
+        Chunk chunk = chunks[chunkIdx(x, y, z)];
+        chunk.setAdjacent(Direction.NORTH, z - 1 >= 0           ? chunks[chunkIdx(x, y, z - 1)] : null);
+        chunk.setAdjacent(Direction.SOUTH, z + 1 < chunksSize.z ? chunks[chunkIdx(x, y, z + 1)] : null);
+        chunk.setAdjacent(Direction.EAST,  x + 1 < chunksSize.x ? chunks[chunkIdx(x + 1, y, z)] : null);
+        chunk.setAdjacent(Direction.WEST,  x - 1 >= 0           ? chunks[chunkIdx(x - 1, y, z)] : null);
+        chunk.setAdjacent(Direction.UP,    y + 1 < chunksSize.y ? chunks[chunkIdx(x, y + 1, z)] : null);
+        chunk.setAdjacent(Direction.DOWN,  y - 1 >= 0           ? chunks[chunkIdx(x, y - 1, z)] : null);
+    }
+
+    /* Create new chunks in a new direction */
+    public void createNewChunks(int direction) {
+        if (direction == Direction.EAST) {
+            System.out.println("EAST");
         }
     }
 
@@ -66,26 +87,30 @@ public class World {
         return chunksSize;
     }
 
-    /* Get a block, given the BLOCK position
+    /* Get a block, given the position
      * @return The block, otherwise null if out of bounds
      */
     public Block getBlock(int x, int y, int z) {
+        int blockX = x - position.x;
+        int blockY = y - position.y;
+        int blockZ = z - position.z;
+
         if (
-            x < 0 || x >= Chunk.size.x * chunksSize.x ||
-            y < 0 || y >= Chunk.size.y * chunksSize.y ||
-            z < 0 || z >= Chunk.size.z * chunksSize.z
+            blockX < 0 || blockX >= Chunk.size.x * chunksSize.x ||
+            blockY < 0 || blockY >= Chunk.size.y * chunksSize.y ||
+            blockZ < 0 || blockZ >= Chunk.size.z * chunksSize.z
         ) {
             return null;
         }
 
         return chunks[chunkIdx(
-            x / Chunk.size.x,
-            y / Chunk.size.y,
-            z / Chunk.size.z
+            blockX / Chunk.size.x,
+            blockY / Chunk.size.y,
+            blockZ / Chunk.size.z
         )].getBlock(
-            x - (x / Chunk.size.x) * Chunk.size.x,
-            y - (y / Chunk.size.y) * Chunk.size.y,
-            z - (z / Chunk.size.z) * Chunk.size.z
+            blockX - (blockX / Chunk.size.x) * Chunk.size.x,
+            blockY - (blockY / Chunk.size.y) * Chunk.size.y,
+            blockZ - (blockZ / Chunk.size.z) * Chunk.size.z
         );
     }
 
