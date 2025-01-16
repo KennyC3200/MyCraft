@@ -28,20 +28,18 @@ public class Ray {
         _position = new Vector3i(
             (int) Math.floor(position.x), 
             (int) Math.floor(position.y), 
-            (int) Math.floor(position.z)
-        );
+            (int) Math.floor(position.z));
+
         step = new Vector3i(
             direction.x < 0 ? -1 : 1,
             direction.y < 0 ? -1 : 1,
-            direction.z < 0 ? -1 : 1
-        );
+            direction.z < 0 ? -1 : 1);
 
         d_length = MathUtils.intBound(position, direction);
         d_delta = new Vector3f(
             step.x / direction.x,
             step.y / direction.y,
-            step.z / direction.z
-        );
+            step.z / direction.z);
 
         radius = maxDistance / direction.length();
 

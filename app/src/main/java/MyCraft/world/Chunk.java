@@ -11,11 +11,11 @@ public class Chunk {
 
     private Vector3i position;
 
+    private Block[] blocks;
+    private Chunk[] adjacents;
+
     private ChunkMesh mesh;
     private boolean meshed;
-    private Block[] blocks;
-
-    private Chunk[] adjacents;
 
     /* Initialize a chunk given a position and block fill */
     public Chunk(Vector3i position, int groundLevelY) {
@@ -53,6 +53,16 @@ public class Chunk {
         noise.SetFractalOctaves(10);
     }
 
+    /* Copy from another chunk */
+    public void copy(Chunk chunk) {
+        blocks = chunk.blocks;
+        adjacents = chunk.adjacents;
+
+        position.x = chunk.position.x;
+        position.y = chunk.position.y;
+        position.z = chunk.position.z;
+    }
+
     /* Return the index given a block position inside the chunk */
     public static int posToIdx(int x, int y, int z) {
         return (x * size.y * size.z) + (z * size.y) + (y);
@@ -86,6 +96,16 @@ public class Chunk {
     /* Get a block given position */
     public Block getBlock(int x, int y, int z) {
         return blocks[posToIdx(x, y, z)];
+    }
+
+    public void setPosition(int x, int y, int z) {
+        position.x = x;
+        position.y = y;
+        position.z = z;
+    }
+
+    public Vector3i getPosition() {
+        return position;
     }
 
 }

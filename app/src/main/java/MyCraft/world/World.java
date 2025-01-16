@@ -79,7 +79,16 @@ public class World {
     /* Create new chunks in a new direction */
     public void createNewChunks(int direction) {
         if (direction == Direction.EAST) {
-            System.out.println("EAST");
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    for (int z = 0; z < chunksSize.z; z++) {
+                        chunks[chunkIdx(x, y, z)].getPosition().x += Chunk.size.x;
+                        // chunks[chunkIdx(x, y, z)].copy(chunks[chunkIdx(x + 1, y, z)]);
+                    }
+                }
+            }
+
+            position.x += Chunk.size.x;
         }
     }
 
@@ -119,19 +128,27 @@ public class World {
         return getBlock(position.x, position.y, position.z);
     }
 
-    /* Get the chunk index given a CHUNK position */
+    /* Get the chunk index given a CHUNK ARRAY position */
     private int chunkIdx(int x, int y, int z) {
         return (x * chunksSize.y * chunksSize.z) + (z * chunksSize.y) + (y);
     }
 
     /* Get a chunk given a PLAYER position */
     public Chunk getChunk(int x, int y, int z) {
-        return chunks[chunkIdx(x / Chunk.size.x, y / Chunk.size.y, z / Chunk.size.z)];
+        return chunks[
+            chunkIdx(
+                (x - position.x) / Chunk.size.x, 
+                (y - position.y) / Chunk.size.y, 
+                (z - position.z) / Chunk.size.z)];
     }
 
     /* Get a chunk given a PLAYER position */
     public Chunk getChunk(Vector3i position) {
         return getChunk(position.x, position.y, position.z);
+    }
+
+    public Vector3i getPosition() {
+        return position;
     }
 
     /* Returns AABBs surrounding the player */
