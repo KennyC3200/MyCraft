@@ -13,6 +13,7 @@ public class World {
     private Vector3i chunksSize;
 
     private Vector3i position;
+    private int groundLevelY;
 
     /* Initialize the world */
     public World () {
@@ -23,6 +24,7 @@ public class World {
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         position = new Vector3i(0, 0, 0);
+        groundLevelY = chunksSize.y * Chunk.size.y / 2;
 
         initChunks();
     }
@@ -61,8 +63,7 @@ public class World {
     public void initChunk(int x, int y, int z) {
         chunks[chunkIdx(x, y, z)] = new Chunk(
             new Vector3i(x * Chunk.size.x, y * Chunk.size.y, z * Chunk.size.z),
-            chunksSize.y * Chunk.size.y / 2
-        );
+            groundLevelY);
     }
 
     /* Init adjacents for a chunk given an ARRAY position */
@@ -78,17 +79,178 @@ public class World {
 
     /* Create new chunks in a new direction */
     public void createNewChunks(int direction) {
+        // EAST DIRECTION (+X)
         if (direction == Direction.EAST) {
-            for (int x = 0; x < chunksSize.x; x++) {
+            Chunk tmp[] = new Chunk[chunksSize.y * chunksSize.z];
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    Chunk chunk = chunks[chunkIdx(0, y, z)];
+                    chunk.generate(
+                        new Vector3i(
+                            position.x + chunksSize.x * Chunk.size.x, 
+                            position.y + y * Chunk.size.y, 
+                            position.z + z * Chunk.size.z),
+                        groundLevelY);
+                    chunk.setDirty();
+                    tmp[z * chunksSize.y + y] = chunk;
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x - 1; x++) {
                 for (int y = 0; y < chunksSize.y; y++) {
                     for (int z = 0; z < chunksSize.z; z++) {
-                        chunks[chunkIdx(x, y, z)].getPosition().x += Chunk.size.x;
-                        // chunks[chunkIdx(x, y, z)].copy(chunks[chunkIdx(x + 1, y, z)]);
+                        chunks[chunkIdx(x, y, z)] = chunks[chunkIdx(x + 1, y, z)];
                     }
                 }
             }
 
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    chunks[chunkIdx(chunksSize.x - 1, y, z)] = tmp[z * chunksSize.y + y];
+                }
+            }
+
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    initChunkAdjacents(chunksSize.x - 1, y, z);
+                    initChunkAdjacents(chunksSize.x - 2, y, z);
+                    chunks[chunkIdx(chunksSize.x - 1, y, z)].setDirty();
+                    chunks[chunkIdx(chunksSize.x - 2, y, z)].setDirty();
+                }
+            }
+
             position.x += Chunk.size.x;
+        }
+
+        // WEST DIRECTION (-X)
+        if (direction == Direction.WEST) {
+            Chunk tmp[] = new Chunk[chunksSize.y * chunksSize.z];
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    Chunk chunk = chunks[chunkIdx(chunksSize.x - 1, y, z)];
+                    chunk.generate(
+                        new Vector3i(
+                            position.x + 0 * Chunk.size.x, 
+                            position.y + y * Chunk.size.y, 
+                            position.z + z * Chunk.size.z),
+                        groundLevelY);
+                    chunk.setDirty();
+                    tmp[z * chunksSize.y + y] = chunk;
+                }
+            }
+
+            for (int x = chunksSize.x - 1; x > 0; x--) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    for (int z = 0; z < chunksSize.z; z++) {
+                        chunks[chunkIdx(x, y, z)] = chunks[chunkIdx(x - 1, y, z)];
+                    }
+                }
+            }
+
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    chunks[chunkIdx(0, y, z)] = tmp[z * chunksSize.y + y];
+                }
+            }
+
+            for (int y = 0; y < chunksSize.y; y++) {
+                for (int z = 0; z < chunksSize.z; z++) {
+                    initChunkAdjacents(0, y, z);
+                    initChunkAdjacents(1, y, z);
+                    chunks[chunkIdx(0, y, z)].setDirty();
+                    chunks[chunkIdx(1, y, z)].setDirty();
+                }
+            }
+
+            position.x -= Chunk.size.x;
+        }
+
+        // SOUTH DIRECTION (+Z)
+        if (direction == Direction.SOUTH) {
+            Chunk tmp[] = new Chunk[chunksSize.y * chunksSize.x];
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    Chunk chunk = chunks[chunkIdx(x, y, 0)];
+                    chunk.generate(
+                        new Vector3i(
+                            position.x + x * Chunk.size.x,
+                            position.y + y * Chunk.size.y,
+                            position.z + chunksSize.z * Chunk.size.z
+                        ), 
+                        groundLevelY);
+                    chunk.setDirty();
+                    tmp[x * chunksSize.y + y] = chunk;
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    for (int z = 0; z < chunksSize.z - 1; z++) {
+                        chunks[chunkIdx(x, y, z)] = chunks[chunkIdx(x, y, z + 1)];
+                    }
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    chunks[chunkIdx(x, y, chunksSize.z - 1)] = tmp[x * chunksSize.y + y];
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    initChunkAdjacents(x, y, chunksSize.z - 1);
+                    initChunkAdjacents(x, y, chunksSize.z - 2);
+                    chunks[chunkIdx(x, y, chunksSize.z - 1)].setDirty();
+                    chunks[chunkIdx(x, y, chunksSize.z - 2)].setDirty();
+                }
+            }
+
+            position.z += Chunk.size.z;
+        }
+
+        // NORTH DIRECTION (-Z)
+        if (direction == Direction.NORTH) {
+            Chunk tmp[] = new Chunk[chunksSize.y * chunksSize.x];
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    Chunk chunk = chunks[chunkIdx(x, y, chunksSize.z - 1)];
+                    chunk.generate(
+                        new Vector3i(
+                            position.x + x * Chunk.size.x,
+                            position.y + y * Chunk.size.y,
+                            position.z + 0 * Chunk.size.z
+                        ), 
+                        groundLevelY);
+                    chunk.setDirty();
+                    tmp[x * chunksSize.y + y] = chunk;
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    for (int z = chunksSize.z - 1; z > 0; z--) {
+                        chunks[chunkIdx(x, y, z)] = chunks[chunkIdx(x, y, z - 1)];
+                    }
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    chunks[chunkIdx(x, y, 0)] = tmp[x * chunksSize.y + y];
+                }
+            }
+
+            for (int x = 0; x < chunksSize.x; x++) {
+                for (int y = 0; y < chunksSize.y; y++) {
+                    initChunkAdjacents(x, y, 0);
+                    initChunkAdjacents(x, y, 1);
+                    chunks[chunkIdx(x, y, 0)].setDirty();
+                    chunks[chunkIdx(x, y, 1)].setDirty();
+                }
+            }
+
+            position.z -= Chunk.size.z;
         }
     }
 

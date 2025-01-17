@@ -19,9 +19,6 @@ Libraries Used
 
 TODO
 -----
-* Instanced rendering
-    * Have only 1-2 draw calls instead of multiple thousand
-    * [source](https://learnopengl.com/Advanced-OpenGL/Instancing)
 * Implement a tick system to load the chunks progressively
     * 20 ticks/sec, or 1 tick/0.05 sec
     * Load the chunks at the tick rate
@@ -34,3 +31,6 @@ TODO
 * Map for ? (blocks mined)
 * Sort for highscores (comparable and comparator interface)
 * Block highlight
+* Instanced rendering
+    * Have only 1-2 draw calls instead of multiple thousand
+    * [source](https://learnopengl.com/Advanced-OpenGL/Instancing)

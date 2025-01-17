@@ -19,24 +19,11 @@ public class Chunk {
 
     /* Initialize a chunk given a position and block fill */
     public Chunk(Vector3i position, int groundLevelY) {
-        this.position = position;
-
         mesh = new ChunkMesh();
         meshed = false;
 
         blocks = new Block[volume];
-        for (int x = 0; x < size.x; x++) {
-            for (int z = 0; z < size.z; z++) {
-                float noiseYThreshold = groundLevelY + noise.GetNoise(position.x + x, position.z + z) * groundLevelY * 0.2f;
-                for (int y = 0; y < size.y; y++) {
-                    if (position.y + y < noiseYThreshold) {
-                        blocks[posToIdx(x, y, z)] = new Block(Block.GRASS);
-                    } else {
-                        blocks[posToIdx(x, y, z)] = new Block(Block.AIR);
-                    }
-                }
-            }
-        }
+        create(position, groundLevelY);
 
         adjacents = new Chunk[6];
     }
@@ -53,14 +40,44 @@ public class Chunk {
         noise.SetFractalOctaves(10);
     }
 
-    /* Copy from another chunk */
-    public void copy(Chunk chunk) {
-        blocks = chunk.blocks;
-        adjacents = chunk.adjacents;
+    /* Create the chunk, given the chunk position and ground level y
+     * The ground level y is used for calculating the noise
+     */
+    private void create(Vector3i position, int groundLevelY) {
+        this.position = position;
 
-        position.x = chunk.position.x;
-        position.y = chunk.position.y;
-        position.z = chunk.position.z;
+        for (int x = 0; x < size.x; x++) {
+            for (int z = 0; z < size.z; z++) {
+                float noiseYThreshold = groundLevelY + noise.GetNoise(position.x + x, position.z + z) * groundLevelY * 0.2f;
+                for (int y = 0; y < size.y; y++) {
+                    if (position.y + y < noiseYThreshold) {
+                        blocks[posToIdx(x, y, z)] = new Block(Block.GRASS);
+                    } else {
+                        blocks[posToIdx(x, y, z)] = new Block(Block.AIR);
+                    }
+                }
+            }
+        }
+    }
+
+    /* Basically the same method as `create`
+     * Instead, we are not creating new Block every time, only setting the ID
+     */
+    public void generate(Vector3i position, int groundLevelY) {
+        this.position = position;
+
+        for (int x = 0; x < size.x; x++) {
+            for (int z = 0; z < size.z; z++) {
+                float noiseYThreshold = groundLevelY + noise.GetNoise(position.x + x, position.z + z) * groundLevelY * 0.2f;
+                for (int y = 0; y < size.y; y++) {
+                    if (position.y + y < noiseYThreshold) {
+                        blocks[posToIdx(x, y, z)].setID(Block.GRASS);
+                    } else {
+                        blocks[posToIdx(x, y, z)].setID(Block.AIR);
+                    }
+                }
+            }
+        }
     }
 
     /* Return the index given a block position inside the chunk */

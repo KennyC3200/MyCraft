@@ -52,7 +52,7 @@ public class Player {
 
         offset = new Vector3f(
             0.0001f + world.getChunksSize().x * Chunk.size.x / 2,
-            0.0001f + world.getChunksSize().y * Chunk.size.y / 2,
+            0.0001f + world.getChunksSize().y * Chunk.size.y / 2 + 10,
             0.0001f + world.getChunksSize().z * Chunk.size.z / 2
         );
         position = new Vector3f(offset);
@@ -151,19 +151,27 @@ public class Player {
         chunkPosition.z = (int) position.z / Chunk.size.z;
 
         // Generate new chunks as the player moves around
-        int x_diff = chunkPosition.x - prevChunkPosition.x;
-        int z_diff = chunkPosition.z - prevChunkPosition.z;
-        if (x_diff > 0) {
-            world.createNewChunks(Direction.EAST);
+        int xDiff = chunkPosition.x - prevChunkPosition.x;
+        int zDiff = chunkPosition.z - prevChunkPosition.z;
+        if (xDiff != 0 || zDiff != 0) {
+            if (xDiff > 0) {
+                world.createNewChunks(Direction.EAST);
+            } else if (xDiff < 0) {
+                world.createNewChunks(Direction.WEST);
+            } else if (zDiff > 0) {
+                world.createNewChunks(Direction.SOUTH);
+            } else if (zDiff < 0) {
+                world.createNewChunks(Direction.NORTH);
+            }
 
             prevChunkPosition.x = chunkPosition.x;
             prevChunkPosition.y = chunkPosition.y;
             prevChunkPosition.z = chunkPosition.z;
         }
 
-        // Handle gravity
+        // TODO: Handle gravity
 
-        // Handle collisions
+        // TODO: Handle collisions
         aabb.setMin(position.x, position.y, position.z);
         aabb.setMax(position.x + width, position.y + height, position.z + width);
         for (int i = 0; i < 6; i++) {
