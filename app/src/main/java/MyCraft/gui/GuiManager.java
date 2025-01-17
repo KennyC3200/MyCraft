@@ -45,15 +45,7 @@ public class GuiManager {
 
         ImGui.newFrame();
         ImGui.text("FPS: " + Integer.toString((int) window.getFPS()));
-        ImGui.text(String.format("OFFSET: " + player.getOffsetStr()));
         ImGui.text(String.format("POSITION: " + player.getPositionStr()));
-        ImGui.text(String.format("POSITION - OFFSET: " + player.getPositionMinusOffsetStr()));
-        ImGui.text(String.format("WORLD POSITION: %d %d %d", world.getPosition().x, world.getPosition().y, world.getPosition().z));
-        ImGui.text(String.format("ARRAY POSITION: %.1f %.1f %.1f", 
-            player.getCamera().getPosition().x - world.getPosition().x,
-            player.getCamera().getPosition().y - world.getPosition().y,
-            player.getCamera().getPosition().z - world.getPosition().z
-        ));
         ImGui.render();
 
         imGuiGl3.renderDrawData(ImGui.getDrawData());

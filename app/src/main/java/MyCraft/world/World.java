@@ -114,8 +114,6 @@ public class World {
                 for (int z = 0; z < chunksSize.z; z++) {
                     initChunkAdjacents(chunksSize.x - 1, y, z);
                     initChunkAdjacents(chunksSize.x - 2, y, z);
-                    chunks[chunkIdx(chunksSize.x - 1, y, z)].setDirty();
-                    chunks[chunkIdx(chunksSize.x - 2, y, z)].setDirty();
                 }
             }
 
@@ -157,8 +155,6 @@ public class World {
                 for (int z = 0; z < chunksSize.z; z++) {
                     initChunkAdjacents(0, y, z);
                     initChunkAdjacents(1, y, z);
-                    chunks[chunkIdx(0, y, z)].setDirty();
-                    chunks[chunkIdx(1, y, z)].setDirty();
                 }
             }
 
@@ -175,8 +171,7 @@ public class World {
                         new Vector3i(
                             position.x + x * Chunk.size.x,
                             position.y + y * Chunk.size.y,
-                            position.z + chunksSize.z * Chunk.size.z
-                        ), 
+                            position.z + chunksSize.z * Chunk.size.z), 
                         groundLevelY);
                     chunk.setDirty();
                     tmp[x * chunksSize.y + y] = chunk;
@@ -201,8 +196,6 @@ public class World {
                 for (int y = 0; y < chunksSize.y; y++) {
                     initChunkAdjacents(x, y, chunksSize.z - 1);
                     initChunkAdjacents(x, y, chunksSize.z - 2);
-                    chunks[chunkIdx(x, y, chunksSize.z - 1)].setDirty();
-                    chunks[chunkIdx(x, y, chunksSize.z - 2)].setDirty();
                 }
             }
 
@@ -219,8 +212,7 @@ public class World {
                         new Vector3i(
                             position.x + x * Chunk.size.x,
                             position.y + y * Chunk.size.y,
-                            position.z + 0 * Chunk.size.z
-                        ), 
+                            position.z + 0 * Chunk.size.z), 
                         groundLevelY);
                     chunk.setDirty();
                     tmp[x * chunksSize.y + y] = chunk;
@@ -245,8 +237,6 @@ public class World {
                 for (int y = 0; y < chunksSize.y; y++) {
                     initChunkAdjacents(x, y, 0);
                     initChunkAdjacents(x, y, 1);
-                    chunks[chunkIdx(x, y, 0)].setDirty();
-                    chunks[chunkIdx(x, y, 1)].setDirty();
                 }
             }
 
@@ -270,14 +260,16 @@ public class World {
             blockX < 0 || blockX >= Chunk.size.x * chunksSize.x ||
             blockY < 0 || blockY >= Chunk.size.y * chunksSize.y ||
             blockZ < 0 || blockZ >= Chunk.size.z * chunksSize.z
-        ) {
+        ) 
+        {
             return null;
         }
 
+        // Need to round negative numbers down
         return chunks[chunkIdx(
-            blockX / Chunk.size.x,
-            blockY / Chunk.size.y,
-            blockZ / Chunk.size.z
+            blockX / Chunk.size.x + (x < 0 ? -1 : 0),
+            blockY / Chunk.size.y + (y < 0 ? -1 : 0),
+            blockZ / Chunk.size.z + (z < 0 ? -1 : 0)
         )].getBlock(
             blockX - (blockX / Chunk.size.x) * Chunk.size.x,
             blockY - (blockY / Chunk.size.y) * Chunk.size.y,
@@ -285,7 +277,7 @@ public class World {
         );
     }
 
-    /* Get a block, given the BLOCK position */
+    /* Get a block, given the position */
     public Block getBlock(Vector3i position) {
         return getBlock(position.x, position.y, position.z);
     }

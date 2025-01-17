@@ -1,6 +1,7 @@
 package MyCraft.util;
 
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class MathUtils {
 
@@ -14,6 +15,10 @@ public class MathUtils {
             (float) (ds.y > 0 ? (Math.ceil(s.y) - s.y) : (s.y - Math.floor(s.y))) / Math.abs(ds.y),
             (float) (ds.z > 0 ? (Math.ceil(s.z) - s.z) : (s.z - Math.floor(s.z))) / Math.abs(ds.z)
         );
+    }
+
+    public static String Vector3iToStr(Vector3i vec) {
+        return String.format("%d %d %d", vec.x, vec.y, vec.z);
     }
 
 }

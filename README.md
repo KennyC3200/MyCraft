@@ -19,12 +19,12 @@ Libraries Used
 
 TODO
 -----
+* Optimize loading new chunks
+    * Optimize the loop for the blocks or whatever
+    * For loading new chunks, you know that the rest of the blocks above the noiseYThreshold will be air so no need for perlin
 * Implement a tick system to load the chunks progressively
     * 20 ticks/sec, or 1 tick/0.05 sec
     * Load the chunks at the tick rate
-* Optimize meshing
-    * Maybe the old algorithm was faster? IDK
-* Chunks generating as you move around
 * AABB
     * What happens if the player is between chunks? I believe it shouldn't matter
 * Menu screen with imgui

@@ -10,6 +10,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import org.joml.*;
 
+import java.util.*;
+
 public class Player {
 
     private Window window;
@@ -146,9 +148,10 @@ public class Player {
             }
         }
 
-        chunkPosition.x = (int) position.x / Chunk.size.x;
-        chunkPosition.y = (int) position.y / Chunk.size.y;
-        chunkPosition.z = (int) position.z / Chunk.size.z;
+        // Need to round negative numbers down
+        chunkPosition.x = (int) (position.x / Chunk.size.x) + (position.x < 0 ? -1 : 0);
+        chunkPosition.y = (int) (position.y / Chunk.size.y) + (position.y < 0 ? -1 : 0);
+        chunkPosition.z = (int) (position.z / Chunk.size.x) + (position.y < 0 ? -1 : 0);
 
         // Generate new chunks as the player moves around
         int xDiff = chunkPosition.x - prevChunkPosition.x;
