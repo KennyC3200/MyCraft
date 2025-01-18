@@ -45,6 +45,10 @@ public class Player {
     // Hence, the player AABB needs to be checked against 10 surrounding blocks
     private AABB aabb;
 
+    // The maps required by the rubric
+    public Map<Integer, BlockCounter> blocksBroken;
+    public Map<Integer, BlockCounter> blocksPlaced;
+
     /* Init the player */
     public Player(Window window, Keyboard keyboard, Mouse mouse, World world) {
         this.window = window;
@@ -87,6 +91,13 @@ public class Player {
             new Vector3f(position.x, position.y, position.z),
             new Vector3f(position.x + width, position.y + height, position.z + width)
         );
+
+        blocksBroken = new HashMap<>();
+        blocksPlaced = new HashMap<>();
+        for (int i = Block.FIRST; i <= Block.LAST; i++) {
+            blocksBroken.put(i, new BlockCounter());
+            blocksPlaced.put(i, new BlockCounter());
+        }
     }
 
     /* Update the player */
@@ -134,10 +145,22 @@ public class Player {
         // Handle player raycast and block placement/deletion
         Ray.CastData raycast = Ray.cast(world, cameraPosition, camera.getDirection(), 8.0f);
         if (raycast != null && raycast.hit) {
+
+            // Handle block deletion
             if (mouse.getButton(GLFW_MOUSE_BUTTON_LEFT).pressed) {
-                world.getBlock(raycast.position).setID(Block.AIR);
+                Block block = world.getBlock(raycast.position);
+
+                // Increment the blocks broken
+                if (block.getID() != Block.AIR) {
+                    blocksBroken.get(block.getID()).increment();
+                }
+
+                block.setID(Block.AIR);
+
                 world.getChunk(raycast.position).setDirty();
             }
+
+            // Handle block placement
             if (mouse.getButton(GLFW_MOUSE_BUTTON_RIGHT).pressed) {
                 int blockX = raycast.position.x + raycast.out.x;
                 int blockY = raycast.position.y + raycast.out.y;
@@ -147,6 +170,9 @@ public class Player {
                 if (block != null && block.getID() == Block.AIR) {
                     world.getBlock(blockX, blockY, blockZ).setID(hotbarItems[currentHotbarIdx]);
                     world.getChunk(blockX, blockY, blockZ).setDirty();
+
+                    // Increment the blocks placed
+                    blocksPlaced.get(hotbarItems[currentHotbarIdx]).increment();
                 }
             }
         }

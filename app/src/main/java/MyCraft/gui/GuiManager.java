@@ -3,11 +3,14 @@ package MyCraft.gui;
 import MyCraft.gfx.*;
 import MyCraft.world.*;
 import MyCraft.player.*;
+import MyCraft.util.*;
 
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
+
+import java.util.*;
 
 public class GuiManager {
 
@@ -78,6 +81,12 @@ public class GuiManager {
             ImGui.begin("Overview");
             ImGui.text("FPS: " + Integer.toString((int) window.getFPS()));
             ImGui.text(String.format("POSITION: " + player.getPositionStr()));
+            ArrayList<BlockCounter> blocksPlaced = new ArrayList<>(player.blocksPlaced.values());
+            blocksPlaced.sort(new BlockCounter());
+            ImGui.text("Most blocks placed: " + blocksPlaced.get(0));
+            ArrayList<BlockCounter> blocksBroken = new ArrayList<>(player.blocksBroken.values());
+            blocksBroken.sort(new BlockCounter());
+            ImGui.text("Most blocks broken: " + blocksBroken.get(0));
             ImGui.end();
         }
 

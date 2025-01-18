@@ -7,9 +7,11 @@ public class Block {
 
     public static final Integer NONE = -1;
     public static final Integer AIR = 0;
+    public static final Integer FIRST = 1;
     public static final Integer GRASS = 1;
     public static final Integer DIRT = 2;
     public static final Integer STONE = 3;
+    public static final Integer LAST = 3;
 
     /* Bit fields (64-bits)
      * 16 bits block id
