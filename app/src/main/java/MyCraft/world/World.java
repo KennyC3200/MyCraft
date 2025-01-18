@@ -19,8 +19,11 @@ public class World {
     public World () {
         Block.init();
         Chunk.init();
+    }
 
-        chunksSize = new Vector3i(24, 10, 24);
+    /* Start the world */
+    public void start(Vector3i chunksSize) {
+        this.chunksSize = chunksSize;
         chunksCount = chunksSize.x * chunksSize.y * chunksSize.z;
 
         position = new Vector3i(0, 0, 0);
@@ -31,8 +34,8 @@ public class World {
 
     /* Render the world */
     public void render() {
-        for (Chunk chunk : chunks) {
-            chunk.render();
+        for (int i = 0; i < chunksCount; i++) {
+            chunks[i].render();
         }
     }
 
@@ -114,6 +117,8 @@ public class World {
                 for (int z = 0; z < chunksSize.z; z++) {
                     initChunkAdjacents(chunksSize.x - 1, y, z);
                     initChunkAdjacents(chunksSize.x - 2, y, z);
+                    chunks[chunkIdx(chunksSize.x - 1, y, z)].setDirty();
+                    chunks[chunkIdx(chunksSize.x - 2, y, z)].setDirty();
                 }
             }
 
@@ -155,6 +160,8 @@ public class World {
                 for (int z = 0; z < chunksSize.z; z++) {
                     initChunkAdjacents(0, y, z);
                     initChunkAdjacents(1, y, z);
+                    chunks[chunkIdx(0, y, z)].setDirty();
+                    chunks[chunkIdx(1, y, z)].setDirty();
                 }
             }
 
@@ -196,6 +203,8 @@ public class World {
                 for (int y = 0; y < chunksSize.y; y++) {
                     initChunkAdjacents(x, y, chunksSize.z - 1);
                     initChunkAdjacents(x, y, chunksSize.z - 2);
+                    chunks[chunkIdx(x, y, chunksSize.z - 1)].setDirty();
+                    chunks[chunkIdx(x, y, chunksSize.z - 2)].setDirty();
                 }
             }
 
@@ -237,6 +246,8 @@ public class World {
                 for (int y = 0; y < chunksSize.y; y++) {
                     initChunkAdjacents(x, y, 0);
                     initChunkAdjacents(x, y, 1);
+                    chunks[chunkIdx(x, y, 0)].setDirty();
+                    chunks[chunkIdx(x, y, 1)].setDirty();
                 }
             }
 
@@ -256,21 +267,11 @@ public class World {
         int blockY = y - position.y;
         int blockZ = z - position.z;
 
-        if (
-            blockX < 0 || blockX >= Chunk.size.x * chunksSize.x ||
-            blockY < 0 || blockY >= Chunk.size.y * chunksSize.y ||
-            blockZ < 0 || blockZ >= Chunk.size.z * chunksSize.z
-        ) 
-        {
-            return null;
-        }
+        // Get the chunk that the block is in
+        Chunk chunk = getChunk(x, y, z);
 
         // Need to round negative numbers down
-        return chunks[chunkIdx(
-            blockX / Chunk.size.x + (x < 0 ? -1 : 0),
-            blockY / Chunk.size.y + (y < 0 ? -1 : 0),
-            blockZ / Chunk.size.z + (z < 0 ? -1 : 0)
-        )].getBlock(
+        return chunk.getBlock(
             blockX - (blockX / Chunk.size.x) * Chunk.size.x,
             blockY - (blockY / Chunk.size.y) * Chunk.size.y,
             blockZ - (blockZ / Chunk.size.z) * Chunk.size.z
@@ -289,11 +290,26 @@ public class World {
 
     /* Get a chunk given a PLAYER position */
     public Chunk getChunk(int x, int y, int z) {
-        return chunks[
-            chunkIdx(
-                (x - position.x) / Chunk.size.x, 
-                (y - position.y) / Chunk.size.y, 
-                (z - position.z) / Chunk.size.z)];
+        int blockX = x - position.x;
+        int blockY = y - position.y;
+        int blockZ = z - position.z;
+
+        // Check bounds
+        if (
+            blockX < 0 || blockX >= Chunk.size.x * chunksSize.x ||
+            blockY < 0 || blockY >= Chunk.size.y * chunksSize.y ||
+            blockZ < 0 || blockZ >= Chunk.size.z * chunksSize.z
+        ) 
+        {
+            return null;
+        }
+
+        // Need to round negative numbers down
+        return chunks[chunkIdx(
+            blockX / Chunk.size.x + (x < 0 ? -1 : 0),
+            blockY / Chunk.size.y + (y < 0 ? -1 : 0),
+            blockZ / Chunk.size.z + (z < 0 ? -1 : 0)
+        )];
     }
 
     /* Get a chunk given a PLAYER position */

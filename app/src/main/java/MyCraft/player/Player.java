@@ -51,7 +51,10 @@ public class Player {
         this.keyboard = keyboard;
         this.mouse = mouse;
         this.world = world;
+    }
 
+    /* Star the player */
+    public void start() {
         offset = new Vector3f(
             0.0001f + world.getChunksSize().x * Chunk.size.x / 2,
             0.0001f + world.getChunksSize().y * Chunk.size.y / 2 + 10,

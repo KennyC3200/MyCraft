@@ -49,7 +49,10 @@ public class Renderer {
 
     /* Render the game */
     public void render() {
-        renderWorld();
+        if (MyCraft.MyCraft.state[0] == MyCraft.MyCraft.PLAY_STATE) {
+            renderWorld();
+        }
+
         renderUI();
     }
 

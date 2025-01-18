@@ -26,6 +26,11 @@ public class MyCraft {
 
     private Player player;
 
+    public static final int INIT_STATE = 0;
+    public static final int START_STATE = 1;
+    public static final int PLAY_STATE = 2;
+    public static int[] state;
+
     /* Game */
     public MyCraft() {
         init();
@@ -46,6 +51,9 @@ public class MyCraft {
         GuiManager.init(window, world, player);
 
         renderer = new Renderer(window, world, player);
+        
+        state = new int[1];
+        state[0] = INIT_STATE;
     }
 
     /* Main game loop */
@@ -65,10 +73,26 @@ public class MyCraft {
 
     /* Handle updates */
     public void update() {
-        window.update();
         keyboard.update();
         mouse.update();
-        player.update();
+
+        if (state[0] == INIT_STATE) {
+            mouse.setCursorToggled(true);
+        }
+        if (state[0] == PLAY_STATE) {
+            window.update();
+            player.update();
+        }
+        if (state[0] == START_STATE) {
+            world.start(new Vector3i(
+                GuiManager.chunksSize[0][0],
+                GuiManager.chunksSize[1][0],
+                GuiManager.chunksSize[2][0]
+            ));
+            player.start();
+            state[0] = PLAY_STATE;
+            mouse.setCursorToggled(false);
+        }
 
         // Toggle/untoggle wireframe
         if (keyboard.getButton(GLFW_KEY_T).pressed) {

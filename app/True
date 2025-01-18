@@ -1,0 +1,20 @@
+[Window][Debug##Default]
+Pos=60,60
+Size=400,400
+Collapsed=0
+
+[Window][Overview]
+Pos=11,14
+Size=271,76
+Collapsed=0
+
+[Window][Start]
+Pos=11,89
+Size=360,59
+Collapsed=0
+
+[Window][World Initialization]
+Pos=473,233
+Size=423,308
+Collapsed=0
+

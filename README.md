@@ -34,3 +34,7 @@ TODO
 * Instanced rendering
     * Have only 1-2 draw calls instead of multiple thousand
     * [source](https://learnopengl.com/Advanced-OpenGL/Instancing)
+
+BUG
+-----
+* There are some magical areas where the chunks are not being meshed nor are they being properly chosen for the raycast

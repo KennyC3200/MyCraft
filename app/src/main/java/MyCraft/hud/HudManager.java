@@ -20,6 +20,10 @@ public class HudManager {
     public static void render() {
         HudComponent.shader.bind();
 
+        if (MyCraft.MyCraft.state[0] != MyCraft.MyCraft.PLAY_STATE) {
+            return;
+        }
+
         if (!crosshair.meshed) {
             crosshair.mesh();
             crosshair.meshed = true;
