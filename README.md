@@ -7,7 +7,7 @@ Controls
 * `Space` to fly up
 * `L-Shift` to fly down
 * `t` to see the wireframe
-* `Escape` to toggle the gui
+* `Escape` to toggle/untoggle the cursor
 
 Libraries Used
 -----
@@ -27,9 +27,6 @@ TODO
     * Load the chunks at the tick rate
 * AABB
     * What happens if the player is between chunks? I believe it shouldn't matter
-* Menu screen with imgui
-* Map for ? (blocks mined)
-* Sort for highscores (comparable and comparator interface)
 * Block highlight
 * Instanced rendering
     * Have only 1-2 draw calls instead of multiple thousand

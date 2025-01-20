@@ -35,7 +35,7 @@ public class GuiManager {
 
         ImGui.createContext();
         ImGuiIO io = ImGui.getIO();
-        io.setIniFilename("True"); // Enable imgui.ini file
+        io.setIniFilename("GUI.txt"); // Enable imgui.ini file
 
         imGuiGlfw = new ImGuiImplGlfw();
         imGuiGlfw.init(window.getHandle(), true);

@@ -121,7 +121,7 @@ public class ChunkMesh {
         shader.uniformVec3("chunk_pos", position.x, position.y, position.z);
 
         // Have attribPointer for the coordinates and uv coordinates
-        vao.attribPointer(vbo, 0, 1, GL_UNSIGNED_INT, 1 * Integer.BYTES, 0 * Integer.BYTES);
+        vao.attribIPointer(vbo, 0, 1, GL_UNSIGNED_INT, 1 * Integer.BYTES, 0 * Integer.BYTES);
 
         vao.bind();
         ibo.bind();

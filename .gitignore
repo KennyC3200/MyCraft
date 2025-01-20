@@ -4,7 +4,11 @@
 # Ignore Gradle build output directory
 build
 
+zip
+
 app/bin/main
+imgui.ini
+IMGUI.txt
 
 *.log
 *.prefs

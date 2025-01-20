@@ -31,4 +31,14 @@ public class VAO {
         glEnableVertexAttribArray(location);
     }
 
+    /* Attribute the current vertex array buffer 
+     * Basically specify the format of the data in the array buffer */
+    public void attribIPointer(VBO vbo, int location, int size, int type, int stride, long offset) {
+        vbo.bind();
+        bind();
+
+        glVertexAttribIPointer(location, size, type, stride, offset);
+        glEnableVertexAttribArray(location);
+    }
+
 }
